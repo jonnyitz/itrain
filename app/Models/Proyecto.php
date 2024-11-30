@@ -20,4 +20,8 @@ class Proyecto extends Model
     ];
 
     // Puedes agregar relaciones si es necesario
+    public function manzanas()
+    {
+        return $this->hasMany(Manzana::class);
+    }
 }

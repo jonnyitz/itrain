@@ -36,7 +36,7 @@ class ReservaController extends Controller
             'monto' => $request->monto,
         ]);
 
-        return redirect()->route('reservas')->with('success', 'Reserva creada exitosamente.');
+        return redirect()->route('inicio')->with('success', 'Reserva creada exitosamente.');
     }
 
     public function edit($id)
@@ -71,7 +71,7 @@ class ReservaController extends Controller
             'monto' => $request->monto,
         ]);
 
-        return redirect()->route('reservas')->with('success', 'Reserva actualizada exitosamente.');
+        return redirect()->route('inicio')->with('success', 'Reserva actualizada exitosamente.');
     }
 
     public function destroy($id)

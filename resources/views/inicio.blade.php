@@ -92,6 +92,20 @@
                 </ul>
             </div>
         </li>
+        <!-- Logística Section -->
+        <li class="nav-item">
+            <a class="nav-link" href="#logisticaMenu" data-toggle="collapse" aria-expanded="false">Logística</a>
+            <div class="collapse" id="logisticaMenu">
+                <ul class="nav flex-column ml-3">
+                    <li class="nav-item">
+                        <a class="nav-link tab-link" href="#" data-title="Manzanas" data-url="{{ route('manzanas') }}">Manzanas</a>
+                        <a class="nav-link tab-link" href="#" data-title="lotes" data-url="{{ route('lotes') }}">lotes</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        
 
         <!-- Tesorería Section -->
         <li class="nav-item">
@@ -108,16 +122,18 @@
             </div>
         </li>
 
+
         <!-- Proyectos Section for Administrators -->
         @if(auth()->user()->role === 'administrador')
             <li class="nav-item">
                 <a class="nav-link" href="#proyectosMenu" data-toggle="collapse" aria-expanded="false">Ajustes</a>
                 <div class="collapse" id="proyectosMenu">
                     <ul class="nav flex-column ml-3">
-                        <li class="nav-item">
+                        <!--<li class="nav-item"
                             <a class="nav-link" href="#addProjectModal" data-toggle="modal">
                                 <i class="fas fa-plus"></i> Agregar Nuevo Proyecto
-                            </a>
+                            </a>>-->
+                            <a class="nav-link tab-link" href="#" data-title="proyecto-ajustes" data-url="{{ route('proyecto-ajustes.index') }}">proyectos</a>     
                         </li>
                     </ul>
                 </div>
@@ -194,87 +210,85 @@
         </div>
     </div>
     <script>
-$(document).ready(function () {
-    // Manejo de clic en enlaces de pestañas
-    $('.tab-link').click(function (e) {
-        e.preventDefault();
+    $(document).ready(function () {
+        // Manejo de clic en enlaces de pestañas
+        $('.tab-link').click(function (e) {
+            e.preventDefault();
 
-        const title = $(this).data('title');
-        const url = $(this).data('url');
+            const title = $(this).data('title');
+            const url = $(this).data('url');
 
-        // Verificar si la pestaña ya existe
-        let existingTab = $(`#tabs-container .tab[data-url="${url}"]`);
-        if (existingTab.length > 0) {
-            // Activar la pestaña existente
-            activateTab(url);
-            return;
-        }
-
-        // Crear y agregar nueva pestaña
-        const newTab = $(`<div class="tab active" data-url="${url}">${title} <span class="close" title="Cerrar">&times;</span></div>`);
-        $('#tabs-container').append(newTab);
-
-        // Activar la nueva pestaña y cargar su contenido
-        activateTab(url);
-    });
-
-    // Manejo de cierre de pestañas
-    $(document).on('click', '.close', function () {
-        const tab = $(this).parent('.tab');
-        const url = tab.data('url');
-
-        // Eliminar la pestaña
-        tab.remove();
-
-        // Si no hay más pestañas, mostrar el mensaje predeterminado
-        if ($('#tabs-container').children().length === 0) {
-            $('#tab-content').empty().html('<p>Selecciona una pestaña para ver su contenido aquí.</p>');
-        } else {
-            // Activar la última pestaña abierta
-            const lastTabUrl = $('#tabs-container .tab').last().data('url');
-            activateTab(lastTabUrl);
-        }
-    });
-    // Función para activar una pestaña y cargar su contenido usando Fetch
-function activateTab(url) {
-    // Quitar la clase activa de todas las pestañas
-    document.querySelectorAll('#tabs-container .tab').forEach(tab => tab.classList.remove('active'));
-
-    // Marcar la pestaña actual como activa
-    const currentTab = document.querySelector(`#tabs-container .tab[data-url="${url}"]`);
-    if (currentTab) {
-        currentTab.classList.add('active');
-    }
-
-    // Limpiar el contenido anterior
-    const tabContent = document.getElementById('tab-content');
-    tabContent.innerHTML = '';
-
-    // Cargar nuevo contenido usando Fetch
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al cargar el contenido');
+            // Verificar si la pestaña ya existe
+            let existingTab = $(`#tabs-container .tab[data-url="${url}"]`);
+            if (existingTab.length > 0) {
+                // Activar la pestaña existente
+                activateTab(url);
+                return;
             }
-            return response.text();
-        })
-        .then(data => {
-            tabContent.innerHTML = data;
-        })
-        .catch(error => {
-            tabContent.innerHTML = `<p>${error.message}</p>`;
+
+            // Crear y agregar nueva pestaña
+            const newTab = $(`
+                <div class="tab active" data-url="${url}">
+                    ${title} <span class="close" title="Cerrar">&times;</span>
+                </div>
+            `);
+            $('#tabs-container .tab').removeClass('active'); // Desactivar otras pestañas
+            $('#tabs-container').append(newTab);
+
+            // Activar la nueva pestaña y cargar su contenido
+            activateTab(url);
         });
-}
 
+        // Manejo de cierre de pestañas
+        $(document).on('click', '.close', function () {
+            const tab = $(this).parent('.tab');
+            const url = tab.data('url');
 
-});
+            // Eliminar la pestaña
+            tab.remove();
+
+            // Si no hay más pestañas, mostrar el mensaje predeterminado
+            if ($('#tabs-container').children().length === 0) {
+                $('#tab-content').html('<p>Selecciona una pestaña para ver su contenido aquí.</p>');
+            } else {
+                // Activar la última pestaña abierta
+                const lastTabUrl = $('#tabs-container .tab').last().data('url');
+                activateTab(lastTabUrl);
+            }
+        });
+
+        // Función para activar una pestaña y cargar su contenido usando Fetch
+        function activateTab(url) {
+            // Quitar la clase activa de todas las pestañas
+            $('#tabs-container .tab').removeClass('active');
+
+            // Marcar la pestaña actual como activa
+            const currentTab = $(`#tabs-container .tab[data-url="${url}"]`);
+            if (currentTab.length > 0) {
+                currentTab.addClass('active');
+            }
+
+            // Limpiar el contenido anterior
+            const tabContent = $('#tab-content');
+            tabContent.empty();
+
+            // Cargar nuevo contenido usando Fetch
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al cargar el contenido');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    tabContent.html(data);
+                })
+                .catch(error => {
+                    tabContent.html(`<p>${error.message}</p>`);
+                });
+        }
+    });
 </script>
-    <script>
-    if (typeof jQuery === 'undefined') {
-        console.log('jQuery no está cargado correctamente.');
-    } else {
-        console.log('jQuery está funcionando.');
-    }
-</script>
+
 </body>
 </html>

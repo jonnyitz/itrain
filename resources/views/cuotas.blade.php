@@ -26,7 +26,7 @@
             <tr>
                 <th>#</th>
                 <th>Cliente</th>
-                <th>Lote / Manzana</th>
+                <th>Lote/Manzana</th>
                 <th>Comprobante</th>
                 <th>N Cts</th>
                 <th>Tipo</th>

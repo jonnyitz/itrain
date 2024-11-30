@@ -197,7 +197,7 @@
                     <tr>
                         <th>#</th>
                         <th>Cliente</th>
-                        <th>Lote/ Manzana</th>
+                        <th>Lote/Manzana</th>
                         <th>Fecha</th>
                         <th>Tipo de Venta</th>
                         <th>Total</th>

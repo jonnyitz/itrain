@@ -20,7 +20,7 @@
 
         <!-- Tabla de proyectos -->
         <table class="table table-striped table-bordered">
-            <thead class="table-dark">
+            
                 <tr>
                     <th>#</th>
                     <th>Nombre</th>
@@ -68,52 +68,54 @@
         </table>
     </div>
 
-    <!-- Modal para agregar un nuevo proyecto -->
-    <div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addProjectModalLabel">Agregar Nuevo Proyecto</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('proyecto-ajustes.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre del Proyecto</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ubicacion" class="form-label">Ubicación</label>
-                            <input type="text" class="form-control" id="ubicacion" name="ubicacion" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="moneda" class="form-label">Moneda</label>
-                            <input type="text" class="form-control" id="moneda" name="moneda" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="total_lotes" class="form-label">Total de Lotes</label>
-                            <input type="number" class="form-control" id="total_lotes" name="total_lotes" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="lotes_disponibles" class="form-label">Lotes Disponibles</label>
-                            <input type="number" class="form-control" id="lotes_disponibles" name="lotes_disponibles" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <select class="form-control" id="estado" name="estado" required>
-                                <option value="activo">EN VENTA</option>
-                                <option value="inactivo">VENDIDO</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="imagen" class="form-label">Imagen del Proyecto</label>
-                            <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
-                        </div>
-                        <div class="text-end">
+  
+        <!-- Modal para agregar un nuevo proyecto -->
+        <div class="modal fade" id="addProjectModal" tabindex="-1" role="dialog" aria-labelledby="addProjectModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addProjectModalLabel">Agregar Nuevo Proyecto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('proyectos.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label for="nombre">Nombre del Proyecto</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ubicacion">Ubicación</label>
+                                <input type="text" class="form-control" id="ubicacion" name="ubicacion" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="moneda">Moneda</label>
+                                <input type="text" class="form-control" id="moneda" name="moneda" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="total_lotes">Total de Lotes</label>
+                                <input type="number" class="form-control" id="total_lotes" name="total_lotes" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lotes_disponibles">Lotes Disponibles</label>
+                                <input type="number" class="form-control" id="lotes_disponibles" name="lotes_disponibles" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="estado">Estado</label>
+                                <select class="form-control" id="estado" name="estado" required>
+                                    <option value="activo">EN VENTA</option>
+                                    <option value="inactivo">VENDIDO</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="imagen">Imagen del Proyecto</label>
+                                <input type="file" class="form-control-file" id="imagen" name="imagen" accept="image/*">
+                            </div>
                             <button type="submit" class="btn btn-primary">Agregar Proyecto</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

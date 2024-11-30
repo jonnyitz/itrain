@@ -25,7 +25,7 @@
         <tr>
             <th>#</th>
             <th>Cliente</th>
-            <th>Lote/ Manzana</th>
+            <th>Lote/Manzana</th>
             <th>Cotizador</th>
             <th>Tipo</th>
             <th>Acciones</th>

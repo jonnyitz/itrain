@@ -22,7 +22,7 @@ class ConceptoController extends Controller
 
         Concepto::create($request->only(['concepto', 'tipo_concepto']));
 
-        return redirect()->back()->with('success', 'Concepto creado exitosamente');
+        return redirect()->back()->with('inicio', 'Concepto creado exitosamente');
     }
 
     public function destroy($id)

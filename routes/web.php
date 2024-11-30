@@ -14,6 +14,9 @@ use App\Http\Controllers\GastoProyectoController;
 use App\Http\Controllers\GastosGeneralesController;
 use App\Http\Controllers\RecibosController;
 use App\Http\Controllers\ProyectoAjustesController;
+use App\Http\Controllers\ManzanaController;
+use App\Http\Controllers\LotesController;
+
 
 
 // Ruta de inicio por defecto que redirige al login
@@ -98,3 +101,11 @@ Route::post('/recibos', [RecibosController::class, 'store'])->name('recibos.stor
 
 Route::resource('proyecto-ajustes', ProyectoAjustesController::class);
 
+
+
+Route::get('/manzanas', [ManzanaController::class, 'index'])->name('manzanas');
+Route::post('/manzanas', [ManzanaController::class, 'store'])->name('manzanas.store');
+
+Route::get('/lotes', [LotesController::class, 'index'])->name('lotes');
+Route::post('/lotes', [LotesController::class, 'store'])->name('lotes.store');
+Route::delete('/lotes/{id}', [LotesController::class, 'destroy'])->name('lotes.destroy');

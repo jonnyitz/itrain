@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conceptos - Constructora FDR</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container mt-5">
@@ -16,13 +16,13 @@
     </div>
 
     <!-- Botón para agregar nuevo concepto -->
-    <div class="mb-3 text-right">
-        <button class="btn btn-success" data-toggle="modal" data-target="#nuevoConceptoModal">Nuevo Concepto</button>
+    <div class="mb-3 text-end">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#nuevoConceptoModal">Nuevo Concepto</button>
     </div>
 
     <!-- Tabla de conceptos -->
-    <table class="table table-bordered">
-        <thead class="thead-dark">
+    <table class="table table-bordered table-striped">
+        <thead>
             <tr>
                 <th>#</th>
                 <th>Concepto</th>
@@ -45,7 +45,6 @@
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este concepto?')">Eliminar</button>
                         </form>
                         <button class="btn btn-warning btn-sm">Editar</button>
-                          <!-- Botón para PDF -->
                         <button class="btn btn-warning btn-sm" title="Descargar PDF">
                             <i class="fas fa-file-pdf"></i>
                         </button>
@@ -62,18 +61,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="nuevoConceptoModalLabel">Registrar Nuevo Concepto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="{{ route('conceptos.store') }}" method="POST">
                     @csrf
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label>Concepto</label>
                         <input type="text" name="concepto" class="form-control" required>
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label>Tipo de Concepto</label>
                         <input type="text" name="tipo_concepto" class="form-control" required>
                     </div>
@@ -84,9 +81,7 @@
     </div>
 </div>
 
-<!-- jQuery y Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
