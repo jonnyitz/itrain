@@ -1,6 +1,6 @@
 <!-- resources/views/ventas.blade.php -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,20 +18,18 @@
         <!-- Botones y barra de búsqueda -->
         <div class="mb-3">
             <button class="btn btn-primary" data-toggle="modal" data-target="#ventaModal">Nueva Venta</button>
-            <input type="text" 
-       class="form-control w-25 d-inline-block ml-3" 
-       placeholder="Buscar..." 
-       id="buscar" 
-       name="buscar">
-       @if ($errors->any())
-       <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+            <input type="text" class="form-control w-25 d-inline-block ml-3" placeholder="Buscar..." id="buscar" name="buscar">
+            
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </div>
 
         <!-- Modal para crear nueva venta -->
         <div class="modal fade" id="ventaModal" tabindex="-1" aria-labelledby="ventaModalLabel" aria-hidden="true">
@@ -67,170 +65,195 @@
                                 <!-- Formulario Datos -->
                                 <div class="tab-pane fade show active" id="datos" role="tabpanel" aria-labelledby="datos-tab">
                                     <div class="form-group mt-3">
-                                       <!-- Campo para seleccionar el contacto -->
-                                    <label for="contacto_id">Contacto:</label>
-                                    <select name="contacto_id" id="contacto_id" required>
-                                        <option value="">Seleccione un contacto</option>
-                                        @foreach ($contactos as $contacto)
-                                            <option value="{{ $contacto->id }}">{{ $contacto->nombre }}</option>
-                                        @endforeach
-                                    </select>
+                                        <label for="contacto_id">Contacto:</label>
+                                        <select name="contacto_id" id="contacto_id" class="form-control" required>
+                                            <option value="">Seleccione un contacto</option>
+                                            @foreach ($contactos as $contacto)
+                                                <option value="{{ $contacto->id }}">{{ $contacto->nombre }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group">
-                                            <label for="fecha_venta">Fecha de Venta:</label>
-                                            <input type="date" name="fecha_venta" id="fecha_venta" required>
+                                        <label for="fecha_venta">Fecha de Venta:</label>
+                                        <input type="date" name="fecha_venta" id="fecha_venta" class="form-control" required>
                                     </div>
                                     <div class="form-group">
-                                            <label for="tipo_venta">Tipo de Venta:</label>
-                                            <input type="text" name="tipo_venta" id="tipo_venta" required maxlength="255">
+                                        <label for="tipo_venta">Tipo de Venta:</label>
+                                        <input type="text" name="tipo_venta" id="tipo_venta" class="form-control" required maxlength="255">
                                     </div>
                                     <div class="form-group">
-                                            <label for="asesor">Asesor:</label>
-                                            <input type="text" name="asesor" id="asesor" required maxlength="255">
+                                        <label for="asesor">Asesor:</label>
+                                        <input type="text" name="asesor" id="asesor" class="form-control" required maxlength="255">
                                     </div>
                                     <div class="form-group">
-                                            <label for="numero_contrato">Número de Contrato:</label>
-                                            <input type="text" name="numero_contrato" id="numero_contrato" required maxlength="255">
+                                        <label for="numero_contrato">Número de Contrato:</label>
+                                        <input type="text" name="numero_contrato" id="numero_contrato" class="form-control" required maxlength="255">
                                     </div>
                                     <div class="form-group">
-                                            <label for="aval">Aval:</label>
-                                            <input type="text" name="aval" id="aval" maxlength="255">
+                                        <label for="aval">Aval:</label>
+                                        <input type="text" name="aval" id="aval" class="form-control" maxlength="255">
                                     </div>
                                 </div>
 
                                 <!-- Formulario Lotes -->
                                 <div class="tab-pane fade" id="lotes" role="tabpanel" aria-labelledby="lotes-tab">
-                                    <div class="form-group mt-3">
-                                            <label for="lote">Lote:</label>
-                                            <input type="text" name="lote" id="lote" required maxlength="255">
+                                    <div class="form-group">
+                                        <label for="lote_id">Seleccione el Lote:</label>
+                                        <select name="lote_id" id="lote_id" class="form-control" required>
+                                            <option value="" selected disabled>Seleccione un lote</option>
+                                            @foreach ($lotes as $lote)
+                                                <option value="{{ $lote->id }}">{{ $lote->lote }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <!-- Enganche -->
+                                    <div class="form-group">
+                                        <label for="enganche">Monto de Enganche:</label>
+                                        <input type="number" name="enganche" id="enganche" class="form-control" required step="0.01">
+                                    </div>
+
+                                    <!-- Cantidad de Pagos -->
+                                    <div class="form-group">
+                                        <label for="cantidad_pagos">Cantidad de Pagos:</label>
+                                        <input type="number" name="cantidad_pagos" id="cantidad_pagos" class="form-control" required min="1">
+                                    </div>
+
+                                    <!-- Fecha de Inicio -->
+                                    <div class="form-group">
+                                        <label for="fecha_inicio">Fecha de Inicio:</label>
+                                        <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" required>
                                     </div>
                                     <div class="form-group">
-                                            <label for="precio_venta_final">Precio de Venta Final:</label>
-                                            <input type="number" name="precio_venta_final" id="precio_venta_final" required step="0.01">
+                                        <label for="precio_venta_final">Precio de Venta Final:</label>
+                                        <input type="number" name="precio_venta_final" id="precio_venta_final" class="form-control" required step="0.01">
                                     </div>
                                     <div class="form-group">
-                                            <label for="descripcion">Descripción:</label>
-                                            <textarea name="descripcion" id="descripcion"></textarea>
+                                        <label for="descripcion">Descripción:</label>
+                                        <textarea name="descripcion" id="descripcion" class="form-control"></textarea>
                                     </div>
                                     <div class="form-group">
-                                            <label for="observacion">Observación:</label>
-                                            <textarea name="observacion" id="observacion"></textarea>
+                                        <label for="observacion">Observación:</label>
+                                        <textarea name="observacion" id="observacion" class="form-control"></textarea>
                                     </div>
                                 </div>
 
                                 <!-- Formulario Pago -->
                                 <div class="tab-pane fade" id="pago" role="tabpanel" aria-labelledby="pago-tab">
-                                    <div class="form-group mt-3">
-                                        <label for="banco_caja_interna" >Seleccionar Pago</label>
-                                        <select name="banco_caja_interna"  class="form-control" id="banco_caja_interna"  required>
-                                            <option value="" disabled selected>Seleccione una opción</option>
-                                            @foreach($pagos as $pago)
-                                                <option value="{{ $pago->id }}">{{ $pago->banco_caja_interna }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group">                                      
-                                            <label for="comprobante">Comprobante:</label>
-                                            <input type="text" name="comprobante" id="comprobante" required maxlength="255">
-                                    </div>
                                     <div class="form-group">
-                                            <label for="numero_comprobante">Número de Comprobante:</label>
-                                            <input type="text" name="numero_comprobante" id="numero_comprobante" required maxlength="255">
-                                    </div>
-                                    <div class="form-group mt-3">
-                                        <label for="forma_pago">Forma de Pago</label>
-                                        <select name="forma_pago" class="form-control" id="forma_pago" required>
-                                            <option value="" disabled selected>Seleccione una opción</option>
-                                            @foreach($pagos as $pago)
-                                                <option value="{{ $pago->id }}">{{ $pago->forma_pago }}</option>
-                                            @endforeach
+                                        <label for="metodo_pago">Método de Pago:</label>
+                                        <select name="metodo_pago" id="metodo_pago" class="form-control" required>
+                                            <option value="">Seleccione un método</option>
+                                            <option value="tarjeta">Tarjeta</option>
+                                            <option value="efectivo">Efectivo</option>
+                                            <option value="transferencia">Transferencia</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                            <label for="monto_primer_pago">Monto del Primer Pago:</label>
-                                            <input type="number" name="monto_primer_pago" id="monto_primer_pago" required step="0.01">
+                                        <label for="comprobante">Comprobante:</label>
+                                        <input type="text" name="comprobante" id="comprobante" class="form-control" required maxlength="255">
                                     </div>
                                     <div class="form-group">
-                                            <label for="fecha_hora_pago">Fecha y Hora del Pago:</label>
-                                            <input type="datetime-local" name="fecha_hora_pago" id="fecha_hora_pago" required>
+                                        <label for="numero_comprobante">Número de Comprobante:</label>
+                                        <input type="text" name="numero_comprobante" id="numero_comprobante" class="form-control" required maxlength="255">
                                     </div>
                                     <div class="form-group">
-                                        <label for="codigo_operacion">Código de Operación (Generado Automáticamente)</label>
-                                        <input type="text" name="codigo_operacion" class="form-control" id="codigo_operacion" readonly>
+                                        <label for="forma_pago">Concepto de Gasto:</label>
+                                        <select name="forma_pago" id="forma_pago" class="form-control" required>
+                                            <option value="">Seleccionar...</option>
+                                            <option value="Egreso de Enganche">Egreso de Enganche</option>
+                                            <option value="Pago de Comision">Pago de Comision</option>
+                                            <option value="Devolucion por Cancelacion">Devolucion por Cancelacion</option>
+                                            <option value="Condonacion General de Pago">Condonacion General de Pago</option>
+                                        </select>
                                     </div>
+                                    <!-- Otros campos -->
+                                        <div class="form-group">
+                                            <label for="banco_caja_interna">Banco/Caja Interna</label>
+                                            <input type="text" name="banco_caja_interna" id="banco_caja_interna" class="form-control" placeholder="Ingrese Banco o Caja Interna" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="codigo_operacion">Código de Operación</label>
+                                            <input type="text" name="codigo_operacion" id="codigo_operacion" class="form-control" placeholder="Ingrese el código de operación" required>
+                                        </div>
+                                    <div class="form-group">
+                                        <label for="monto_primer_pago">Monto del Primer Pago:</label>
+                                        <input type="number" name="monto_primer_pago" id="monto_primer_pago" class="form-control" required step="0.01">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fecha_hora_pago">Fecha y Hora del Pago:</label>
+                                        <input type="datetime-local" name="fecha_hora_pago" id="fecha_hora_pago" class="form-control" required>
+                                    </div>
+                                     <!-- Modalidad Enganche -->
+                                <div class="form-group">
+                                    <label for="modalidad_enganche">Modalidad de Enganche:</label>
+                                    <select name="modalidad_enganche" id="modalidad_enganche" class="form-control" required>
+                                        <option value="">Seleccione Modalidad</option>
+                                        <option value="1">Modalidad 1</option>
+                                        <option value="2">Modalidad 2</option>
+                                        <!-- Add other options here -->
+                                    </select>
                                 </div>
+                                </div>
+                               
+
                                 <!-- Formulario Finalización -->
                                 <div class="tab-pane fade" id="finalizacion" role="tabpanel" aria-labelledby="finalizacion-tab">
-                                    <div class="form-group mt-3">
-                                            <label for="modalidad_enganche">Modalidad del Enganche:</label>
-                                            <input type="text" name="modalidad_enganche" id="modalidad_enganche" required maxlength="255">
+                                    <div class="form-group">
+                                        <label for="fecha_finalizacion">Fecha de Finalización:</label>
+                                        <input type="date" name="fecha_finalizacion" id="fecha_finalizacion" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                    <label for="enganche">Enganche:</label>
-                                    <input type="number" name="enganche" id="enganche" required step="0.01">
-                                </div>
-                                    <div class="form-group">
-                                            <label for="cantidad_pagos">Cantidad de Pagos:</label>
-                                            <input type="number" name="cantidad_pagos" id="cantidad_pagos" required min="1">
-                                    </div>
-                                    <div class="form-group">
-                                            <label for="fecha_inicio">Fecha de Inicio:</label>
-                                            <input type="date" name="fecha_inicio" id="fecha_inicio" required>
+                                        <label for="observacion_finalizacion">Observaciones de Finalización:</label>
+                                        <textarea name="observacion_finalizacion" id="observacion_finalizacion" class="form-control"></textarea>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary">Guardar</button> <!-- Botón de envío -->
-                            </div>
-                        </form>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar Venta</button>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>
 
         <!-- Tabla de ventas -->
-        <div class="mt-4">
-            <table class="table table-bordered">
-                <thead>
+        <h3 class="mt-5">Ventas Registradas</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Contacto</th>
+                    <th>Fecha de Venta</th>
+                    <th>Tipo de Venta</th>
+                    <th>Asesor</th>
+                    <th>Número de Contrato</th>
+                    <th>Precio Final</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($ventas as $venta)
                     <tr>
-                        <th>#</th>
-                        <th>Cliente</th>
-                        <th>Lote/Manzana</th>
-                        <th>Fecha</th>
-                        <th>Tipo de Venta</th>
-                        <th>Total</th>
-                        <th>Estado</th>
-                        <th>Contrato</th>
-                        <th>Acciones</th>
+                        <td>{{ $venta->contacto->nombre }}</td>
+                        <td>{{ $venta->fecha_venta }}</td>
+                        <td>{{ $venta->tipo_venta }}</td>
+                        <td>{{ $venta->asesor }}</td>
+                        <td>{{ $venta->numero_contrato }}</td>
+                        <td>{{ $venta->precio_venta_final }}</td>
+                        <td>
+                            <a href="{{ route('ventas.edit', $venta->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                            <form action="{{ route('ventas.destroy', $venta->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach($ventas as $index => $venta)
-                        <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $contacto->nombre}}</td>
-                            <td>{{ $venta->lote}}</td>
-                            <td>{{ $venta->fecha_venta }}</td>
-                            <td>{{ $venta->tipo_venta }}</td>
-                            <td>{{ $venta->precio_venta }}</td>
-                            <td>{{ $venta->estado }}</td>
-                            <td>{{ $venta->numero_contrato }}</td>
-                            <td>
-                                <button class="btn btn-info btn-sm">Ver</button>
-                                <button class="btn btn-warning btn-sm">Editar</button>
-                                <button class="btn btn-danger btn-sm">Eliminar</button>
-                                 <!-- Botón para PDF -->
-                                <button class="btn btn-warning btn-sm" title="Descargar PDF">
-                                    <i class="fas fa-file-pdf"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

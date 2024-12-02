@@ -99,7 +99,7 @@
                 <ul class="nav flex-column ml-3">
                     <li class="nav-item">
                         <a class="nav-link tab-link" href="#" data-title="Manzanas" data-url="{{ route('manzanas') }}">Manzanas</a>
-                        <a class="nav-link tab-link" href="#" data-title="lotes" data-url="{{ route('lotes') }}">lotes</a>
+                        <a class="nav-link tab-link" href="#" data-title="lotes" data-url="{{ route('lotes') }}">Lotes</a>
                     </li>
                 </ul>
             </div>
@@ -133,7 +133,7 @@
                             <a class="nav-link" href="#addProjectModal" data-toggle="modal">
                                 <i class="fas fa-plus"></i> Agregar Nuevo Proyecto
                             </a>>-->
-                            <a class="nav-link tab-link" href="#" data-title="proyecto-ajustes" data-url="{{ route('proyecto-ajustes.index') }}">proyectos</a>     
+                            <a class="nav-link tab-link" href="#" data-title="proyecto-ajustes" data-url="{{ route('proyecto-ajustes.index') }}">Proyectos</a>     
                         </li>
                     </ul>
                 </div>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Contacto;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ContactoController extends Controller
 {
@@ -63,5 +65,50 @@ class ContactoController extends Controller
         $contacto->delete();
 
         return redirect()->route('inicio')->with('success', 'Contacto eliminado exitosamente.');
+    }
+    
+    // Método para exportar a Excel
+    public function exportToExcel()
+    {
+        // Obtener los datos de contacto (puedes usar cualquier consulta que necesites)
+        $contactos = Contacto::all();
+
+        // Crear una nueva hoja de cálculo
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Establecer las cabeceras
+        $sheet->setCellValue('A1', 'Nombre');
+        $sheet->setCellValue('B1', 'Apellidos');
+        $sheet->setCellValue('C1', 'CURP/RFC');
+        $sheet->setCellValue('D1', 'Teléfono');
+        $sheet->setCellValue('E1', 'Dirección');
+        $sheet->setCellValue('F1', 'Observación');
+
+        // Llenar los datos de los contactos
+        $row = 2; // Comienza desde la fila 2 (debido a las cabeceras)
+        foreach ($contactos as $contacto) {
+            $sheet->setCellValue('A' . $row, $contacto->nombre);
+            $sheet->setCellValue('B' . $row, $contacto->apellidos);
+            $sheet->setCellValue('C' . $row, $contacto->curp_rfc);
+            $sheet->setCellValue('D' . $row, $contacto->telefono);
+            $sheet->setCellValue('E' . $row, $contacto->direccion);
+            $sheet->setCellValue('F' . $row, $contacto->observacion);
+            $row++;
+        }
+
+        // Crear un escritor para guardar el archivo Excel
+        $writer = new Xlsx($spreadsheet);
+
+        // Definir el nombre del archivo
+        $fileName = 'contactos.xlsx';
+
+        // Forzar la descarga del archivo Excel
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $fileName . '"');
+        header('Cache-Control: max-age=0');
+
+        // Guardar el archivo Excel directamente en la salida para la descarga
+        $writer->save('php://output');
     }
 }

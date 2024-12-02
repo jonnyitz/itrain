@@ -38,7 +38,7 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $reserva->contacto->nombre }}</td>
                     <td>{{ $reserva->contacto->curp_rfc }}</td>
-                    <td>{{ $reserva->venta->asesor }}</td>
+                    <td>{{ $reserva->venta?->asesor ?? 'Sin asignar' }}</td>
                     <td>{{ $reserva->fecha_firma }}</td>
                     <td>{{ $reserva->fecha_pago }}</td>
                     <td>{{ $reserva->monto }}</td>

@@ -33,7 +33,7 @@
                 <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $venta->contacto->nombre ?? 'Sin contacto' }}</td>
-                <td>{{ $venta->lote}}</td>
+                <td>{{ $venta->lote->lote}}</td>
                     <td>{{ \Carbon\Carbon::parse($venta->fecha_venta)->format('d/m/Y') }}</td>
                     <td>
                         <!-- Botón Editar (solo visual) -->

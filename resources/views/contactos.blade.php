@@ -18,7 +18,11 @@
     <!-- Botón para agregar nuevo cliente -->
     <div class="mb-3">
         <button class="btn btn-success" data-toggle="modal" data-target="#nuevoClienteModal">Nuevo Cliente</button>
+        <a href="{{ route('contactos.export') }}" class="btn btn-success">
+                            Exportar a Excel
+         </a>
     </div>
+    
 
     <!-- Tabla de contactos -->
     <table class="table table-bordered table-striped">
@@ -51,10 +55,6 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este contacto?')">Eliminar</button>
                         </form>
-                         <!-- Botón para PDF -->
-                        <button class="btn btn-warning btn-sm" title="Descargar PDF">
-                            <i class="fas fa-file-pdf"></i>
-                        </button>
                     </td>
                 </tr>
                 

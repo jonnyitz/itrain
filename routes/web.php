@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\VentaController;
 use App\Http\Controllers\CreditoController;
 use App\Http\Controllers\CuotaController;
 use App\Http\Controllers\CotizacionController;
@@ -49,11 +50,15 @@ Route::post('/contactos', [ContactoController::class, 'store'])->name('contactos
 Route::put('/contactos/{id}', [ContactoController::class, 'update'])->name('contactos.update');
 Route::get('/getContactos', [ContactoController::class, 'getContactos'])->name('getContactos');
 Route::delete('/contactos/{id}', [ContactoController::class, 'destroy'])->name('contactos.destroy');
-use App\Http\Controllers\VentaController;
+Route::get('/exportar-contactos', [ContactoController::class, 'exportToExcel'])->name('contactos.export');
+
 
 // Rutas para el controlador de Ventas
 Route::get('/ventas', [VentaController::class, 'index'])->name('ventas'); // Muestra la lista de ventas
 Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store'); // Almacena una nueva venta
+Route::put('/ventas/{venta}', [VentaController::class, 'update'])->name('ventas.update');
+Route::get('/ventas/{venta}/edit', [VentaController::class, 'edit'])->name('ventas.edit');
+Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ventas.destroy');
 
 // routes/web.php
 Route::get('/creditos', [CreditoController::class, 'index'])->name('creditos');

@@ -9,31 +9,47 @@ class Venta extends Model
 {
     use HasFactory;
 
+    // Definir los campos que se pueden asignar
     protected $fillable = [
-        'contacto_id', 'fecha_venta', 'tipo_venta', 'asesor', 'numero_contrato',
-        'aval', 'lote', 'precio_venta_final', 'descripcion', 'observacion',
-        'banco_caja_interna', 'comprobante', 'numero_comprobante', 'forma_pago',
-        'monto_primer_pago', 'fecha_hora_pago', 'modalidad_enganche', 'cantidad_pagos',
-        'fecha_inicio', 'codigo_operacion','lote',
+        'contacto_id',
+        'lote_id',
+        'fecha_venta',
+        'tipo_venta',
+        'asesor',
+        'numero_contrato',
+        'aval',
+        'precio_venta_final',
+        'descripcion',
+        'observacion',
+        'banco_caja_interna', // Este campo no tiene relación con otra tabla
+        'comprobante',
+        'numero_comprobante',
+        'forma_pago',
+        'monto_primer_pago',
+        'fecha_hora_pago',
+        'codigo_operacion',
+        'modalidad_enganche',
+        'enganche',
+        'cantidad_pagos',
+        'fecha_inicio',
     ];
-        // En el modelo Venta
-    public function lotes()
+
+    // Relación con la tabla `contactos`
+    public function contacto()
+    {
+        return $this->belongsTo(Contacto::class);
+    }
+
+    // Relación con la tabla `lotes`
+    public function lote()
     {
         return $this->belongsTo(Lote::class);
     }
 
-
-    public function pagos() {
-        return $this->hasMany(Pago::class);
+    public function Reserva()
+    {
+        return $this->belongsTo(Reserva::class);
     }
 
-    public function planPago() {
-        return $this->hasOne(PlanPago::class);
-    }
-     // Relación con Contacto
-    // En el modelo Venta
-    public function contacto() {
-        return $this->belongsTo(Contacto::class);
-    }
-     
+    
 }
