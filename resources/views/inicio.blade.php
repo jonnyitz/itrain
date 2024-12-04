@@ -121,6 +121,22 @@
                 </ul>
             </div>
         </li>
+        
+        <!-- Reportes Section -->
+        <li class="nav-item">
+            <a class="nav-link" href="#Reportes" data-toggle="collapse" aria-expanded="false">Reportes</a>
+            <div class="collapse" id="Reportes">
+                <ul class="nav flex-column ml-3">
+                    <li class="nav-item">
+                    <a class="nav-link tab-link" href="#" data-title="Reportes Ventas" data-url="{{ route('r.ventas') }}">Reportes Ventas</a>
+                    <a class="nav-link tab-link" href="#" data-title="Reportes Financiero" data-url="{{ route('r.financieros') }}">Reportes Finacieros</a>
+                    <a class="nav-link tab-link" href="#" data-title="Reportes Lotes" data-url="{{ route('r.lotes') }}">Reportes Lotes</a>
+                    <a class="nav-link tab-link" href="#" data-title="Reportes Clientes" data-url="{{ route('r.clientes') }}">Reportes Clientes</a>  
+                </li>
+                </ul>
+            </div>
+        </li>
+
 
 
         <!-- Proyectos Section for Administrators -->

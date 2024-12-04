@@ -17,6 +17,10 @@ use App\Http\Controllers\RecibosController;
 use App\Http\Controllers\ProyectoAjustesController;
 use App\Http\Controllers\ManzanaController;
 use App\Http\Controllers\LotesController;
+use App\Http\Controllers\ReporteVentasController;
+use App\Http\Controllers\ReporteFinancieroController;
+use App\Http\Controllers\ReporteLotesController;
+use App\Http\Controllers\ReporteClientesController;
 
 
 
@@ -103,6 +107,12 @@ Route::post('/gastos-generales', [GastosGeneralesController::class, 'store'])->n
 Route::get('/recibos', [RecibosController::class, 'index'])->name('recibos');
 Route::post('/recibos', [RecibosController::class, 'store'])->name('recibos.store');
 
+// Ruta principal de la vista
+Route::get('/r-ventas', [ReporteVentasController::class, 'index'])->name('r.ventas');
+Route::get('/r-financieros', [ReporteFinancieroController::class, 'index'])->name('r.financieros');
+Route::get('/r-financieros/filtrar', [ReporteFinancieroController::class, 'filtrar'])->name('r.financieros.filtrar');
+Route::get('/r-lotes', [ReporteLotesController::class, 'index'])->name('r.lotes');
+Route::get('/r-clientes', [ReporteClientesController::class, 'index'])->name('r.clientes');
 
 Route::resource('proyecto-ajustes', ProyectoAjustesController::class);
 
