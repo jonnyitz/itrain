@@ -36,6 +36,10 @@
                                 <label for="nombre" class="form-label">Nombre de la Manzana</label>
                                 <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ingrese el nombre de la manzana" required>
                             </div>
+                            <div class="form-group">
+                                <label for="vendedor">Vendedor:</label>
+                                <input type="text" name="vendedor" id="vendedor" class="form-control" value="{{ old('vendedor') }}">
+                            </div>
                             <div class="mb-3">
                                 <label for="proyecto_id" class="form-label">Proyecto</label>
                                 <select name="proyecto_id" id="proyecto_id" class="form-select" required>
