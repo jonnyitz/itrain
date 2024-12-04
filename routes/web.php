@@ -63,6 +63,8 @@ Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store');
 Route::put('/ventas/{venta}', [VentaController::class, 'update'])->name('ventas.update');
 Route::get('/ventas/{venta}/edit', [VentaController::class, 'edit'])->name('ventas.edit');
 Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ventas.destroy');
+Route::get('/ventas/{ventaId}/pagare', [VentaController::class, 'generarPagare'])->name('ventas.pagare');
+
 
 // routes/web.php
 Route::get('/creditos', [CreditoController::class, 'index'])->name('creditos');

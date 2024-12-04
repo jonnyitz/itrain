@@ -10,6 +10,8 @@
     <!-- jQuery y JavaScript de Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
     <div class="container mt-5">
@@ -53,6 +55,9 @@
                                     <a class="nav-link" id="lotes-tab" data-toggle="tab" href="#lotes" role="tab" aria-controls="lotes" aria-selected="false">Lotes</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" id="manzanas-tab" data-toggle="tab" href="#manzanas" role="tab" aria-controls="manzanas" aria-selected="false">Manzanas</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" id="pago-tab" data-toggle="tab" href="#pago" role="tab" aria-controls="pago" aria-selected="false">Pago</a>
                                 </li>
                                 <li class="nav-item">
@@ -94,6 +99,7 @@
                                         <input type="text" name="aval" id="aval" class="form-control" maxlength="255">
                                     </div>
                                 </div>
+                               
 
                                 <!-- Formulario Lotes -->
                                 <div class="tab-pane fade" id="lotes" role="tabpanel" aria-labelledby="lotes-tab">
@@ -106,7 +112,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <!-- Formulario Manzanas -->
+                                    
                                     <div class="tab-pane fade" id="manzanas" role="tabpanel" aria-labelledby="manzanas-tab">
                                         <div class="form-group">
                                             <label for="manzana_id">Seleccione la Manzana:</label>
@@ -118,6 +124,8 @@
                                             </select>
                                         </div>
                                     </div>
+
+                                    
                                     
                                     <!-- Enganche -->
                                     <div class="form-group">
@@ -262,6 +270,9 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                             </form>
+                            <a href="{{ route('ventas.pagare', $venta->id) }}" class="btn btn-success btn-sm">
+                                <i class="fas fa-file-invoice"></i> 
+                            </a>
                         </td>
                     </tr>
                 @endforeach

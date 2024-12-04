@@ -8,6 +8,10 @@ use App\Models\Contacto;
 use App\Models\Lote;
 use Illuminate\Http\Request;
 use App\Models\Manzana;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Illuminate\Support\Carbon;
+
 class VentaController extends Controller
 {
     // Mostrar el formulario de creación de una nueva venta
@@ -15,9 +19,9 @@ class VentaController extends Controller
     {
         $contactos = Contacto::all(); // Obtener todos los contactos
         $lotes = Lote::all(); // Obtener todos los lotes
-        $manzana= Manzana::all();
+        $manzanas= Manzana::all();
 
-        return view('ventas', compact('manzana','contactos', 'lotes'));
+        return view('ventas', compact('manzanas','contactos', 'lotes'));
     }
 
     // Almacenar una nueva venta en la base de datos
@@ -84,11 +88,11 @@ class VentaController extends Controller
         $ventas = Venta::all(); // Obtener todas las ventas
         $contactos = Contacto::all(); // Obtener todos los contactos
         $lotes = Lote::all(); // Obtener todos los lotes
-        $manzana= Manzana::all();
+        $manzanas= Manzana::all();
 
 
 
-        return view('ventas', compact('manzana','contactos','ventas', 'lotes' ));
+        return view('ventas', compact('manzanas','contactos','ventas', 'lotes' ));
     }
 
     // Mostrar detalles de una venta específica
@@ -105,9 +109,9 @@ class VentaController extends Controller
         $venta = Venta::findOrFail($id);
         $contactos = Contacto::all();
         $lotes = Lote::all();
-        $manzana= Manzana::all();
+        $manzanas= Manzana::all();
 
-        return view('ventas.edit', compact('manzana','venta', 'contactos', 'lotes'));
+        return view('ventas.edit', compact('manzanas','venta', 'contactos', 'lotes'));
     }
 
     // Actualizar una venta en la base de datos
@@ -175,4 +179,35 @@ class VentaController extends Controller
 
         return redirect()->route('ventas')->with('success', 'Venta eliminada exitosamente');
     }
+    public function generarPagare($venta_id)
+{
+    // Obtener la venta
+    $venta = Venta::findOrFail($venta_id);
+    $contacto = $venta->contacto; // Obtener el contacto de la venta
+
+    // Calcular las fechas de los pagos (suponiendo que el primer pago es la fecha de venta y luego se agrega un mes por cada pagare)
+    $fechaVenta = Carbon::parse($venta->fecha_venta);
+    
+    // Cargar el HTML que se pasará a Dompdf
+    $html = view('pagare', compact('venta', 'contacto', 'fechaVenta'))->render();
+
+    // Configuración de Dompdf
+    $options = new Options();
+    $options->set('isHtml5ParserEnabled', true);
+    $options->set('isPhpEnabled', true); // Permite PHP en el HTML (para calcular fechas)
+    $dompdf = new Dompdf($options);
+
+    // Cargar el HTML en Dompdf
+    $dompdf->loadHtml($html);
+
+    // (Opcional) Definir el tamaño de la página
+    $dompdf->setPaper('A4', 'portrait');
+
+    // Renderizar el PDF
+    $dompdf->render();
+
+    // Enviar el PDF al navegador
+    return $dompdf->stream('pagare_' . $venta->numero_contrato . '.pdf');
+}
+    
 }

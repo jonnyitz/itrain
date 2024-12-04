@@ -13,6 +13,7 @@ class Venta extends Model
     protected $fillable = [
         'contacto_id',
         'lote_id',
+        'manzana_id',
         'fecha_venta',
         'tipo_venta',
         'asesor',
