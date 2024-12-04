@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyectos</title>
+    <title>CONSTRUCTORA FDR</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             background-color: #f0f8ff; /* Fondo azul claro */
+        }
+        .top-left-image {
+            position: absolute;
+            top: 40px;
+            left: 300px;
+            width: 200px; /* Ancho de la imagen */
         }
         .project-card {
             background-color: #fff;
@@ -26,12 +33,60 @@
         .progress {
             height: 30px; /* Altura de la barra de progreso */
         }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .logout-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            left: 290px; /* Ajusta la distancia desde la izquierda */
+            top: 80px;
+        }
+
+        .logout-icon i {
+            font-size: 24px;
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        .logout-icon i:hover {
+            color: #0056b3;
+        }
+
+        .logo-container img {
+            height: 40px;
+        }
     </style>
 </head>
 <body>
+    <!-- Imagen en la parte superior izquierda -->
+    <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="top-left-image">
+      
+   <!-- Contenedor del icono -->
+<div class="icon-container">
+    <a href="{{ route('logout') }}" 
+       class="logout-icon" 
+       title="Cerrar sesión" 
+       onclick="event.preventDefault(); var form = document.getElementById('logout-form'); if (form) form.submit();">
+        <i class="fas fa-door-open"></i>
+    </a>
+</div>
+
+<!-- Formulario de logout -->
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    @csrf
+</form>
 
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Proyectos</h1>
+    <h1 class="text-center mb-4">CONSTRUCTORA FDR</h1>
 
     <!-- Barra de filtro -->
     <div class="row mb-4">

@@ -7,7 +7,7 @@ use App\Models\Venta;
 use App\Models\Contacto;
 use App\Models\Lote;
 use Illuminate\Http\Request;
-
+use App\Models\Manzana;
 class VentaController extends Controller
 {
     // Mostrar el formulario de creación de una nueva venta
@@ -15,8 +15,9 @@ class VentaController extends Controller
     {
         $contactos = Contacto::all(); // Obtener todos los contactos
         $lotes = Lote::all(); // Obtener todos los lotes
+        $manzana= Manzana::all();
 
-        return view('ventas', compact('contactos', 'lotes'));
+        return view('ventas', compact('manzana','contactos', 'lotes'));
     }
 
     // Almacenar una nueva venta en la base de datos
@@ -25,6 +26,7 @@ class VentaController extends Controller
         $request->validate([
             'contacto_id' => 'required|exists:contactos,id',
             'lote_id' => 'nullable|exists:lotes,id',
+            'manzana_id' => 'required|exists:manzanas,id',
             'fecha_venta' => 'required|date',
             'tipo_venta' => 'required|string',
             'asesor' => 'required|string',
@@ -50,6 +52,7 @@ class VentaController extends Controller
         Venta::create([
             'contacto_id' => $request->contacto_id,
             'lote_id' => $request->lote_id,
+            'manzana_id' => $request->manzanas_id,
             'fecha_venta' => $request->fecha_venta,
             'tipo_venta' => $request->tipo_venta,
             'asesor' => $request->asesor,
@@ -81,10 +84,11 @@ class VentaController extends Controller
         $ventas = Venta::all(); // Obtener todas las ventas
         $contactos = Contacto::all(); // Obtener todos los contactos
         $lotes = Lote::all(); // Obtener todos los lotes
+        $manzana= Manzana::all();
 
 
 
-        return view('ventas', compact('contactos','ventas', 'lotes' ));
+        return view('ventas', compact('manzana','contactos','ventas', 'lotes' ));
     }
 
     // Mostrar detalles de una venta específica
@@ -101,8 +105,9 @@ class VentaController extends Controller
         $venta = Venta::findOrFail($id);
         $contactos = Contacto::all();
         $lotes = Lote::all();
+        $manzana= Manzana::all();
 
-        return view('ventas.edit', compact('venta', 'contactos', 'lotes'));
+        return view('ventas.edit', compact('manzana','venta', 'contactos', 'lotes'));
     }
 
     // Actualizar una venta en la base de datos
@@ -111,6 +116,7 @@ class VentaController extends Controller
         $request->validate([
             'contacto_id' => 'required|exists:contactos,id',
             'lote_id' => 'required|exists:lotes,id',
+            'manzana_id' => 'required|exists:manzanas,id',
             'fecha_venta' => 'required|date',
             'tipo_venta' => 'required|string',
             'asesor' => 'required|string',
@@ -136,6 +142,7 @@ class VentaController extends Controller
         $venta->update([
             'contacto_id' => $request->contacto_id,
             'lote_id' => $request->lote_id,
+            'manzana_id' => $request->manzanas_id,
             'fecha_venta' => $request->fecha_venta,
             'tipo_venta' => $request->tipo_venta,
             'asesor' => $request->asesor,

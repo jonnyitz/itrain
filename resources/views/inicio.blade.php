@@ -75,6 +75,18 @@
         <li class="nav-item">
             <a class="nav-link active" href="#" data-title="Inicio" data-content="Bienvenido a la Vista de Inicio">Inicio</a>
         </li>
+
+        <!-- Seguridad Section -->
+        <li class="nav-item">
+            <a class="nav-link" href="#seguridadMenu" data-toggle="collapse" aria-expanded="false">Seguridad</a>
+            <div class="collapse" id="seguridadMenu">
+                <ul class="nav flex-column ml-3">
+                    <li class="nav-item">
+                        
+                    </li>
+                </ul>
+            </div>
+        </li>
         
         <!-- Comercial Section -->
         <li class="nav-item">
@@ -211,6 +223,7 @@
     </div>
     <script>
     $(document).ready(function () {
+        
         // Manejo de clic en enlaces de pestañas
         $('.tab-link').click(function (e) {
             e.preventDefault();

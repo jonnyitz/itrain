@@ -51,5 +51,10 @@ class Venta extends Model
         return $this->belongsTo(Reserva::class);
     }
 
+    public function manzana()
+    {
+        return $this->belongsTo(Manzana::class);
+    }
+
     
 }

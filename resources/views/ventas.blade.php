@@ -106,6 +106,19 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <!-- Formulario Manzanas -->
+                                    <div class="tab-pane fade" id="manzanas" role="tabpanel" aria-labelledby="manzanas-tab">
+                                        <div class="form-group">
+                                            <label for="manzana_id">Seleccione la Manzana:</label>
+                                            <select name="manzana_id" id="manzana_id" class="form-control" required>
+                                                <option value="" selected disabled>Seleccione una manzana</option>
+                                                @foreach ($manzanas as $manzana)
+                                                    <option value="{{ $manzana->id }}">{{ $manzana->nombre }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
                                     <!-- Enganche -->
                                     <div class="form-group">
                                         <label for="enganche">Monto de Enganche:</label>

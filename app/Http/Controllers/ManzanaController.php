@@ -21,6 +21,7 @@ class ManzanaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'proyecto_id' => 'required|exists:proyectos,id',
+            'vendedor' => 'required|string|max:255',
         ]);
 
         Manzana::create($request->all());

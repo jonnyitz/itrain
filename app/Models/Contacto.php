@@ -17,12 +17,8 @@ class Contacto extends Model
         'direccion',
         'observacion',
     ];
-    // Relación con el modelo Pago (si un contacto tiene múltiples pagos)
-    public function pagos()
-    {
-        return $this->hasMany(Pago::class, 'contacto_id');
-    }
 
+    
     // Relación con el modelo Venta (si un contacto tiene múltiples ventas)
     public function ventas()
     {

@@ -11,7 +11,7 @@ class Manzana extends Model
      // Especifica la tabla asociada al modelo
      protected $table = 'manzanas';
 
-    protected $fillable = ['nombre', 'proyecto_id'];
+    protected $fillable = ['nombre', 'proyecto_id', 'vendedor' ];
 
     // Relación con el modelo Proyecto
     public function proyecto()
@@ -20,7 +20,12 @@ class Manzana extends Model
     }
      // Relación con lotes (una manzana tiene muchos lotes)
      public function lotes()
-     {
+    {
          return $this->hasMany(Lote::class, 'manzana_id');
-     }
+    }
+     public function ventas()
+    {
+        return $this->hasMany(Venta::class);
+    }
+
 }
