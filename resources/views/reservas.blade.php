@@ -142,19 +142,34 @@
     });
 
     function editarReserva(id) {
-        $.get(`/reservas/${id}/edit`, function (data) {
-            $('#reserva_id').val(data.reserva.id);
-            $('#contacto_id').val(data.reserva.contacto_id);
-            $('#venta_id').val(data.reserva.venta_id);
-            $('#fecha_firma').val(data.reserva.fecha_firma);
-            $('#fecha_pago').val(data.reserva.fecha_pago);
-            $('#monto').val(data.reserva.monto);
-            $('#nuevoReservaModalLabel').text('Editar Reserva');
-            $('#reservaForm').attr('action', `/reservas/${data.reserva.id}`);
-            $('#reservaForm').append('<input type="hidden" name="_method" value="PUT">');
+    fetch(`/reservas/${id}/edit`)
+        .then(response => response.json()) // Suponiendo que la respuesta es JSON
+        .then(data => {
+            // Rellenar el formulario con los datos recibidos
+            document.getElementById('reserva_id').value = data.reserva.id;
+            document.getElementById('contacto_id').value = data.reserva.contacto_id;
+            document.getElementById('venta_id').value = data.reserva.venta_id;
+            document.getElementById('fecha_firma').value = data.reserva.fecha_firma;
+            document.getElementById('fecha_pago').value = data.reserva.fecha_pago;
+            document.getElementById('monto').value = data.reserva.monto;
+            document.getElementById('nuevoReservaModalLabel').textContent = 'Editar Reserva';
+            document.getElementById('reservaForm').setAttribute('action', `/reservas/${data.reserva.id}`);
+            
+            // Agregar el campo de método PUT (para Laravel)
+            const inputMethod = document.createElement('input');
+            inputMethod.type = 'hidden';
+            inputMethod.name = '_method';
+            inputMethod.value = 'PUT';
+            document.getElementById('reservaForm').appendChild(inputMethod);
+            
+            // Mostrar el modal
             $('#nuevoReservaModal').modal('show');
+        })
+        .catch(error => {
+            console.error('Error al obtener los datos:', error);
+            alert('Hubo un error al cargar los datos.');
         });
-    }
+}
 
     $('#nuevoReservaModal').on('hidden.bs.modal', function () {
         $('#reservaForm').trigger('reset').attr('action', '{{ route('reservas.store') }}').find('input[name="_method"]').remove();

@@ -239,6 +239,8 @@
                 </div>
             </div>
         </div>
+      
+
 
         <!-- Tabla de ventas -->
         <h3 class="mt-5">Ventas Registradas</h3>
@@ -264,8 +266,34 @@
                         <td>{{ $venta->numero_contrato }}</td>
                         <td>{{ $venta->precio_venta_final }}</td>
                         <td>
-                            <a href="{{ route('ventas.edit', $venta->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="{{ route('ventas.destroy', $venta->id) }}" method="POST" style="display:inline;">
+                        <button
+                            class="btn btn-warning btn-sm btnEditarVenta"
+                            data-id="{{ $venta->id }}"
+                            data-contacto-id="{{ $venta->contacto_id }}"
+                            data-fecha-venta="{{ $venta->fecha_venta }}"
+                            data-tipo-venta="{{ $venta->tipo_venta }}"
+                            data-asesor="{{ $venta->asesor }}"
+                            data-numero-contrato="{{ $venta->numero_contrato }}"
+                            data-precio-venta-final="{{ $venta->precio_venta_final }}"
+                            data-lote-id="{{ $venta->lote_id }}"
+                            data-manzana-id="{{ $venta->manzana_id }}"
+                            data-banco-caja-interna="{{ $venta->banco_caja_interna }}"
+                            data-comprobante="{{ $venta->comprobante }}"
+                            data-numero-comprobante="{{ $venta->numero_comprobante }}"
+                            data-forma-pago="{{ $venta->forma_pago }}"
+                            data-monto-primer-pago="{{ $venta->monto_primer_pago }}"
+                            data-fecha-hora-pago="{{ $venta->fecha_hora_pago }}"
+                            data-codigo-operacion="{{ $venta->codigo_operacion }}"
+                            data-modalidad-enganche="{{ $venta->modalidad_enganche }}"
+                            data-enganche="{{ $venta->enganche }}"
+                            data-cantidad-pagos="{{ $venta->cantidad_pagos }}"
+                            data-fecha-inicio="{{ $venta->fecha_inicio }}"
+                            data-toggle="modal"
+                            data-target="#editarVentaModal"
+                        >
+                            Editar
+                        </button>
+                        <form action="{{ route('ventas.destroy', $venta->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
@@ -279,5 +307,178 @@
             </tbody>
         </table>
     </div>
+  <!-- Modal para editar venta -->
+  <div class="modal fade" id="editarVentaModal" tabindex="-1" aria-labelledby="editarVentaModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarVentaModalLabel">Editar Venta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEditarVenta{{ $venta->id }}" method="POST" action="{{ route('ventas.update', $venta->id) }}">
+                            @csrf
+                            @method('PUT')
+                            <!-- Campos del formulario -->
+                            <div class="form-group">
+                                <label for="editarContacto">Contacto:</label>
+                                <select name="contacto_id" id="editarContacto" class="form-control" >
+                                    @foreach ($contactos as $contacto)
+                                        <option value="{{ $contacto->id }}">{{ $contacto->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarFechaVenta">Fecha de Venta:</label>
+                                <input type="date" name="fecha_venta" id="editarFechaVenta" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="editarTipoVenta">Tipo de Venta:</label>
+                                <input type="text" name="tipo_venta" id="editarTipoVenta" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="editarAsesor">Asesor:</label>
+                                <input type="text" name="asesor" id="editarAsesor" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="editarNumeroContrato">Número de Contrato:</label>
+                                <input type="text" name="numero_contrato" id="editarNumeroContrato" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="editarPrecioFinal">Precio Final:</label>
+                                <input type="number" name="precio_venta_final" id="editarPrecioFinal" class="form-control" >
+                            </div>
+                            <!-- Campos adicionales en el modal de edición -->
+                            <div class="form-group">
+                                <label for="editarLoteId">Lote:</label>
+                                <select name="lote_id" id="editarLoteId" class="form-control" >
+                                    @foreach ($lotes as $lote)
+                                        <option value="{{ $lote->id }}">{{ $lote->lote }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarManzanaId">Manzana:</label>
+                                <select name="manzana_id" id="editarManzanaId" class="form-control" >
+                                    @foreach ($manzanas as $manzana)
+                                        <option value="{{ $manzana->id }}">{{ $manzana->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarBancoCajaInterna">Banco/Caja Interna:</label>
+                                <input type="text" name="banco_caja_interna" id="editarBancoCajaInterna" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="editarComprobante">Comprobante:</label>
+                                <input type="text" name="comprobante" id="editarComprobante" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="editarNumeroComprobante">Número de Comprobante:</label>
+                                <input type="text" name="numero_comprobante" id="editarNumeroComprobante" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="editarFormaPago">Forma de Pago:</label>
+                                <select name="forma_pago" id="editarFormaPago" class="form-control" >
+                                    <option value="">Seleccione una forma de pago</option>
+                                    <option value="tarjeta">Tarjeta</option>
+                                    <option value="efectivo">Efectivo</option>
+                                    <option value="transferencia">Transferencia</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarMontoPrimerPago">Monto del Primer Pago:</label>
+                                <input type="number" name="monto_primer_pago" id="editarMontoPrimerPago" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="editarFechaHoraPago">Fecha y Hora del Pago:</label>
+                                <input type="datetime-local" name="fecha_hora_pago" id="editarFechaHoraPago" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="editarCodigoOperacion">Código de Operación:</label>
+                                <input type="text" name="codigo_operacion" id="editarCodigoOperacion" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="editarModalidadEnganche">Modalidad de Enganche:</label>
+                                <select name="modalidad_enganche" id="editarModalidadEnganche" class="form-control" >
+                                    <option value="">Seleccione una modalidad</option>
+                                    <option value="1">Modalidad 1</option>
+                                    <option value="2">Modalidad 2</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarEnganche">Enganche:</label>
+                                <input type="number" name="enganche" id="editarEnganche" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="editarCantidadPagos">Cantidad de Pagos:</label>
+                                <input type="number" name="cantidad_pagos" id="editarCantidadPagos" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="editarFechaInicio">Fecha de Inicio:</label>
+                                <input type="date" name="fecha_inicio" id="editarFechaInicio" class="form-control">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script>
+    $(document).on('click', '.btnEditarVenta', function() {
+        const id = $(this).data('id');
+        const contactoId = $(this).data('contacto-id');
+        const fechaVenta = $(this).data('fecha-venta');
+        const tipoVenta = $(this).data('tipo-venta');
+        const asesor = $(this).data('asesor');
+        const numeroContrato = $(this).data('numero-contrato');
+        const precioVentaFinal = $(this).data('precio-venta-final');
+
+        // Nuevos campos
+        const loteId = $(this).data('lote-id');
+        const manzanaId = $(this).data('manzana-id');
+        const bancoCajaInterna = $(this).data('banco-caja-interna');
+        const comprobante = $(this).data('comprobante');
+        const numeroComprobante = $(this).data('numero-comprobante');
+        const formaPago = $(this).data('forma-pago');
+        const montoPrimerPago = $(this).data('monto-primer-pago');
+        const fechaHoraPago = $(this).data('fecha-hora-pago');
+        const codigoOperacion = $(this).data('codigo-operacion');
+        const modalidadEnganche = $(this).data('modalidad-enganche');
+        const enganche = $(this).data('enganche');
+        const cantidadPagos = $(this).data('cantidad-pagos');
+        const fechaInicio = $(this).data('fecha-inicio');
+
+        // Asignar datos a los campos del modal
+        $('#formEditarVenta').attr('action', `/ventas/${id}`);
+        $('#editar_contacto_id').val(contactoId);
+        $('#editar_fecha_venta').val(fechaVenta);
+        $('#editar_tipo_venta').val(tipoVenta);
+        $('#editar_asesor').val(asesor);
+        $('#editar_numero_contrato').val(numeroContrato);
+        $('#editar_precio_venta_final').val(precioVentaFinal);
+
+        // Asignar nuevos campos
+        $('#editarLoteId').val(loteId);
+        $('#editarManzanaId').val(manzanaId);
+        $('#editarBancoCajaInterna').val(bancoCajaInterna);
+        $('#editarComprobante').val(comprobante);
+        $('#editarNumeroComprobante').val(numeroComprobante);
+        $('#editarFormaPago').val(formaPago);
+        $('#editarMontoPrimerPago').val(montoPrimerPago);
+        $('#editarFechaHoraPago').val(fechaHoraPago);
+        $('#editarCodigoOperacion').val(codigoOperacion);
+        $('#editarModalidadEnganche').val(modalidadEnganche);
+        $('#editarEnganche').val(enganche);
+        $('#editarCantidadPagos').val(cantidadPagos);
+        $('#editarFechaInicio').val(fechaInicio);
+    });
+</script>
+
 </body>
 </html>

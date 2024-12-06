@@ -32,6 +32,12 @@ class ContactoController extends Controller
 
         return redirect()->route('inicio')->with('success', 'Contacto creado exitosamente.');
     }
+    // Cargar los datos de contacto para edición (AJAX)
+    public function edit($id)
+    {
+        $contacto = Contacto::findOrFail($id);
+        return response()->json($contacto);
+    }
 
     // Actualizar contacto existente
     public function update(Request $request, $id)
@@ -51,13 +57,8 @@ class ContactoController extends Controller
         return redirect()->route('contactos')->with('success', 'Contacto actualizado exitosamente.');
     }
 
-    // Cargar los datos de contacto para edición (AJAX)
-    public function edit($id)
-    {
-        $contacto = Contacto::findOrFail($id);
-        return response()->json($contacto);
-    }
 
+    
     // Eliminar contacto
     public function destroy($id)
     {

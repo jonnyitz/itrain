@@ -21,6 +21,7 @@ use App\Http\Controllers\ReporteVentasController;
 use App\Http\Controllers\ReporteFinancieroController;
 use App\Http\Controllers\ReporteLotesController;
 use App\Http\Controllers\ReporteClientesController;
+use App\Http\Controllers\GrupoController;
 
 
 
@@ -57,11 +58,11 @@ Route::delete('/contactos/{id}', [ContactoController::class, 'destroy'])->name('
 Route::get('/exportar-contactos', [ContactoController::class, 'exportToExcel'])->name('contactos.export');
 
 
+
 // Rutas para el controlador de Ventas
 Route::get('/ventas', [VentaController::class, 'index'])->name('ventas'); // Muestra la lista de ventas
 Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store'); // Almacena una nueva venta
 Route::put('/ventas/{venta}', [VentaController::class, 'update'])->name('ventas.update');
-Route::get('/ventas/{venta}/edit', [VentaController::class, 'edit'])->name('ventas.edit');
 Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ventas.destroy');
 Route::get('/ventas/{ventaId}/pagare', [VentaController::class, 'generarPagare'])->name('ventas.pagare');
 
@@ -133,3 +134,8 @@ Route::post('/manzanas', [ManzanaController::class, 'store'])->name('manzanas.st
 Route::get('/lotes', [LotesController::class, 'index'])->name('lotes');
 Route::post('/lotes', [LotesController::class, 'store'])->name('lotes.store');
 Route::delete('/lotes/{id}', [LotesController::class, 'destroy'])->name('lotes.destroy');
+
+
+Route::get('/grupos', [GrupoController::class, 'index'])->name('grupos');
+Route::post('/grupos', [GrupoController::class, 'store'])->name('grupos.store');
+Route::get('/grupos/export', [GrupoController::class, 'export']);
