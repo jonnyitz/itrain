@@ -8,21 +8,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
-            background-color: #f0f8ff; /* Fondo azul claro */
+            background-color:  #800080; /* Fondo azul morado */
+        }
+        .box-container {
+            background-color: white; /* Fondo blanco */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para el recuadro */
+            margin: 20px auto;
+            max-width: 800px; /* Ancho máximo del recuadro */
         }
         .top-left-image {
             position: absolute;
-            top: 40px;
-            left: 300px;
-            width: 200px; /* Ancho de la imagen */
+            top: 90px;
+            left: 480px;
+            width: 150px; /* Ancho de la imagen */
+        }
+        .project-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Espacio entre las tarjetas */
+            justify-content: center;
         }
         .project-card {
             background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
             text-align: center;
+            max-width: 300px; /* Mantén el ancho adecuado para las tarjetas */
+            flex: 1 1 250px; /* Permite que las tarjetas se ajusten y se alineen */
         }
         .project-image {
             max-width: 100%;
@@ -48,7 +63,7 @@
             justify-content: center;
             position: relative;
             left: 290px; /* Ajusta la distancia desde la izquierda */
-            top: 80px;
+            top: 120px;
         }
 
         .logout-icon i {
@@ -67,26 +82,31 @@
     </style>
 </head>
 <body>
-    <!-- Imagen en la parte superior izquierda -->
-    <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="top-left-image">
-      
-   <!-- Contenedor del icono -->
-<div class="icon-container">
-    <a href="{{ route('logout') }}" 
-       class="logout-icon" 
-       title="Cerrar sesión" 
-       onclick="event.preventDefault(); var form = document.getElementById('logout-form'); if (form) form.submit();">
-        <i class="fas fa-door-open"></i>
-    </a>
-</div>
+     <!-- Imagen en la parte superior izquierda -->
+     <img src="{{ asset('images/logo.png') }}" alt="Logo" class="top-left-image">
 
-<!-- Formulario de logout -->
-<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-    @csrf
-</form>
+        <!-- Contenedor del icono -->
+        <div class="icon-container">
+            <a href="{{ route('logout') }}" 
+            class="logout-icon" 
+            title="Cerrar sesión" 
+            onclick="event.preventDefault(); var form = document.getElementById('logout-form'); if (form) form.submit();">
+                <i class="fas fa-door-open"></i>
+            </a>
+        </div>
 
-<div class="container mt-5">
-    <h1 class="text-center mb-4">CONSTRUCTORA FDR</h1>
+        <!-- Formulario de logout -->
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+
+        <!-- Contenedor principal -->
+        <div class="box-container">
+            <div class="container mt-5">
+                <h1 class="text-center mb-4">CONSTRUCTORA FDR</h1>
+                <h2 class="text-center mb-4">RFC: 0000111100</h2>
+            </div>
+        </div>
 
     <!-- Barra de filtro -->
     <div class="row mb-4">
@@ -99,43 +119,40 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="project-container">
         @foreach($proyectos as $proyecto)
-            <div class="col-md-4">
-                <div class="project-card">
-                    @if($proyecto->imagen)
-                        <p><img src="{{ asset('storage/' . $proyecto->imagen) }}" alt="Imagen del proyecto" style="width: 200px;"></p>
-                    @endif
-                    <h3>{{ $proyecto->nombre }}</h3>
-                    <p>{{ $proyecto->ubicacion }}</p>
-                    <a href="{{ route('inicio', ['id' => $proyecto->id]) }}" class="btn btn-primary">
-                        Ingresar <span class="ml-2">&rarr;</span>
-                    </a>
-                    <p><strong>Moneda:</strong> {{ $proyecto->moneda }}</p>
-                    <p><strong>Total de Lotes:</strong> {{ $proyecto->total_lotes }}</p>
-                    <p><strong>Lotes Disponibles:</strong> {{ $proyecto->lotes_disponibles }}</p>
-                    <p><strong>Estado:</strong> {{ $proyecto->estado }}</p>
+            <div class="project-card">
+                @if($proyecto->imagen)
+                    <p><img src="{{ asset('storage/' . $proyecto->imagen) }}" alt="Imagen del proyecto" style="width: 200px;"></p>
+                @endif
+                <h3>{{ $proyecto->nombre }}</h3>
+                <p>{{ $proyecto->ubicacion }}</p>
+                <a href="{{ route('inicio', ['id' => $proyecto->id]) }}" class="btn btn-primary">
+                    Ingresar <span class="ml-2">&rarr;</span>
+                </a>
+                <p><strong>Moneda:</strong> {{ $proyecto->moneda }}</p>
+                <p><strong>Total de Lotes:</strong> {{ $proyecto->total_lotes }}</p>
+                <p><strong>Lotes Disponibles:</strong> {{ $proyecto->lotes_disponibles }}</p>
+                <p><strong>Estado:</strong> {{ $proyecto->estado }}</p>
 
-                    @php
-                        // Calcular el total de lotes vendidos
-                        $lotes_vendidos = $proyecto->total_lotes - $proyecto->lotes_disponibles;
+                @php
+                    // Calcular el total de lotes vendidos
+                    $lotes_vendidos = $proyecto->total_lotes - $proyecto->lotes_disponibles;
 
-                        // Verificar que total_lotes no sea cero para evitar división por cero
-                        if ($proyecto->total_lotes > 0) {
-                            // Calcular el porcentaje de progreso
-                            $progreso = ($lotes_vendidos / $proyecto->total_lotes) * 100; 
-                        } else {
-                            $progreso = 0; // Si no hay lotes, el progreso es 0
-                        }
-                    @endphp
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: {{ $progreso }}%;" aria-valuenow="{{ $progreso }}" aria-valuemin="0" aria-valuemax="100">{{ round($progreso) }}%</div>
-                    </div>
+                    // Verificar que total_lotes no sea cero para evitar división por cero
+                    if ($proyecto->total_lotes > 0) {
+                        // Calcular el porcentaje de progreso
+                        $progreso = ($lotes_vendidos / $proyecto->total_lotes) * 100; 
+                    } else {
+                        $progreso = 0; // Si no hay lotes, el progreso es 0
+                    }
+                @endphp
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: {{ $progreso }}%;" aria-valuenow="{{ $progreso }}" aria-valuemin="0" aria-valuemax="100">{{ round($progreso) }}%</div>
                 </div>
             </div>
         @endforeach
     </div>
-</div>
 
 <!-- jQuery y Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -56,7 +56,7 @@ class VentaController extends Controller
         Venta::create([
             'contacto_id' => $request->contacto_id,
             'lote_id' => $request->lote_id,
-            'manzana_id' => $request->manzanas_id,
+            'manzana_id' => $request->manzana_id,
             'fecha_venta' => $request->fecha_venta,
             'tipo_venta' => $request->tipo_venta,
             'asesor' => $request->asesor,
