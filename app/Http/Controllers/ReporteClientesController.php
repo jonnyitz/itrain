@@ -3,25 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Contacto; // Modelo de la base de datos
+use PDF; // Dompdf
 
 class ReporteClientesController extends Controller
 {
-    // Método para mostrar la vista inicial
     public function index()
     {
-        return view('r_clientes'); // Asegúrate de que la vista existe en resources/views
+        return view('r_clientes'); // Asegúrate de que la vista tenga este nombre
     }
-
-    // Método para manejar el filtrado
-    public function filtrar(Request $request)
+    public function generarPDF()
     {
-        $fechaInicio = $request->input('fecha_inicio');
-        $fechaFin = $request->input('fecha_fin');
+        // Obtenemos los contactos desde la base de datos
+        $contactos = Contacto::all();
 
-        // Lógica de filtrado (reemplaza con la consulta a tu base de datos)
-        $resultados = []; // Consulta filtrada, por ejemplo, con Eloquent o Query Builder
+        // Cargamos la vista para generar el PDF
+        $pdf = PDF::loadView('listas_clientes', compact('contactos'));
 
-        // Retorna la vista con los resultados filtrados
-        return view('r_clientes', compact('resultados', 'fechaInicio', 'fechaFin'));
+        // Retornamos la vista previa del PDF en el navegador
+        return $pdf->stream('lista_clientes.pdf');
     }
 }

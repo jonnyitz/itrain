@@ -39,9 +39,9 @@
     <h2 class="text-center mb-4">Reporte de Clientes</h2>
     <div class="row">
         <div class="col-md-6 text-center">
-            <a class="btn btn-primary btn-block btn-custom">
-                <i class="fas fa-file-pdf"></i> Lista de Clientes PDF
-            </a>
+        <a href="{{ route('clientes.pdf') }}" target="_blank" class="btn btn-primary btn-block btn-custom">
+            <i class="fas fa-file-pdf"></i> Lista de Clientes PDF
+        </a>
         </div>
         <div class="col-md-6 text-center">
             <a class="btn btn-secondary btn-block btn-custom">
