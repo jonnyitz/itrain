@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contactos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 <body>
 <div class="container mt-5">
@@ -96,7 +98,7 @@
                                     <label>Observación</label>
                                     <textarea name="observacion" id="editarObservacion{{ $contacto->id }}" class="form-control"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                            <button class="btnGuardarCambios btn btn-success" data-id="{{ $contacto->id }}">Guardar cambios</button>
                             </form>
                         </div>
                     </div>
@@ -151,38 +153,78 @@
     </div>
 </div>
 
+
+
+<!-- Script para cargar datos en el modal de edición -->
 <!-- jQuery y Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <!-- Script para cargar datos en el modal de edición -->
 <script>
-    function cargarDatosEditar(id, nombre, apellidos, curpRfc, telefono, direccion, observacion) {
-        $('#editarNombre' + id).val(nombre);
-        $('#editarApellidos' + id).val(apellidos);
-        $('#editarCurpRfc' + id).val(curpRfc);
-        $('#editarTelefono' + id).val(telefono);
-        $('#editarDireccion' + id).val(direccion);
-        $('#editarObservacion' + id).val(observacion);
-        $('#formEditarCliente' + id).attr('action', '/contactos/' + id);
-    }
-</script>
-<script>
-    document.getElementById('buscarContacto').addEventListener('input', function () {
-        const filtro = this.value.toLowerCase();
-        const filas = document.querySelectorAll('#tablaContactos tr');
+    var $j = jQuery.noConflict();
 
-        filas.forEach(fila => {
-            const textoFila = fila.textContent.toLowerCase();
-            if (textoFila.includes(filtro)) {
-                fila.style.display = '';
-            } else {
-                fila.style.display = 'none';
+    $j(document).ready(function () {
+        // Definición de la función cargarDatosEditar
+        window.cargarDatosEditar = function(id, nombre, apellidos, curpRfc, telefono, direccion, observacion) {
+            $j('#editarNombre' + id).val(nombre);
+            $j('#editarApellidos' + id).val(apellidos);
+            $j('#editarCurpRfc' + id).val(curpRfc);
+            $j('#editarTelefono' + id).val(telefono);
+            $j('#editarDireccion' + id).val(direccion);
+            $j('#editarObservacion' + id).val(observacion);
+        };
+
+        // Manejo de la acción del botón de guardar cambios con AJAX
+        $j('.btnGuardarCambios').click(function(e) {
+            e.preventDefault();
+
+            var id = $j(this).data('id');
+            var formData = {
+                'nombre': $j('#editarNombre' + id).val(),
+                'apellidos': $j('#editarApellidos' + id).val(),
+                'curp_rfc': $j('#editarCurpRfc' + id).val(),
+                'telefono': $j('#editarTelefono' + id).val(),
+                'direccion': $j('#editarDireccion' + id).val(),
+                'observacion': $j('#editarObservacion' + id).val(),
+                '_token': $j('meta[name="csrf-token"]').attr('content')
+            };
+
+            // Validación de datos antes de enviar
+            if (!formData.nombre || !formData.apellidos || !formData.curp_rfc || !formData.telefono || !formData.direccion) {
+                return; // No hacemos nada si falta un campo
             }
+
+            $j.ajax({
+                url: '{{ route('contactos.update', '') }}/' + id,
+                type: 'PUT',
+                data: formData,
+                success: function(response) {
+                    if(response.success) {
+                        // Actualización de la tabla con nuevos valores
+                        $j('#nombre' + id).text(formData.nombre + ' ' + formData.apellidos);
+                        $j('#curpRfc' + id).text(formData.curp_rfc);
+                        $j('#telefono' + id).text(formData.telefono);
+                        $j('#direccion' + id).text(formData.direccion);
+                        $j('#observacion' + id).text(formData.observacion);
+                        
+                        // Cerrar modal
+                        $j('#editarClienteModal' + id).modal('hide');
+                    }
+                    // Recargar la página después de éxito o error
+                    location.reload(); // Recarga la página en ambos casos
+                },
+                error: function() {
+                    // Recargar la página en caso de error
+                    location.reload(); // Recarga la página en caso de error
+                }
+            });
         });
     });
 </script>
+
+
 
 </body>
 </html>

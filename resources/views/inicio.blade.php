@@ -225,7 +225,7 @@
 </div>
 
 <!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -234,17 +234,20 @@
         var $jq = jQuery.noConflict(true);
     </script>
 <script>
-    $(document).ready(function () {
-        
+    var $j = jQuery.noConflict(); // Activar noConflict para evitar problemas con otras librerías
+
+    $j(document).ready(function () {
+        console.log("Usando noConflict para evitar problemas.");
+
         // Manejo de clic en enlaces de pestañas
-        $('.tab-link').click(function (e) {
+        $j('.tab-link').click(function (e) {
             e.preventDefault();
 
-            const title = $(this).data('title');
-            const url = $(this).data('url');
+            const title = $j(this).data('title');
+            const url = $j(this).data('url');
 
             // Verificar si la pestaña ya existe
-            let existingTab = $(`#tabs-container .tab[data-url="${url}"]`);
+            let existingTab = $j(`#tabs-container .tab[data-url="${url}"]`);
             if (existingTab.length > 0) {
                 // Activar la pestaña existente
                 activateTab(url);
@@ -252,32 +255,32 @@
             }
 
             // Crear y agregar nueva pestaña
-            const newTab = $(`
+            const newTab = $j(`
                 <div class="tab active" data-url="${url}">
                     ${title} <span class="close" title="Cerrar">&times;</span>
                 </div>
             `);
-            $('#tabs-container .tab').removeClass('active'); // Desactivar otras pestañas
-            $('#tabs-container').append(newTab);
+            $j('#tabs-container .tab').removeClass('active'); // Desactivar otras pestañas
+            $j('#tabs-container').append(newTab);
 
             // Activar la nueva pestaña y cargar su contenido
             activateTab(url);
         });
 
         // Manejo de cierre de pestañas
-        $(document).on('click', '.close', function () {
-            const tab = $(this).parent('.tab');
+        $j(document).on('click', '.close', function () {
+            const tab = $j(this).parent('.tab');
             const url = tab.data('url');
 
             // Eliminar la pestaña
             tab.remove();
 
             // Si no hay más pestañas, mostrar el mensaje predeterminado
-            if ($('#tabs-container').children().length === 0) {
-                $('#tab-content').html('<p>Selecciona una pestaña para ver su contenido aquí.</p>');
+            if ($j('#tabs-container').children().length === 0) {
+                $j('#tab-content').html('<p>Selecciona una pestaña para ver su contenido aquí.</p>');
             } else {
                 // Activar la última pestaña abierta
-                const lastTabUrl = $('#tabs-container .tab').last().data('url');
+                const lastTabUrl = $j('#tabs-container .tab').last().data('url');
                 activateTab(lastTabUrl);
             }
         });
@@ -285,16 +288,16 @@
         // Función para activar una pestaña y cargar su contenido usando Fetch
         function activateTab(url) {
             // Quitar la clase activa de todas las pestañas
-            $('#tabs-container .tab').removeClass('active');
+            $j('#tabs-container .tab').removeClass('active');
 
             // Marcar la pestaña actual como activa
-            const currentTab = $(`#tabs-container .tab[data-url="${url}"]`);
+            const currentTab = $j(`#tabs-container .tab[data-url="${url}"]`);
             if (currentTab.length > 0) {
                 currentTab.addClass('active');
             }
 
             // Limpiar el contenido anterior
-            const tabContent = $('#tab-content');
+            const tabContent = $j('#tab-content');
             tabContent.empty();
 
             // Cargar nuevo contenido usando Fetch
@@ -313,6 +316,7 @@
                 });
         }
     });
+    
 </script>
 
 </body>

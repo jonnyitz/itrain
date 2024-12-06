@@ -41,21 +41,23 @@ class ContactoController extends Controller
 
     // Actualizar contacto existente
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellidos' => 'required|string|max:255',
-            'curp_rfc' => 'required|string|max:255',
-            'telefono' => 'required|string|max:15',
-            'direccion' => 'required|string|max:255',
-            'observacion' => 'nullable|string',
-        ]);
+{
+    $validated = $request->validate([
+        'nombre' => 'required|string|max:255',
+        'apellidos' => 'required|string|max:255',
+        'curp_rfc' => 'required|string|max:255',
+        'telefono' => 'nullable|string|max:255',
+        'direccion' => 'nullable|string|max:255',
+        'observacion' => 'nullable|string',
+    ]);
 
-        $contacto = Contacto::findOrFail($id);
-        $contacto->update($request->all());
+    // Luego, realizas la actualización del contacto
+    $contacto = Contacto::find($id);
+    $contacto->update($validated);
 
-        return redirect()->route('contactos')->with('success', 'Contacto actualizado exitosamente.');
-    }
+    return response()->json(['message' => 'Contacto actualizado con éxito']);
+}
+
 
 
     

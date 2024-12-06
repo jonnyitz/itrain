@@ -10,7 +10,7 @@
     <!-- jQuery y JavaScript de Bootstrap -->
    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     <div class="container mt-5">
@@ -230,9 +230,11 @@
                                 </div>
                             </div>
                     </div>
+                    <!-- Modal Footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Guardar Venta</button>
+                        <!-- Cambiar de type="submit" a type="button" -->
+                        <button type="button" class="btn btn-primary" id="guardarVentaBtn">Guardar Venta</button>
                     </div>
                     </form>
                 </div>
@@ -429,7 +431,7 @@
             </div>
         </div>
         
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
@@ -480,6 +482,65 @@
         $('#editarEnganche').val(enganche);
         $('#editarCantidadPagos').val(cantidadPagos);
         $('#editarFechaInicio').val(fechaInicio);
+    });
+</script>
+<script>
+    var $j = jQuery.noConflict();
+
+    $j(document).ready(function () {
+        // Manejo del clic en el botón "Guardar Venta"
+        $j('#guardarVentaBtn').click(function(e) {
+            e.preventDefault(); // Prevenir el comportamiento de envío por defecto
+
+            var formData = {
+                'contacto_id': $j('#contacto_id').val(),
+                'fecha_venta': $j('#fecha_venta').val(),
+                'tipo_venta': $j('#tipo_venta').val(),
+                'asesor': $j('#asesor').val(),
+                'numero_contrato': $j('#numero_contrato').val(),
+                'aval': $j('#aval').val(),
+                'lote_id': $j('#lote_id').val(),
+                'manzana_id': $j('#manzana_id').val(),
+                'enganche': $j('#enganche').val(),
+                'cantidad_pagos': $j('#cantidad_pagos').val(),
+                'fecha_inicio': $j('#fecha_inicio').val(),
+                'precio_venta_final': $j('#precio_venta_final').val(),
+                'descripcion': $j('#descripcion').val(),
+                'observacion': $j('#observacion').val(),
+                'metodo_pago': $j('#metodo_pago').val(),
+                'comprobante': $j('#comprobante').val(),
+                'numero_comprobante': $j('#numero_comprobante').val(),
+                'forma_pago': $j('#forma_pago').val(),
+                'banco_caja_interna': $j('#banco_caja_interna').val(),
+                'codigo_operacion': $j('#codigo_operacion').val(),
+                'monto_primer_pago': $j('#monto_primer_pago').val(),
+                'fecha_hora_pago': $j('#fecha_hora_pago').val(),
+                'modalidad_enganche': $j('#modalidad_enganche').val(),
+                'fecha_finalizacion': $j('#fecha_finalizacion').val(),
+                'observacion_finalizacion': $j('#observacion_finalizacion').val(),
+                '_token': $j('meta[name="csrf-token"]').attr('content')
+            };
+
+            // Validación de los campos antes de enviar el formulario
+            if (!formData.contacto_id || !formData.fecha_venta || !formData.tipo_venta || !formData.asesor || !formData.numero_contrato) {
+                return; // Salir si faltan campos obligatorios
+            }
+
+            // Enviar la solicitud AJAX
+            $j.ajax({
+                url: '{{ route('ventas.store') }}',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Recargar la página después de la operación
+                    location.reload(); // Recarga la página al guardar la venta con éxito
+                },
+                error: function() {
+                    // Recargar la página si ocurre un error
+                    location.reload(); // Recarga la página si hay error
+                }
+            });
+        });
     });
 </script>
 

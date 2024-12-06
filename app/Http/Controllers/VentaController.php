@@ -177,7 +177,7 @@ class VentaController extends Controller
         $venta = Venta::findOrFail($id);
         $venta->delete();
 
-        return redirect()->route('ventas')->with('success', 'Venta eliminada exitosamente');
+        return redirect()->route('inicio')->with('success', 'Venta eliminada exitosamente');
     }
     public function generarPagare($venta_id)
 {
