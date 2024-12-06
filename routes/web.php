@@ -109,12 +109,19 @@ Route::post('/gastos-generales', [GastosGeneralesController::class, 'store'])->n
 Route::get('/recibos', [RecibosController::class, 'index'])->name('recibos');
 Route::post('/recibos', [RecibosController::class, 'store'])->name('recibos.store');
 
-// Ruta principal de la vista
+//REPORTES
+//Reportes Ventas
 Route::get('/r-ventas', [ReporteVentasController::class, 'index'])->name('r.ventas');
+Route::get('/reporte-ventas/pdf', [ReporteVentasController::class, 'generarPDF'])->name('generar_pdf');
+Route::get('/detalle-venta/pdf', [ReporteVentasController::class, 'detalleVentaPDF'])->name('detalle_venta');
+
+//Reportes Vendedor
+
 Route::get('/r-financieros', [ReporteFinancieroController::class, 'index'])->name('r.financieros');
 Route::get('/r-financieros/filtrar', [ReporteFinancieroController::class, 'filtrar'])->name('r.financieros.filtrar');
 Route::get('/r-lotes', [ReporteLotesController::class, 'index'])->name('r.lotes');
 Route::get('/r-clientes', [ReporteClientesController::class, 'index'])->name('r.clientes');
+Route::get('/r-clientes/pdf', [ReporteClientesController::class, 'generarPDF'])->name('clientes.pdf');
 
 Route::resource('proyecto-ajustes', ProyectoAjustesController::class);
 
