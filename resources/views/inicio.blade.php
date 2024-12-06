@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
+   
     <!-- Bootstrap CSS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Cargar CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   
     <style>
         body {
             background-color: #f8f9fa;
@@ -70,7 +70,7 @@
 </head>
 <body>
 <div class="sidebar">
-    <h3 class="text-center">Menú</h3>
+    <h3 class="text-center text-white">Menú</h3>
     <ul class="nav flex-column">
         <li class="nav-item">
             <a class="nav-link active" href="#" data-title="Inicio" data-content="Bienvenido a la Vista de Inicio">Inicio</a>
@@ -82,7 +82,7 @@
             <div class="collapse" id="seguridadMenu">
                 <ul class="nav flex-column ml-3">
                     <li class="nav-item">
-                        
+                    <a class="nav-link tab-link" href="#" data-title="Grupos" data-url="{{ route('grupos') }}">Grupos</a>
                     </li>
                 </ul>
             </div>
@@ -104,6 +104,7 @@
                 </ul>
             </div>
         </li>
+        
         <!-- Logística Section -->
         <li class="nav-item">
             <a class="nav-link" href="#logisticaMenu" data-toggle="collapse" aria-expanded="false">Logística</a>
@@ -111,13 +112,13 @@
                 <ul class="nav flex-column ml-3">
                     <li class="nav-item">
                         <a class="nav-link tab-link" href="#" data-title="Manzanas" data-url="{{ route('manzanas') }}">Manzanas</a>
-                        <a class="nav-link tab-link" href="#" data-title="lotes" data-url="{{ route('lotes') }}">Lotes</a>
+                        <a class="nav-link tab-link" href="#" data-title="Lotes" data-url="{{ route('lotes') }}">Lotes</a>
                     </li>
                 </ul>
             </div>
         </li>
 
-        
+
 
         <!-- Tesorería Section -->
         <li class="nav-item">
@@ -125,11 +126,11 @@
             <div class="collapse" id="tesoreriaMenu">
                 <ul class="nav flex-column ml-3">
                     <li class="nav-item">
-                    <a class="nav-link tab-link" href="#" data-title="Conceptos" data-url="{{ route('conceptos') }}">Conceptos</a>
-                    <a class="nav-link tab-link" href="#" data-title="Gtos Proyecto" data-url="{{ route('gastos_proyecto.index') }}">Gtos Proyecto</a>
-                    <a class="nav-link tab-link" href="#" data-title="Gtos Generales" data-url="{{ route('gastos_generales.index') }}">Gtos Generales</a>   
-                    <a class="nav-link tab-link" href="#" data-title="recibos" data-url="{{ route('recibos') }}">Recibos</a>     
-                </li>
+                        <a class="nav-link tab-link" href="#" data-title="Conceptos" data-url="{{ route('conceptos') }}">Conceptos</a>
+                        <a class="nav-link tab-link" href="#" data-title="Gtos Proyecto" data-url="{{ route('gastos_proyecto.index') }}">Gtos Proyecto</a>
+                        <a class="nav-link tab-link" href="#" data-title="Gtos Generales" data-url="{{ route('gastos_generales.index') }}">Gtos Generales</a>   
+                        <a class="nav-link tab-link" href="#" data-title="Recibos" data-url="{{ route('recibos') }}">Recibos</a>     
+                    </li>
                 </ul>
             </div>
         </li>
@@ -140,11 +141,11 @@
             <div class="collapse" id="Reportes">
                 <ul class="nav flex-column ml-3">
                     <li class="nav-item">
-                    <a class="nav-link tab-link" href="#" data-title="Reportes Ventas" data-url="{{ route('r.ventas') }}">Reportes Ventas</a>
-                    <a class="nav-link tab-link" href="#" data-title="Reportes Financiero" data-url="{{ route('r.financieros') }}">Reportes Finacieros</a>
-                    <a class="nav-link tab-link" href="#" data-title="Reportes Lotes" data-url="{{ route('r.lotes') }}">Reportes Lotes</a>
-                    <a class="nav-link tab-link" href="#" data-title="Reportes Clientes" data-url="{{ route('r.clientes') }}">Reportes Clientes</a>  
-                </li>
+                        <a class="nav-link tab-link" href="#" data-title="Reportes Ventas" data-url="{{ route('r.ventas') }}">Reportes Ventas</a>
+                        <a class="nav-link tab-link" href="#" data-title="Reportes Financieros" data-url="{{ route('r.financieros') }}">Reportes Financieros</a>
+                        <a class="nav-link tab-link" href="#" data-title="Reportes Lotes" data-url="{{ route('r.lotes') }}">Reportes Lotes</a>
+                        <a class="nav-link tab-link" href="#" data-title="Reportes Clientes" data-url="{{ route('r.clientes') }}">Reportes Clientes</a>  
+                    </li>
                 </ul>
             </div>
         </li>
@@ -157,12 +158,7 @@
                 <a class="nav-link" href="#proyectosMenu" data-toggle="collapse" aria-expanded="false">Ajustes</a>
                 <div class="collapse" id="proyectosMenu">
                     <ul class="nav flex-column ml-3">
-                        <!--<li class="nav-item"
-                            <a class="nav-link" href="#addProjectModal" data-toggle="modal">
-                                <i class="fas fa-plus"></i> Agregar Nuevo Proyecto
-                            </a>>-->
-                            <a class="nav-link tab-link" href="#" data-title="proyecto-ajustes" data-url="{{ route('proyecto-ajustes.index') }}">Proyectos</a>     
-                        </li>
+                        <a class="nav-link tab-link" href="#" data-title="Proyectos" data-url="{{ route('proyecto-ajustes.index') }}">Proyectos</a>     
                     </ul>
                 </div>
             </li>
@@ -178,66 +174,66 @@
     </div>
 </div>
 
-    <div class="content">
-        <h1>Bienvenido a la Vista de Inicio</h1>
-        <div id="tabs-container"></div>
-        <div class="tab-content" id="tab-content">
-            <!-- Contenido inicial -->
-            <p>Selecciona una pestaña para ver su contenido aquí.</p>
-        </div>
+<div class="content">
+    <h1>Bienvenido a la Vista de Inicio</h1>
+    <div id="tabs-container"></div>
+    <div class="tab-content" id="tab-content">
+        <p>Selecciona una pestaña para ver su contenido aquí.</p>
+    </div>
 
-        <!-- Modal para agregar un nuevo proyecto -->
-        <div class="modal fade" id="addProjectModal" tabindex="-1" role="dialog" aria-labelledby="addProjectModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addProjectModalLabel">Agregar Nuevo Proyecto</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ route('proyectos.store') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group">
-                                <label for="nombre">Nombre del Proyecto</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="ubicacion">Ubicación</label>
-                                <input type="text" class="form-control" id="ubicacion" name="ubicacion" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="moneda">Moneda</label>
-                                <input type="text" class="form-control" id="moneda" name="moneda" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="total_lotes">Total de Lotes</label>
-                                <input type="number" class="form-control" id="total_lotes" name="total_lotes" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="lotes_disponibles">Lotes Disponibles</label>
-                                <input type="number" class="form-control" id="lotes_disponibles" name="lotes_disponibles" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="estado">Estado</label>
-                                <select class="form-control" id="estado" name="estado" required>
-                                    <option value="activo">EN VENTA</option>
-                                    <option value="inactivo">VENDIDO</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="imagen">Imagen del Proyecto</label>
-                                <input type="file" class="form-control-file" id="imagen" name="imagen" accept="image/*">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Agregar Proyecto</button>
-                        </form>
-                    </div>
+    <!-- Modal para agregar un nuevo proyecto -->
+    <div class="modal fade" id="addProjectModal" tabindex="-1" role="dialog" aria-labelledby="addProjectModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProjectModalLabel">Agregar Nuevo Proyecto</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('proyectos.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <label for="nombre">Nombre del Proyecto</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcion">Descripción</label>
+                            <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="imagen">Imagen</label>
+                            <input type="file" class="form-control-file" id="imagen" name="imagen">
+                        </div>
+                        <div class="form-group">
+                            <label for="ubicacion">Ubicación</label>
+                            <input type="text" class="form-control" id="ubicacion" name="ubicacion" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cliente_id">Cliente</label>
+                            <select class="form-control" id="cliente_id" name="cliente_id" required>
+                                <!-- Opciones de clientes aquí -->
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <script>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+        // Usar noConflict para evitar conflictos con otras bibliotecas
+        var $jq = jQuery.noConflict(true);
+    </script>
+<script>
     $(document).ready(function () {
         
         // Manejo de clic en enlaces de pestañas

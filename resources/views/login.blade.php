@@ -96,6 +96,10 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                            <label class="form-check-label" for="remember">Recuérdame</label>
+                        </div>
                         <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
                     </form>
                 </div>

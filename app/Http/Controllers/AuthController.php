@@ -38,7 +38,11 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
+        // Intentar autenticar al usuario con la funcionalidad "Recuérdame"
+        if (Auth::attempt(
+            ['email' => $request->email, 'password' => $request->password],
+            $request->has('remember') // Verificar si el usuario marcó "Recuérdame"
+        )) {
             return redirect()->route('proyectos')->with('success', 'Inicio de sesión exitoso');
         }
 

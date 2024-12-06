@@ -118,7 +118,7 @@ class VentaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'contacto_id' => 'required|exists:contactos,id',
+            'contacto_id' => 'exists:contactos,id',
             'lote_id' => 'required|exists:lotes,id',
             'manzana_id' => 'required|exists:manzanas,id',
             'fecha_venta' => 'required|date',
