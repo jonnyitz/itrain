@@ -29,7 +29,7 @@
     </div>
 
     <!-- Tabla de lotes -->
-    <table class="table table-striped table-bordered">
+    <table class="table table-bordered table-striped">
             <tr>
                 <th>#</th> 
                 <th>Descripción</th>
@@ -64,7 +64,7 @@
                 </tr>
             @endforeach
         </tbody>
-    </table>
+    </>
 </div>
 
 <!-- Modal para agregar un nuevo lote -->

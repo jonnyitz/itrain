@@ -83,7 +83,8 @@
                 <ul class="nav flex-column ml-3">
                     <li class="nav-item">
                     <a class="nav-link tab-link" href="#" data-title="Grupos" data-url="{{ route('grupos') }}">Grupos</a>
-                    </li>
+                    <a class="nav-link tab-link" href="#" data-title="Accesos" data-url="{{ route('accesos') }}">Accesos</a>   
+                </li>
                 </ul>
             </div>
         </li>

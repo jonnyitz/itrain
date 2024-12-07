@@ -22,6 +22,7 @@ use App\Http\Controllers\ReporteFinancieroController;
 use App\Http\Controllers\ReporteLotesController;
 use App\Http\Controllers\ReporteClientesController;
 use App\Http\Controllers\GrupoController;
+use App\Http\Controllers\AccesosController;
 
 
 
@@ -139,3 +140,5 @@ Route::delete('/lotes/{id}', [LotesController::class, 'destroy'])->name('lotes.d
 Route::get('/grupos', [GrupoController::class, 'index'])->name('grupos');
 Route::post('/grupos', [GrupoController::class, 'store'])->name('grupos.store');
 Route::get('/grupos/export', [GrupoController::class, 'export']);
+
+Route::get('/accesos', [AccesosController::class, 'index'])->name('accesos');

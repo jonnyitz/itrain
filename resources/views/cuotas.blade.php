@@ -21,7 +21,7 @@
     </div>
     <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addCuotaModal">Nuevo</button>
     
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>#</th>

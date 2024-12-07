@@ -22,7 +22,7 @@
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoGrupoModal">Nuevo</button>
             </div>
         </div>
-        <table class="table table-striped">
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>#</th>
@@ -44,7 +44,7 @@
                     </tr>
                 <?php endforeach; ?>
             </tbody>
-        </table>
+        </>
     </div>
 
     <!-- Modal para nuevo grupo -->

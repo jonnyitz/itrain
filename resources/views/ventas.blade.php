@@ -245,7 +245,7 @@
 
         <!-- Tabla de ventas -->
         <h3 class="mt-5">Ventas Registradas</h3>
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>Contacto</th>
@@ -306,7 +306,7 @@
                     </tr>
                 @endforeach
             </tbody>
-        </table>
+        </t>
     </div>
   <!-- Modal para editar venta -->
   <div class="modal fade" id="editarVentaModal" tabindex="-1" aria-labelledby="editarVentaModalLabel" aria-hidden="true">

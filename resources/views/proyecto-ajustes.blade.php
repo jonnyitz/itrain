@@ -19,8 +19,7 @@
         </div>
 
         <!-- Tabla de proyectos -->
-        <table class="table table-striped table-bordered">
-            
+        <table class="table table-bordered table-striped">       
                 <tr>
                     <th>#</th>
                     <th>Nombre</th>

@@ -19,7 +19,7 @@
     <button class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#nuevoGastoModal">Nuevo</button>
 
     <!-- Tabla de gastos -->
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>#</th>
