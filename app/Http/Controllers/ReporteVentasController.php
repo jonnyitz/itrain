@@ -58,7 +58,7 @@ class ReporteVentasController extends Controller
         // Devolver el PDF generado
         return $pdf->stream('reporte_ventas.pdf');
     }
-    
+
     public function detalleVentaPDF()
     {
         // Obtener los datos necesarios agrupados por cliente
@@ -66,12 +66,38 @@ class ReporteVentasController extends Controller
             ->groupBy('contacto_id', 'manzana_id') // Agrupar por cliente y manzana
             ->with(['contacto', 'manzana']) // Relacionar con contacto y manzana
             ->get();
-    
+
         // Generar el PDF con los datos obtenidos
         $pdf = PDF::loadView('detalle_venta', compact('ventas'));
-    
+
         // Mostrar el PDF en el navegador
         return $pdf->stream('detalle_venta.pdf');
     }
-    
+    public function ventasPorVendedor(Request $request)
+    {
+        // Obtener datos de la base de datos
+        $ventas = Venta::with(['manzana', 'lote', 'contacto'])
+            ->when($request->vendedor, function ($query, $vendedor) {
+                if ($vendedor !== 'todos') {
+                    $query->where('vendedor', $vendedor);
+                }
+            })
+            ->get();
+
+        // Calcular el total de las ventas
+        $totalVentas = $ventas->sum('precio_venta_final');
+
+        // Pasar los datos a la vista del PDF
+        $data = [
+            'ventas' => $ventas,
+            'totalVentas' => $totalVentas,
+            'vendedorSeleccionado' => $request->vendedor ?? 'Todos los Agentes de Ventas',
+            'fechaInicio' => $request->fecha_inicio ?? '01/12/2024',
+            'fechaFin' => $request->fecha_fin ?? '31/12/2024',
+        ];
+
+        $pdf = PDF::loadView('reporte_ventas_por_vendedor', $data);
+
+        return $pdf->stream('ventas_por_vendedor.pdf'); // Mostrar el PDF
+    }
 }
