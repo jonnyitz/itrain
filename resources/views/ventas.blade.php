@@ -167,7 +167,7 @@
                                             <option value="efectivo">Efectivo</option>
                                             <option value="transferencia">Transferencia</option>
                                         </select>
-                                    </div>
+                                    </div>  
                                     <div class="form-group">
                                         <label for="comprobante">Comprobante:</label>
                                         <input type="text" name="comprobante" id="comprobante" class="form-control" required maxlength="255">
@@ -209,13 +209,23 @@
                                     <label for="modalidad_enganche">Modalidad de Enganche:</label>
                                     <select name="modalidad_enganche" id="modalidad_enganche" class="form-control" required>
                                         <option value="">Seleccione Modalidad</option>
-                                        <option value="1">Modalidad 1</option>
-                                        <option value="2">Modalidad 2</option>
+                                        <option value="1">Contado</option>
+                                        <option value="2">Crédito</option>
                                         <!-- Add other options here -->
                                     </select>
                                 </div>
-                                </div>
-                               
+
+                            <!-- Campo para seleccionar meses -->
+                            <div class="form-group" id="meses_container" style="display: none;">
+                                <label for="mes_id">¿A cuántos meses lo requiere?</label>
+                                <select name="mes_id" id="mes_id" class="form-control" required>
+                                    <option value="" selected disabled>Seleccione una manzana</option>
+                                    @foreach ($meses as $mes)
+                                    <option value="{{ $mes->id }}">{{ $mes->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            </div>    
 
                                 <!-- Formulario Finalización -->
                                 <div class="tab-pane fade" id="finalizacion" role="tabpanel" aria-labelledby="finalizacion-tab">
@@ -501,6 +511,7 @@
                 'aval': $j('#aval').val(),
                 'lote_id': $j('#lote_id').val(),
                 'manzana_id': $j('#manzana_id').val(),
+                'mes_id': $j('#mes_id').val(),
                 'enganche': $j('#enganche').val(),
                 'cantidad_pagos': $j('#cantidad_pagos').val(),
                 'fecha_inicio': $j('#fecha_inicio').val(),
@@ -543,6 +554,21 @@
         });
     });
 </script>
+
+<script>
+    // Mostrar/ocultar el campo de meses basado en la modalidad seleccionada
+    const modalidadEnganche = document.getElementById('modalidad_enganche');
+    const mesesContainer = document.getElementById('meses_container');
+
+    modalidadEnganche.addEventListener('change', function () {
+        if (this.value === "2") { // Si selecciona "CREDITO"
+            mesesContainer.style.display = 'block';
+        } else {
+            mesesContainer.style.display = 'none';
+        }
+    });
+</script>
+
 
 </body>
 </html>

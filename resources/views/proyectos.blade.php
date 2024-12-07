@@ -7,9 +7,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        body {
-            background-color:  #800080; /* Fondo azul morado */
-        }
+      body {
+            background-image: url('images/fondo1.jpg');
+            background-size: cover; /* Ajusta el tamaño de la imagen */
+            background-position: center; /* Centra la imagen */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            }
+
         .box-container {
             background-color: white; /* Fondo blanco */
             padding: 20px;
@@ -21,7 +25,7 @@
         .top-left-image {
             position: absolute;
             top: 90px;
-            left: 480px;
+            left: 380px;
             width: 150px; /* Ancho de la imagen */
         }
         .project-container {

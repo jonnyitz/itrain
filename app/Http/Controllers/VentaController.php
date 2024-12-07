@@ -8,6 +8,7 @@ use App\Models\Contacto;
 use App\Models\Lote;
 use Illuminate\Http\Request;
 use App\Models\Manzana;
+use App\Models\Mes;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Support\Carbon;
@@ -20,8 +21,9 @@ class VentaController extends Controller
         $contactos = Contacto::all(); // Obtener todos los contactos
         $lotes = Lote::all(); // Obtener todos los lotes
         $manzanas= Manzana::all();
+        $meses= Mes::all();
 
-        return view('ventas', compact('manzanas','contactos', 'lotes'));
+        return view('ventas', compact('manzanas','contactos', 'lotes', 'meses'));
     }
 
     // Almacenar una nueva venta en la base de datos
@@ -31,6 +33,7 @@ class VentaController extends Controller
             'contacto_id' => 'required|exists:contactos,id',
             'lote_id' => 'nullable|exists:lotes,id',
             'manzana_id' => 'required|exists:manzanas,id',
+            'mes_id'  => 'nullable|exists:meses,id',
             'fecha_venta' => 'required|date',
             'tipo_venta' => 'required|string',
             'asesor' => 'required|string',
@@ -57,6 +60,7 @@ class VentaController extends Controller
             'contacto_id' => $request->contacto_id,
             'lote_id' => $request->lote_id,
             'manzana_id' => $request->manzana_id,
+            'mes_id' => $request->mes_id,
             'fecha_venta' => $request->fecha_venta,
             'tipo_venta' => $request->tipo_venta,
             'asesor' => $request->asesor,
@@ -89,10 +93,10 @@ class VentaController extends Controller
         $contactos = Contacto::all(); // Obtener todos los contactos
         $lotes = Lote::all(); // Obtener todos los lotes
         $manzanas= Manzana::all();
+        $meses= Mes::all();
 
 
-
-        return view('ventas', compact('manzanas','contactos','ventas', 'lotes' ));
+        return view('ventas', compact('manzanas','contactos','ventas', 'lotes', 'meses' ));
     }
 
     // Mostrar detalles de una venta específica
@@ -110,8 +114,9 @@ class VentaController extends Controller
         $contactos = Contacto::all();
         $lotes = Lote::all();
         $manzanas= Manzana::all();
+        $meses= Mes::all();
 
-        return view('ventas.edit', compact('manzanas','venta', 'contactos', 'lotes'));
+        return view('ventas.edit', compact('manzanas','venta', 'contactos', 'lotes', 'meses'));
     }
 
     // Actualizar una venta en la base de datos
@@ -121,6 +126,7 @@ class VentaController extends Controller
             'contacto_id' => 'exists:contactos,id',
             'lote_id' => 'required|exists:lotes,id',
             'manzana_id' => 'required|exists:manzanas,id',
+            'mes_id'  => 'required|exists:meses,id',
             'fecha_venta' => 'required|date',
             'tipo_venta' => 'required|string',
             'asesor' => 'required|string',
@@ -147,6 +153,7 @@ class VentaController extends Controller
             'contacto_id' => $request->contacto_id,
             'lote_id' => $request->lote_id,
             'manzana_id' => $request->manzanas_id,
+            'mes_id' => $request->mes_id,
             'fecha_venta' => $request->fecha_venta,
             'tipo_venta' => $request->tipo_venta,
             'asesor' => $request->asesor,
@@ -209,5 +216,12 @@ class VentaController extends Controller
     // Enviar el PDF al navegador
     return $dompdf->stream('pagare_' . $venta->numero_contrato . '.pdf');
 }
-    
+    public function guardar(Request $request)
+    {
+        // Validar los datos
+        $request->validate([
+            'meses' => 'nullable|integer|min:1', // Meses es opcional y solo aplica para crédito
+        ]);
+        
+    }
 }

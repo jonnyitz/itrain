@@ -14,6 +14,7 @@ class Venta extends Model
         'contacto_id',
         'lote_id',
         'manzana_id',
+        'mes_id',
         'fecha_venta',
         'tipo_venta',
         'asesor',
@@ -56,6 +57,12 @@ class Venta extends Model
     {
         return $this->belongsTo(Manzana::class);
     }
+
+    public function mes()
+    {
+        return $this->belongsTo(Mes::class);
+    }
+
 
     
 }
