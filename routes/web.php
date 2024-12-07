@@ -118,6 +118,7 @@ Route::get('/reporte-ventas/pdf', [ReporteVentasController::class, 'generarPDF']
 Route::get('/detalle-venta/pdf', [ReporteVentasController::class, 'detalleVentaPDF'])->name('detalle_venta');
 
 //Reportes Vendedor
+Route::get('/ventas-por-vendedor', [ReporteVentasController::class, 'ventasPorVendedor'])->name('ventas_por_vendedor');
 
 Route::get('/r-financieros', [ReporteFinancieroController::class, 'index'])->name('r.financieros');
 Route::get('/r-financieros/filtrar', [ReporteFinancieroController::class, 'filtrar'])->name('r.financieros.filtrar');

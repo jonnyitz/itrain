@@ -15,18 +15,36 @@
         .container {
             margin-top: 50px;
         }
+        .filter-section {
+            margin-bottom: 30px;
+        }
+        .filter-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
         .btn-custom {
             padding: 15px;
             font-size: 16px;
             border-radius: 8px;
+            width: 100%;
         }
-        .btn-primary {
-            background-color: #007bff;
+        .btn-outline-primary {
             border-color: #007bff;
+            color: #007bff;
+            background-color: transparent;
         }
-        .btn-secondary {
-            background-color: #6c757d;
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-outline-secondary {
             border-color: #6c757d;
+            color: #6c757d;
+            background-color: transparent;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
         }
         .row {
             margin-bottom: 20px; /* Espaciado entre filas */
@@ -36,39 +54,54 @@
 <body>
 
 <div class="container">
-    <h2 class="text-center mb-4">Reporte de Ventas</h2>
+    <h2 class="text-center mb-4">Reporte de Lotes</h2>
+
+    <!-- Filtro por tipo de lote -->
+    <div class="filter-section">
+        <div class="form-row">
+            <div class="col">
+                <label for="tipo_lote">Filtrar por Tipo de Lote:</label>
+                <select id="tipo_lote" name="tipo_lote" class="form-control">
+                    <option value="todos">Todos</option>
+                    <!-- Agregar opciones de tipo de lote aquí -->
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones de reporte -->
     <div class="row">
         <div class="col-md-6 text-center">
-            <a class="btn btn-primary btn-block btn-custom">
+            <a class="btn btn-outline-primary btn-block btn-custom">
                 <i class="fas fa-file-pdf"></i> Total de Lotes
             </a>
         </div>
         <div class="col-md-6 text-center">
-            <a class="btn btn-secondary btn-block btn-custom">
+            <a class="btn btn-outline-secondary btn-block btn-custom">
                 <i class="fas fa-file-pdf"></i> Lotes Disponibles
             </a>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 text-center">
-            <a class="btn btn-primary btn-block btn-custom">
+            <a class="btn btn-outline-primary btn-block btn-custom">
                 <i class="fas fa-file-pdf"></i> Lotes Vendidos
             </a>
         </div>
         <div class="col-md-6 text-center">
-            <a class="btn btn-secondary btn-block btn-custom">
+            <a class="btn btn-outline-secondary btn-block btn-custom">
                 <i class="fas fa-file-pdf"></i> Lotes Reservados
             </a>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 text-center">
-            <a class="btn btn-primary btn-block btn-custom">
+            <a class="btn btn-outline-primary btn-block btn-custom">
                 <i class="fas fa-file-pdf"></i> Total Lotes Detalle
             </a>
         </div>
         <div class="col-md-6 text-center">
-            <a class="btn btn-secondary btn-block btn-custom">
+            <a class="btn btn-outline-secondary btn-block btn-custom">
                 <i class="fas fa-file-pdf"></i> Reporte General Detallado
             </a>
         </div>

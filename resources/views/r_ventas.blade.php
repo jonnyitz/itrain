@@ -29,22 +29,30 @@
             margin-bottom: 10px;
         }
 
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
         .form-control {
             border-radius: 8px;
+        }
+
+        .button-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .card-header {
+            border-bottom: 2px solid #ddd;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 1.5rem 0;
         }
     </style>
 </head>
 
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Reporte Ventas</h1>
-
         <!-- Sección de Filtros Generales -->
         <div class="filter-section mb-4">
             <div class="d-flex justify-content-between align-items-center">
@@ -69,66 +77,131 @@
             </div>
         </div>
 
-        <!-- Reporte de Ventas -->
-        <div class="filter-section mb-4">
-            <h2 class="filter-header">Reporte de Ventas LOS ROBLES</h2>
-            <div class="form-row">
-                <div class="col">
-                    <label for="manzana">Filtrar por Manzana:</label>
-                    <select id="manzana" name="manzana" class="form-control">
-                        <option value="todas">Todas</option>
-                        @foreach ($manzanas as $manzana)
-                        <option value="{{ $manzana->id }}">{{ $manzana->nombre }}</option>
-                        @endforeach
-                    </select>
+        <div class="container mt-4">
+            <!-- Reporte de Ventas -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-light">
+                    <h2 class="mb-0">Reporte de Ventas </h2>
                 </div>
-                <div class="col">
-                    <label for="tipo_venta">Filtrar por Tipo de Venta:</label>
-                    <select id="tipo_venta" name="tipo_venta" class="form-control">
-                        <option value="todas">Todas</option>
-                        @foreach ($tiposDeVenta as $tipo)
-                        <option value="{{ $tipo->tipo_venta }}">{{ $tipo->tipo_venta }}</option>
-                        @endforeach
-                    </select>
+                <div class="card-body">
+                    <!-- Filtros -->
+                    <div class="form-group">
+                        <label for="manzana">Filtrar por Manzana:</label>
+                        <select id="manzana" name="manzana" class="form-control">
+                            <option value="todas">Todas...</option>
+                            @foreach ($manzanas as $manzana)
+                            <option value="{{ $manzana->id }}">{{ $manzana->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo_venta">Filtrar por Tipo de Venta:</label>
+                        <select id="tipo_venta" name="tipo_venta" class="form-control">
+                            <option value="todas">Todos...</option>
+                            @foreach ($tiposDeVenta as $tipo)
+                            <option value="{{ $tipo->tipo_venta }}">{{ $tipo->tipo_venta }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Botones relacionados -->
+                    <div class="button-grid my-3">
+                        <a href="{{ route('generar_pdf') }}" class="btn btn-outline-primary btn-block" target="_blank">
+                            <i class="bi bi-file-earmark-pdf"></i> Reporte de Ventas
+                        </a>
+                        <a href="{{ route('detalle_venta') }}" class="btn btn-outline-info btn-block" target="_blank">
+                            <i class="bi bi-file-earmark-text"></i> Detalle de Ventas
+                        </a>
+                    </div>
+
+
+                    <!-- Separador -->
+                    <hr>
+
+                    <!-- Filtro por Vendedor -->
+                    <div class="form-group">
+                        <label for="filtro_vendedor">Filtrar por Vendedor:</label>
+                        <select id="filtro_vendedor" name="filtro_vendedor" class="form-control">
+                            <option value="todos">Todos los Vendedores...</option>
+                            @foreach ($vendedores as $vendedor)
+                            <option value="{{ $vendedor->vendedor }}">{{ $vendedor->vendedor }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Botones adicionales -->
+                    <div class="button-grid my-3">
+                        <a href="{{ route('ventas_por_vendedor', ['vendedor' => 'todos']) }}" class="btn btn-outline-primary btn-block" target="_blank">
+                            <i class="bi bi-person-lines-fill"></i> Ventas x Vendedor
+                        </a>
+                        <a href="#" class="btn btn-outline-info btn-block">
+                            <i class="bi bi-wallet"></i> Cuotas x Cobrar
+                        </a>
+                    </div>
+
+                    <!-- Separador -->
+                    <hr>
+
+                    <!-- Botones generales -->
+                    <div class="button-grid mt-4">
+                        <button class="btn btn-outline-secondary btn-block">
+                            <i class="bi bi-check-card"></i> Ventas Completadas
+                        </button>
+                        <button class="btn btn-outline-success btn-block">
+                            <i class="bi bi-credit-card"></i> Créditos por Cobrar
+                        </button>
+                        <button class="btn btn-outline-danger btn-block">
+                            <i class="bi bi-x-card"></i> Ventas Anuladas
+                        </button>
+                    </div>
                 </div>
-                <div class="col">
-                    <label for="vendedor">Filtrar por Vendedor:</label>
-                    <select id="vendedor" name="vendedor" class="form-control">
-                        <option value="todos">Todos los Vendedores</option>
-                        @foreach ($vendedores as $vendedor)
-                        <option value="{{ $vendedor->vendedor }}">{{ $vendedor->vendedor }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="button-grid mt-3">
-                <a href="{{ route('generar_pdf') }}" class="btn btn-info" target="_blank">Vista Previa PDF</a>
-                <!-- Botón para Detalle de Venta -->
-                <a href="{{ route('detalle_venta') }}" class="btn btn-primary" target="_blank">Detalle de Venta</a>
             </div>
         </div>
-        <!-- Nuevo Filtro por Vendedor -->
-        <div class="filter-section">
-            <h5>Filtrar por Vendedor</h5>
-            <div class="form-row">
-                <!-- Dropdown de Vendedor -->
-                <div class="col">
-                    <label for="filtro_vendedor">Seleccionar Vendedor:</label>
-                    <select id="filtro_vendedor" name="filtro_vendedor" class="form-control">
-                        <option value="todos">Todos los Vendedores</option>
-                        @foreach ($vendedores as $vendedor)
-                        <option value="{{ $vendedor->vendedor }}">{{ $vendedor->vendedor }}</option>
-                        @endforeach
-                    </select>
+
+        <div class="container mt-5">
+            <!-- Reporte de Ventas por Cliente -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-light">
+                    <h2 class="mb-0">Reporte de Ventas por Cliente </h2>
                 </div>
-            </div>
-            <!-- Botones adicionales -->
-            <div class="button-grid mt-3">
-                <a class="btn btn-primary" target="_blank">Ventas por Vendedor</a>
-                <a class="btn btn-primary" target="_blank">Cuotas por Cobrar</a>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="cliente">Cliente con Venta Exitosa <span class="text-danger">*</span></label>
+                        <input type="text" id="cliente" name="cliente" class="form-control" placeholder="Buscar cliente...">
+                    </div>
+                    <div class="button-grid mt-3">
+                        <button class="btn btn-outline-primary btn-block">
+                            <i class="bi bi-person-check"></i> Ventas x Cliente
+                        </button>
+                        <button class="btn btn-outline-info btn-block">
+                            <i class="bi bi-receipt"></i> Recibos x Cliente
+                        </button>
+                    </div>
+                </div>
             </div>
 
+            <!-- Reporte de Vouchers / Carta Cobranza -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-light">
+                    <h2 class="mb-0">Reporte de Vouchers / Carta Cobranza </h2>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="cliente_credito">Cliente con Venta al Crédito Exitosa <span class="text-danger">*</span></label>
+                        <input type="text" id="cliente_credito" name="cliente_credito" class="form-control" placeholder="Buscar Cliente con Venta al Crédito Exitosa...">
+                    </div>
+                    <div class="button-grid mt-3">
+                        <button class="btn btn-outline-primary btn-block">
+                            <i class="bi bi-cash-stack"></i> Vouchers x Venta
+                        </button>
+                        <button class="btn btn-outline-info btn-block">
+                            <i class="bi bi-envelope"></i> Carta Cobranza
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
+
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
