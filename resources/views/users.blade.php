@@ -38,7 +38,7 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->apellidos }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->grupo->descripcion ?? 'No asignado' }}</td>
+                        <td>{{ $user->role }}</td>
                         <td>{{ $user->empresa->nombre ?? 'No asignado' }}</td>
                         <td>
                             <span class="badge {{ $user->activo ? 'bg-success' : 'bg-danger' }}">
@@ -104,14 +104,10 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="grupo_id" class="form-label">Grupo</label>
-                            <select class="form-select" id="grupo_id" name="grupo_id" required>
-                                <option value="" selected disabled>Selecciona un grupo</option>
-                                @foreach ($grupos as $grupo)
-                                    <option value="{{ $grupo->id }}">{{ $grupo->descripcion }}</option>
-                                @endforeach
-                            </select>
+                            <label for="role" class="form-label">Role</label>
+                            <input type="text" class="form-control" id="role" name="role" required>
                         </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

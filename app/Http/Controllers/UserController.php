@@ -23,21 +23,31 @@ class UserController extends Controller
         return view('users', compact('usuarios', 'empresas', 'grupos'));
     }
     public function store(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'apellidos' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'empresa_id' => 'required|exists:empresas,id',
-        'grupo_id' => 'required|exists:grupos,id',
-        'password' => 'required|string|min:8',
-        
-    ]);
-
-    User::create($request->all());
-
-    return redirect()->route('users')->with('success', 'Usuario creado con éxito');
-}
+    {
+        // Verificar que el valor de 'role' se está enviando
+    
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'role' => 'required|string|max:255',
+            'empresa_id' => 'required|exists:empresas,id',
+            'password' => 'required|string|min:8',
+        ]);
+    
+        // Crear el nuevo usuario
+        User::create([
+            'name' => $request->name,
+            'apellidos' => $request->apellidos,
+            'email' => $request->email,
+            'role' => $request->role,
+            'empresa_id' => $request->empresa_id,
+            'password' => bcrypt($request->password),
+        ]);
+    
+        return redirect()->route('inicio')->with('success', 'Usuario creado con éxito');
+    }
+    
 
 
     public function update(Request $request, $id)
@@ -48,19 +58,26 @@ class UserController extends Controller
             'apellidos' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'empresa_id' => 'required|exists:empresas,id',
-            'grupo_id' => 'required|exists:grupos,id',
             'password' => 'required|string|min:8',
+            'role'=>'required|string|max:255',
              
         ]);
 
         // Buscar el usuario por su ID
         $usuario = User::findOrFail($id);
 
-        // Actualizar los datos del usuario
-        $usuario->update($request->all());
+        // Actualizar los datos del usuario, incluyendo el campo 'role'
+        $usuario->update([
+        'name' => $request->name,
+        'apellidos' => $request->apellidos,
+        'email' => $request->email,
+        'empresa_id' => $request->empresa_id,
+        'role' => $request->role,      // Actualizar el campo 'role'
+        'password' => bcrypt($request->password),  // Asegurarse de que la contraseña esté cifrada
+    ]);
 
         // Redirigir con mensaje de éxito
-        return redirect()->route('users')->with('success', 'Usuario actualizado');
+        return redirect()->route('inicio')->with('success', 'Usuario actualizado');
     }
 
     public function destroy($id)
