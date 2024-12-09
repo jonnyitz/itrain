@@ -81,6 +81,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <div class="modal-body">
                     <form action="{{ route('login.attempt') }}" method="POST">
                         @csrf
                         <div class="form-group">

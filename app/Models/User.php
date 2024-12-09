@@ -20,7 +20,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'apellidos',
         'password',
+        'empresa_id',
+        'grupo_id',
     ];
 
     /**
@@ -31,6 +34,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'activo' => 'boolean',
     ];
 
     /**
@@ -45,4 +52,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    // Relación con la tabla de Empresas
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class, 'empresa_id');
+    }
+
+    // Relación con la tabla de Grupos
+    public function grupo()
+    {
+        return $this->belongsTo(Grupo::class, 'grupo_id');
+    }
+   
 }

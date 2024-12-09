@@ -77,6 +77,7 @@
         </li>
 
         <!-- Seguridad Section -->
+        @if(auth()->user()->role === 'administrador')
         <li class="nav-item">
             <a class="nav-link" href="#seguridadMenu" data-toggle="collapse" aria-expanded="false">Seguridad</a>
             <div class="collapse" id="seguridadMenu">
@@ -84,9 +85,11 @@
                     <li class="nav-item">
                     <a class="nav-link tab-link" href="#" data-title="Grupos" data-url="{{ route('grupos') }}">Grupos</a>
                     <a class="nav-link tab-link" href="#" data-title="Accesos" data-url="{{ route('accesos') }}">Accesos</a>   
+                    <a class="nav-link tab-link" href="#" data-title="Users" data-url="{{ route('users') }}">Usuarios</a>   
                 </li>
                 </ul>
             </div>
+            @endif
         </li>
         
         <!-- Comercial Section -->

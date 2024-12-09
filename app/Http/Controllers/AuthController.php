@@ -38,12 +38,23 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+       // Intentar encontrar el usuario por el email
+       $user = User::where('email', $request->email)->first();
+
+       // Verificar si el usuario existe y si está activado (activo == 1)
+       if ($user && $user->activo == 0) {
+           // Si el usuario está desactivado, no permitir el inicio de sesión
+           return back()->withErrors(['email' => 'Tu usuario ha sido desactivado. Comunícate con el proveedor.'])->onlyInput('email');
+       }
+
         // Intentar autenticar al usuario con la funcionalidad "Recuérdame"
         if (Auth::attempt(
             ['email' => $request->email, 'password' => $request->password],
             $request->has('remember') // Verificar si el usuario marcó "Recuérdame"
         )) {
-            return redirect()->route('proyectos')->with('success', 'Inicio de sesión exitoso');
+            
+            // Redirigir a la vista de inicio
+            return redirect()->route('proyectos');  // Cambia 'inicio' por la ruta que deseas
         }
 
         return back()->withErrors(['email' => 'Las credenciales no son correctas'])->onlyInput('email');
@@ -54,4 +65,5 @@ class AuthController extends Controller
         Auth::logout();
         return redirect()->route('login')->with('success', 'Sesión cerrada');
     }
+    
 }

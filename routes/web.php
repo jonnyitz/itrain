@@ -23,6 +23,7 @@ use App\Http\Controllers\ReporteLotesController;
 use App\Http\Controllers\ReporteClientesController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\AccesosController;
+use App\Http\Controllers\UserController;
 
 
 
@@ -44,11 +45,13 @@ Route::get('/dashboard', function () {
 
 // Ruta modificada para 'inicio', aceptando un parámetro opcional 'id' para el proyecto
 Route::get('/inicio/{id?}', [InicioController::class, 'index'])->name('inicio')->middleware('auth');
+Route::middleware('auth')->get('/inicio', [InicioController::class, 'index'])->name('inicio');
 
 // Rutas para la gestión de proyectos
 Route::get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos');
 Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');
 Route::get('/proyectos/filtrar', [ProyectoController::class, 'filtrar'])->name('proyectos.filtrar');
+Route::middleware('auth')->get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos');
 
 //contactos 
 Route::get('/contactos', [ContactoController::class, 'index'])->name('contactos');
@@ -143,3 +146,11 @@ Route::post('/grupos', [GrupoController::class, 'store'])->name('grupos.store');
 Route::get('/grupos/export', [GrupoController::class, 'export']);
 
 Route::get('/accesos', [AccesosController::class, 'index'])->name('accesos');
+
+
+Route::get('/users', [UserController::class, 'index'])->name('users');
+Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+Route::post('/users', [UserController::class, 'store'])->name('users.store');
+Route::patch('/users/{user}/toggle-active', [UserController::class, 'toggleActive'])->name('users.toggle-active');
+
