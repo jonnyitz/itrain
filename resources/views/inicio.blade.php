@@ -23,7 +23,7 @@
             left: 0;
             top: 0;
             width: 250px;
-            background-color: black;
+            background-color: blue;
             padding-top: 20px;
         }
         .content {
@@ -37,7 +37,7 @@
             left: 20px;
         }
         .nav-link {
-            color: #007bff;
+            color:white;
         }
         .nav-link:hover {
             color: #0056b3;
