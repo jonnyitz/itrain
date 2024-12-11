@@ -70,6 +70,7 @@ Route::put('/ventas/{venta}', [VentaController::class, 'update'])->name('ventas.
 Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ventas.destroy');
 Route::get('/ventas/{ventaId}/pagare', [VentaController::class, 'generarPagare'])->name('ventas.pagare');
 Route::post('/ventas/guardar', [VentaController::class, 'guardar'])->name('ventas.guardar');
+Route::get('/ventas/{id}/cronograma', [CreditoController::class, 'generarCronogramaPdf'])->name('ventas.cronograma');
 
 // routes/web.php
 Route::get('/creditos', [CreditoController::class, 'index'])->name('creditos');
