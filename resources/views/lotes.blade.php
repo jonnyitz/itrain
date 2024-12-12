@@ -108,14 +108,17 @@
                         <input type="number" class="form-control" id="precio_venta_contado" name="precio_venta_contado"  required>
                     </div>
 
-                    <!-- Estado -->
+                   <!-- Estado -->
                     <div class="mb-3">
                         <label for="estado" class="form-label">Estado</label>
                         <select class="form-select" id="estado" name="estado" required>
-                            <option value="disponible">Disponible</option>
-                            <option value="vendido">Vendido</option>
+                            <option value="activo">Activo</option>
+                            <option value="inactivo">Inactivo</option>
+                            <option value="cancelado">Cancelado</option>
+                            <option value="reservado">Reservado</option>
                         </select>
                     </div>
+
 
                     <!-- Descripción -->
                     <div class="mb-3">
