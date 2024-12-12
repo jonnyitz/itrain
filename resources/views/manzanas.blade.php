@@ -78,7 +78,11 @@
                         <td>{{ $manzana->proyecto->nombre }}</td>
                         <td>
                             <button class="btn btn-warning btn-sm">Editar</button>
-                            <button class="btn btn-danger btn-sm">Eliminar</button>
+                            <form action="{{ route('manzanas.destroy', $manzana->id) }}" method="POST" style="display:inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta manzana?')">Eliminar</button>
+                            </form>
                             <button 
                                 class="btn btn-warning btn-sm" 
                                 title="Descargar PDF"

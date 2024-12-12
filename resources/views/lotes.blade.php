@@ -6,6 +6,8 @@
     <title>Gestión de Lotes</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
 <div class="container my-5">
@@ -47,7 +49,7 @@
                     <td>{{ $index + 1 }}</td>
                     <td>Manzana {{ str_pad($lote->manzana->id, 2, '0', STR_PAD_LEFT) }} - Lote {{ str_pad($lote->id, 2, '0', STR_PAD_LEFT) }}
                     </td>
-                    <td>${{$lote->precio_venta_contado  }}</td>
+                    <td>${{ number_format($lote->precio_venta_contado, 2) }}</td>
                     <td>{{ $lote->medida_costado_derecho }}</td>
                     <td>{{ $lote->medida_frontal }}</td>
                     <td>{{ $lote->area }}m2</td>
@@ -64,7 +66,7 @@
                 </tr>
             @endforeach
         </tbody>
-    </>
+</table>
 </div>
 
 <!-- Modal para agregar un nuevo lote -->
@@ -194,7 +196,8 @@
 </div>
 
 <!-- Bootstrap JS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap JS Bundle (incluye Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     document.getElementById('searchInput').addEventListener('input', function () {

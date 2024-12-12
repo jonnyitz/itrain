@@ -28,4 +28,15 @@ class ManzanaController extends Controller
 
         return redirect()->route('inicio')->with('success', 'Manzana registrada exitosamente.');
     }
+    public function destroy($id)
+    {
+        // Buscar el usuario por su ID
+        $manzanas = Manzana::findOrFail($id);
+
+        // Eliminar el usuario
+        $manzanas->delete();
+
+        // Redirigir con mensaje de éxito
+        return redirect()->route('inicio')->with('success', 'Manzana eliminada');
+    }
 }

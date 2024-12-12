@@ -136,6 +136,8 @@ Route::resource('proyecto-ajustes', ProyectoAjustesController::class);
 
 Route::get('/manzanas', [ManzanaController::class, 'index'])->name('manzanas');
 Route::post('/manzanas', [ManzanaController::class, 'store'])->name('manzanas.store');
+Route::delete('/manzanas/{id}', [ManzanaController::class, 'destroy'])->name('manzanas.destroy');
+
 
 Route::get('/lotes', [LotesController::class, 'index'])->name('lotes');
 Route::post('/lotes', [LotesController::class, 'store'])->name('lotes.store');
