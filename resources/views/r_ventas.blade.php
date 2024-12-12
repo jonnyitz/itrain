@@ -114,7 +114,6 @@
                         </a>
                     </div>
 
-
                     <!-- Separador -->
                     <hr>
 
@@ -134,8 +133,8 @@
                         <a href="{{ route('ventas_por_vendedor', ['vendedor' => 'todos']) }}" class="btn btn-outline-primary btn-block" target="_blank">
                             <i class="bi bi-person-lines-fill"></i> Ventas x Vendedor
                         </a>
-                        <a href="#" class="btn btn-outline-info btn-block">
-                            <i class="bi bi-wallet"></i> Cuotas x Cobrar
+                        <a href="{{ route('cuotas_por_cobrar') }}" class="btn btn-outline-info btn-block" target="_blank">
+                            <i class="bi bi-file-earmark-text"></i> Cuotas por Cobrar
                         </a>
                     </div>
 
@@ -144,15 +143,15 @@
 
                     <!-- Botones generales -->
                     <div class="button-grid mt-4">
-                        <button class="btn btn-outline-secondary btn-block">
+                        <a href="{{ route('ventas_completadas') }}" class="btn btn-outline-secondary btn-block" target="_blank">
                             <i class="bi bi-check-card"></i> Ventas Completadas
-                        </button>
-                        <button class="btn btn-outline-success btn-block">
+                        </a>
+                        <a class="btn btn-outline-success btn-block" target="_blank">
                             <i class="bi bi-credit-card"></i> Créditos por Cobrar
-                        </button>
-                        <button class="btn btn-outline-danger btn-block">
+                        </a>
+                        <a href="{{ route('ventas_anuladas') }}" class="btn btn-outline-danger btn-block" target="_blank">
                             <i class="bi bi-x-card"></i> Ventas Anuladas
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

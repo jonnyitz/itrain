@@ -30,7 +30,7 @@
             <tr>
                 <th>#</th>
                 <th>Cliente</th>
-                <th>Lote - Manzana</th>
+                <th>Manzana</th>
                 <th>Teléfono</th>
                 <th>Fecha Pago</th>
                 <th>T. Cuota</th>
@@ -44,13 +44,9 @@
                 <tr>
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $venta->contacto->nombre ?? 'No asignado' }}</td>
-                    <td>
-                        Lote: {{ $venta->manzana->nombre ?? 'No asignado' }}
-                    </td>
+                    <td>{{ $venta->manzana->nombre ?? 'N/A' }}</td>
                     <td>{{ $venta->contacto->telefono ?? 'No asignado' }}</td>
-                    <td class="highlight">
-                        {{ $venta->ultima_fecha ? \Carbon\Carbon::parse($venta->ultima_fecha)->format('d/m/Y') : 'No asignado' }}
-                    </td>
+                    <td>{{ $venta->ultima_fecha ? \Carbon\Carbon::parse($venta->ultima_fecha)->format('d/m/Y') : 'No asignado' }}</td>
                     <td>{{ $venta->modalidad_enganche ?? 'Mensual' }}</td>
                     <td>{{ $venta->cantidad }}</td>
                     <td>${{ number_format($venta->total / $venta->cantidad, 2) }}</td>

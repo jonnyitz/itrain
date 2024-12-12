@@ -66,7 +66,7 @@ Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store');
 Route::put('/ventas/{venta}', [VentaController::class, 'update'])->name('ventas.update');
 Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ventas.destroy');
 Route::get('/ventas/{ventaId}/pagare', [VentaController::class, 'generarPagare'])->name('ventas.pagare');
-Route::post('/ventas/guardar', [VentaController::class, 'guardar'])->name('ventas.guardar');
+
 
 // routes/web.php
 Route::get('/creditos', [CreditoController::class, 'index'])->name('creditos');
@@ -111,24 +111,35 @@ Route::post('/gastos-generales', [GastosGeneralesController::class, 'store'])->n
 Route::get('/recibos', [RecibosController::class, 'index'])->name('recibos');
 Route::post('/recibos', [RecibosController::class, 'store'])->name('recibos.store');
 
-//REPORTES
+// VENTAS
 //Reportes Ventas
 Route::get('/r-ventas', [ReporteVentasController::class, 'index'])->name('r.ventas');
 Route::get('/reporte-ventas/pdf', [ReporteVentasController::class, 'generarPDF'])->name('generar_pdf');
 Route::get('/detalle-venta/pdf', [ReporteVentasController::class, 'detalleVentaPDF'])->name('detalle_venta');
-
 //Reportes Vendedor
 Route::get('/ventas-por-vendedor', [ReporteVentasController::class, 'ventasPorVendedor'])->name('ventas_por_vendedor');
-
+Route::get('/cuotas-por-cobrar/pdf', [ReporteVentasController::class, 'cuotasPorCobrarPDF'])->name('cuotas_por_cobrar');
+//Reportes Generales
+Route::get('/ventas-completadas/pdf', [ReporteVentasController::class, 'ventasCompletadasPDF'])->name('ventas_completadas');
+Route::get('/ventas-anuladas/pdf', [ReporteVentasController::class, 'ventasAnuladasPDF'])->name('ventas_anuladas');
+//FINANCIERO
+//Reporte financiero
 Route::get('/r-financieros', [ReporteFinancieroController::class, 'index'])->name('r.financieros');
 Route::get('/r-financieros/filtrar', [ReporteFinancieroController::class, 'filtrar'])->name('r.financieros.filtrar');
+//LOTES
+//Reporte Lotes
 Route::get('/r-lotes', [ReporteLotesController::class, 'index'])->name('r.lotes');
+Route::get('/total-lotes', [ReporteLotesController::class, 'totalLotesPDF'])->name('total_lotes');
+Route::get('/lotes-disponibles', [ReporteLotesController::class, 'lotesDisponiblesPDF'])->name('lotes_disponibles');
+Route::get('/lotes-inactivos', [ReporteLotesController::class, 'lotesInactivosPDF'])->name('lotes_inactivos');
+Route::get('/lotes-vendidos', [ReporteLotesController::class, 'lotesVendidosPDF'])->name('lotes_vendidos');
+
+//CLIENTES
+//Reporte Clientes
 Route::get('/r-clientes', [ReporteClientesController::class, 'index'])->name('r.clientes');
 Route::get('/r-clientes/pdf', [ReporteClientesController::class, 'generarPDF'])->name('clientes.pdf');
 
 Route::resource('proyecto-ajustes', ProyectoAjustesController::class);
-
-
 
 Route::get('/manzanas', [ManzanaController::class, 'index'])->name('manzanas');
 Route::post('/manzanas', [ManzanaController::class, 'store'])->name('manzanas.store');

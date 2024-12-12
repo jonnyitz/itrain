@@ -32,6 +32,7 @@ class Lote extends Model
         'precio_m2',
         'observacion',
         'area',
+        'estado',
     ];
 
     // Relación con la tabla ventas (un lote pertenece a una venta)
