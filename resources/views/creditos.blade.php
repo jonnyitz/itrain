@@ -24,7 +24,11 @@
                 <th>#</th>
                 <th>Cliente</th>
                 <th>Lote/Manzana</th>
-                <th>Fecha de Venta</th>
+                <th>Sig. CP.</th> <!-- Nueva columna -->
+                <th>#SCP</th> <!-- Nueva columna -->
+                <th>M.Cuota P.</th> <!-- Nueva columna -->
+                <th> M. Restante</th> <!-- Nueva columna -->
+                <th>Total Venta</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -34,7 +38,21 @@
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $venta->contacto->nombre ?? 'Sin contacto' }}</td>
                 <td>{{ $venta->lote->lote}}</td>
-                    <td>{{ \Carbon\Carbon::parse($venta->fecha_venta)->format('d/m/Y') }}</td>
+                <td>
+                    {{ \Carbon\Carbon::parse($venta->fecha_venta)->addMonth()->format('d/m/Y') }} <!-- Agrega un mes -->
+                </td>
+                <td>
+                    {{ $venta->cantidad_pagos ?? 'N/A' }} <!-- Mostrar la cantidad de pagos -->
+                </td>
+                <td>
+                    ${{ number_format($venta->enganche, 2) ?? '0.00' }}
+                </td>
+                <td>
+                    ${{ number_format($venta->precio_venta_final - $venta->enganche, 2) }}
+                </td>
+                <td>
+                    ${{ number_format($venta->precio_venta_final, 2) }}
+                </td>
                     <td>
                         <!-- Botón Editar (solo visual) -->
                         <button 
@@ -53,13 +71,13 @@
                         </button>
 
                         <!-- Botón Descargar PDF (solo visual) -->
-                        <button 
-                            class="btn btn-warning btn-sm" 
-                            title="Descargar PDF"
-                            disabled
-                        >
-                            <i class="fas fa-file-pdf"></i>
-                        </button>
+                        <a href="{{ route('ventas.pagare', $venta->id) }}" class="btn btn-success btn-sm">
+                                <i class="fas fa-file-invoice"></i> 
+                        </a>
+                      <!-- Botón para Ver Cronograma en PDF -->
+                  <a href="{{ route('ventas.cronograma', $venta->id) }}" class="btn btn-info btn-sm">
+                            <i class="fas fa-calendar-alt"></i> Ver Cronograma
+                        </a>
                     </td>
                 </tr>
             @endforeach

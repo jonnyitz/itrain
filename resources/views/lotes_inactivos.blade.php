@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Lista Total de Lotes de Terreno</title>
+    <title>Lotes Inactivos</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,8 +42,7 @@
         <h1>CONSTRUCTORA FDR</h1>
         <h2>CALLEJÓN DE QUIJANO #236 - ZACATECAS</h2>
         <h3>Teléfono: 492-161-68-35</h3>
-        <h2>{{ $proyecto }}</h2>
-        <h3>LISTA TOTAL DE LOTES DE TERRENO</h3>
+        <h2>ARCES</h2>
         <p>Fecha del Reporte: {{ $fecha_reporte }}</p>
     </div>
 

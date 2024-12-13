@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Lista Total de Lotes de Terreno</title>
+    <title>Lista de Lotes Reservados</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,38 +42,35 @@
         <h1>CONSTRUCTORA FDR</h1>
         <h2>CALLEJÓN DE QUIJANO #236 - ZACATECAS</h2>
         <h3>Teléfono: 492-161-68-35</h3>
-        <h2>ARCES</h2>
-        <h3>LISTA TOTAL DE LOTES DE TERRENO</h3>
-        <p>Fecha del Reporte: {{ $fecha_reporte }}</p>
+        <h2>{{ $proyecto }}</h2>
+        <h3>LISTA DE LOTES RESERVADOS AL {{ $fecha_reporte }}</h3>
     </div>
 
     <table>
         <thead>
             <tr>
                 <th>N°</th>
-                <th>MANZANA - LOTE</th>
-                <th>ÁREA</th>
-                <th>COSTO</th>
-                <th>P.VENTA</th>
-                <th>UTILIDAD</th>
+                <th>ASESOR</th>
+                <th>CLIENTE</th>
+                <th>LOTE - MANZANA</th>
+                <th>F.FIRMA</th>
+                <th>MONTO</th>
             </tr>
         </thead>
         <tbody>
             @foreach($lotes as $index => $lote)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $lote['manzana_lote'] }}</td>
-                    <td>{{ $lote['area'] }} M²</td>
-                    <td>${{ number_format($lote['costo'], 2) }}</td>
-                    <td>${{ number_format($lote['precio_venta'], 2) }}</td>
-                    <td>${{ number_format($lote['utilidad'], 2) }}</td>
+                    <td>{{ $lote['asesor'] }}</td>
+                    <td>{{ $lote['cliente'] }}</td>
+                    <td>{{ $lote['lote_manzana'] }}</td>
+                    <td>{{ $lote['fecha_firma'] }}</td>
+                    <td>${{ number_format($lote['monto'], 2) }}</td>
                 </tr>
             @endforeach
             <tr class="total-row">
-                <td colspan="3">TOTALES</td>
-                <td>${{ number_format($totalCosto, 2) }}</td>
-                <td>${{ number_format($totalVenta, 2) }}</td>
-                <td>${{ number_format($totalUtilidad, 2) }}</td>
+                <td colspan="5">TOTAL</td>
+                <td>${{ number_format($totalMonto, 2) }}</td>
             </tr>
         </tbody>
     </table>

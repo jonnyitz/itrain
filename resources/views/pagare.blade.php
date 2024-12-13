@@ -39,6 +39,11 @@
             margin-top: 50px;
             text-align: center;
         }
+        .logo {
+            width: 150px; /* Ajusta el tamaño de la imagen */
+            display: block;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -51,7 +56,8 @@
 
             <!-- Pagaré 1 de 24, Pagaré 2 de 24, etc. -->
             <div class="pagaré">
-                <table>
+            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/logo.png'))) }}" alt="Logo" class="logo">
+            <table>
                     <thead>
                         <tr>
                             <th colspan="2" style="text-align: center;">Pagaré {{ $i }} de 24</th>
