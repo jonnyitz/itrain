@@ -73,8 +73,8 @@
     <h3 class="text-center text-white">Menú</h3>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link active" href="#" data-title="Inicio" data-content="Bienvenido a la Vista de Inicio">Inicio</a>
-        </li>
+        <a class="nav-link active" href="{{ route('proyectos') }}" data-title="Inicio" data-content="Bienvenido a la Vista de Proyectos">Inicio</a>
+    </li>
 
         <!-- Seguridad Section -->
         @if(auth()->user()->role === 'administrador')
