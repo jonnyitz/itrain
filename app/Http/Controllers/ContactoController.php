@@ -10,12 +10,22 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class ContactoController extends Controller
 {
     // Mostrar lista de contactos
-    public function index()
+    public function index(Request $request)
     {
-        $contactos = Contacto::all();
+        
+        // Obtén el término de búsqueda de la solicitud
+        $searchTerm = $request->input('search');
+    
+        // Realiza la consulta para filtrar los contactos
+        $contactos = Contacto::when($searchTerm, function ($query, $searchTerm) {
+            return $query->where('nombre', 'like', "%{$searchTerm}%")
+                         ->orWhere('curp_rfc', 'like', "%{$searchTerm}%")
+                         ->orWhere('telefono', 'like', "%{$searchTerm}%");
+        })->paginate(10);
+    
         return view('contactos', compact('contactos'));
     }
-
+    
     // Guardar nuevo contacto
     public function store(Request $request)
     {

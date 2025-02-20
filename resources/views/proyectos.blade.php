@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
       body {
-            background-image: url('images/fondo1.jpg');
+            background-image: url('images/casa.jpg');
             background-size: cover; /* Ajusta el tamaño de la imagen */
             background-position: center; /* Centra la imagen */
             background-repeat: no-repeat; /* Evita que la imagen se repita */
@@ -25,7 +25,7 @@
         .top-left-image {
             position: absolute;
             top: 90px;
-            left: 380px;
+            left: 400px;
             width: 150px; /* Ancho de la imagen */
         }
         .project-container {
@@ -66,7 +66,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            left: 290px; /* Ajusta la distancia desde la izquierda */
+            left: 300px; /* Ajusta la distancia desde la izquierda */
             top: 120px;
         }
 
@@ -131,8 +131,9 @@
                 @endif
                 <h3>{{ $proyecto->nombre }}</h3>
                 <p>{{ $proyecto->ubicacion }}</p>
-                <a href="{{ route('inicio', ['id' => $proyecto->id]) }}" class="btn btn-primary">
-                    Ingresar <span class="ml-2">&rarr;</span>
+                 <!-- Modificar la URL para que redirija al controlador que maneja la selección del proyecto -->
+                <a href="{{ route('seleccionarProyecto', $proyecto->id) }}" class="btn btn-primary">
+                    Seleccionar Proyecto <span class="ml-2">&rarr;</span>
                 </a>
                 <p><strong>Moneda:</strong> {{ $proyecto->moneda }}</p>
                 <p><strong>Total de Lotes:</strong> {{ $proyecto->total_lotes }}</p>

@@ -21,7 +21,8 @@ class kernel extends HttpKernel
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \App\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        
+        \App\Http\Middleware\ProyectoMiddleware::class,
+
     ];
 
     /**

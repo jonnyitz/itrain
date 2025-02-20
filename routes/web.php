@@ -24,6 +24,8 @@ use App\Http\Controllers\ReporteClientesController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\AccesosController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BancoController;
+use App\Http\Controllers\SedeController;
 
 
 
@@ -38,10 +40,6 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Ruta del dashboard, protegida por el middleware 'auth'
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
 
 // Ruta modificada para 'inicio', aceptando un parámetro opcional 'id' para el proyecto
 Route::get('/inicio/{id?}', [InicioController::class, 'index'])->name('inicio')->middleware('auth');
@@ -52,6 +50,7 @@ Route::get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos'
 Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');
 Route::get('/proyectos/filtrar', [ProyectoController::class, 'filtrar'])->name('proyectos.filtrar');
 Route::middleware('auth')->get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos');
+Route::get('proyectos/seleccionar/{id}', [ProyectoController::class, 'seleccionarProyecto'])->name('seleccionarProyecto');
 
 //contactos 
 Route::get('/contactos', [ContactoController::class, 'index'])->name('contactos');
@@ -71,15 +70,32 @@ Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ven
 Route::get('/ventas/{ventaId}/pagare', [VentaController::class, 'generarPagare'])->name('ventas.pagare');
 Route::post('/ventas/guardar', [VentaController::class, 'guardar'])->name('ventas.guardar');
 Route::get('/ventas/{id}/cronograma', [CreditoController::class, 'generarCronogramaPdf'])->name('ventas.cronograma');
+Route::get('/buscar-contactos', [VentaController::class, 'buscarContactos']);
+Route::get('/ventas/lotes/por-manzana/{manzana_id}', [VentaController::class, 'getLotesPorManzana']);
+Route::get('/contrato/{ventaId}/descargar', [VentaController::class, 'descargarContrato'])->name('contrato.descargar');
+Route::get('/ventas/{id}/descargar-pdf', [VentaController::class, 'descargarPDF'])->name('ventas.descargarPDF');
+Route::get('ventas/contrato/{ventaId}/descargar', [VentaController::class, 'generarContratoCredito'])->name('contrato.descargar.credito');
+Route::get('generar-carta-finiquito/{id}', [VentaController::class, 'generarCartaFiniquito'])->name('generarCartaFiniquito');
+Route::get('generar-carta-finiquito-Contado/{id}', [VentaController::class, 'generarCartaFiniquitoContado'])->name('generarCartaFiniquitoContado');
+Route::get('/generar-aut/{id}', [VentaController::class, 'generarAut'])->name('generarAut');
 
 
 // routes/web.php
 Route::get('/creditos', [CreditoController::class, 'index'])->name('creditos');
+Route::get('/creditos/enganche/{id}', [CreditoController::class, 'generarEnganche'])->name('creditos.enganche');
+
 
 //cuotas|
 Route::resource('cuotas', CuotaController::class);
 // Ruta para almacenar una nueva cuota
 Route::post('/cuotas', [CuotaController::class, 'store'])->name('cuotas.store');
+Route::get('/estado-de-cuenta/{venta_id}', [CuotaController::class, 'generarEstadoDeCuenta'])->name('estado_de_cuenta');
+
+// web.php
+Route::get('/buscar-contacto', [CuotaController::class, 'buscarContacto'])->name('cuotas.buscarContacto');
+Route::get('/generar-pdf/{id}', [CuotaController::class, 'generarPDF'])->name('cuota.pdf');
+Route::get('/generar-Cobro/{id}', [CuotaController::class, 'generarCobro'])->name('cobros');
+
 
 Route::get('/cotizaciones', [CotizacionController::class, 'index'])->name('cotizaciones');
 Route::post('/cotizaciones', [CotizacionController::class, 'store'])->name('cotizaciones.store');
@@ -155,6 +171,7 @@ Route::delete('/manzanas/{id}', [ManzanaController::class, 'destroy'])->name('ma
 Route::get('/lotes', [LotesController::class, 'index'])->name('lotes');
 Route::post('/lotes', [LotesController::class, 'store'])->name('lotes.store');
 Route::delete('/lotes/{id}', [LotesController::class, 'destroy'])->name('lotes.destroy');
+Route::put('/lotes/{id}', [LotesController::class, 'update'])->name('lotes.update');
 
 
 Route::get('/grupos', [GrupoController::class, 'index'])->name('grupos');
@@ -170,3 +187,30 @@ Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.de
 Route::post('/users', [UserController::class, 'store'])->name('users.store');
 Route::patch('/users/{user}/toggle-active', [UserController::class, 'toggleActive'])->name('users.toggle-active');
 
+
+
+Route::resource('bancos', BancoController::class);
+Route::delete('/bancos/{id}', [BancoController::class, 'destroy'])->name('bancos.destroy');
+Route::post('/bancos', [BancoController::class, 'store'])->name('bancos.store');
+
+
+
+Route::resource('sedes', SedeController::class);
+
+Route::get('/sedes', [SedeController::class, 'index'])->name('sedes.index');
+
+// Ruta para mostrar el formulario de creación de una nueva sede
+Route::get('/sedes/create', [SedeController::class, 'create'])->name('sedes.create');
+
+// Ruta para almacenar una nueva sede
+Route::post('/sedes', [SedeController::class, 'store'])->name('sedes.store');
+
+// Rutas adicionales (opcional, si necesitas más funcionalidades):
+// Ruta para mostrar una sede específica
+Route::get('/sedes/{id}', [SedeController::class, 'show'])->name('sedes.show');
+
+// Ruta para actualizar una sede
+Route::put('/sedes/{id}', [SedeController::class, 'update'])->name('sedes.update');
+
+// Ruta para eliminar una sede
+Route::delete('/sedes/{id}', [SedeController::class, 'destroy'])->name('sedes.destroy');

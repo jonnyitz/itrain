@@ -48,4 +48,8 @@ class Lote extends Model
     {
         return $this->belongsTo(Manzana::class);
     }
+    public function marcarComoVendido()
+    {
+        $this->update(['estado' => 'vendido']);
+    }
 }

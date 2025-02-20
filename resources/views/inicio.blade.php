@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-   
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -23,7 +24,7 @@
             left: 0;
             top: 0;
             width: 250px;
-            background-color: blue;
+            background-color: #572364;
             padding-top: 20px;
         }
         .content {
@@ -37,10 +38,10 @@
             left: 20px;
         }
         .nav-link {
-            color:white;
+            color:#ff5733;
         }
         .nav-link:hover {
-            color: #0056b3;
+            color: #yellow;
         }
         .tab {
             padding: 10px;
@@ -69,6 +70,15 @@
     </style>
 </head>
 <body>
+@if(session()->has('proyecto_id'))
+    @php
+        $proyecto = \App\Models\Proyecto::find(session('proyecto_id'));
+    @endphp
+    <div style="background-color: #007BFF; color: white; padding: 10px; text-align: center; font-size: 18px; font-weight: bold; border-radius: 5px;">
+        <span>🌟 Estás trabajando en el proyecto: <strong>{{ $proyecto->nombre }}</strong></span>
+    </div>
+@endif
+
 <div class="sidebar">
     <h3 class="text-center text-white">Menú</h3>
     <ul class="nav flex-column">
@@ -93,23 +103,26 @@
         </li>
         
         <!-- Comercial Section -->
-        <li class="nav-item">
-            <a class="nav-link" href="#comercialMenu" data-toggle="collapse" aria-expanded="false">Comercial</a>
-            <div class="collapse" id="comercialMenu">
-                <ul class="nav flex-column ml-3">
-                    <li class="nav-item">
-                        <a class="nav-link tab-link" href="#" data-title="Contactos" data-url="{{ route('contactos') }}">Contactos</a>
-                        <a class="nav-link tab-link" href="#" data-title="Ventas" data-url="{{ route('ventas') }}">Ventas</a>
-                        <a class="nav-link tab-link" href="#" data-title="Creditos" data-url="{{ route('creditos') }}">Creditos</a>
-                        <a class="nav-link tab-link" href="#" data-title="Cobros" data-url="{{ route('cuotas.index') }}">Cobros</a>
-                        <a class="nav-link tab-link" href="#" data-title="Cotizaciones" data-url="{{ route('cotizaciones.index') }}">Cotizaciones</a>
-                        <a class="nav-link tab-link" href="#" data-title="Reservas" data-url="{{ route('reservas') }}">Reservas</a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-        
+        @if(auth()->user()->role === 'administrador' || auth()->user()->role === 'gerencia' || auth()->user()->role === 'ventas')
+            <li class="nav-item">
+                <a class="nav-link" href="#comercialMenu" data-toggle="collapse" aria-expanded="false">Comercial</a>
+                <div class="collapse" id="comercialMenu">
+                    <ul class="nav flex-column ml-3">
+                        <li class="nav-item">
+                            <a class="nav-link tab-link" href="#" data-title="Contactos" data-url="{{ route('contactos') }}">Contactos</a>
+                            <a class="nav-link tab-link" href="#" data-title="Ventas" data-url="{{ route('ventas') }}">Ventas</a>
+                            <a class="nav-link tab-link" href="#" data-title="Creditos" data-url="{{ route('creditos') }}">Creditos</a>
+                            <a class="nav-link tab-link" href="#" data-title="Cobros" data-url="{{ route('cuotas.index') }}">Cobros</a>
+                            <a class="nav-link tab-link" href="#" data-title="Cotizaciones" data-url="{{ route('cotizaciones.index') }}">Cotizaciones</a>
+                            <a class="nav-link tab-link" href="#" data-title="Reservas" data-url="{{ route('reservas') }}">Reservas</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        @endif
+
         <!-- Logística Section -->
+        @if(auth()->user()->role === 'administrador' || auth()->user()->role === 'gerencia')
         <li class="nav-item">
             <a class="nav-link" href="#logisticaMenu" data-toggle="collapse" aria-expanded="false">Logística</a>
             <div class="collapse" id="logisticaMenu">
@@ -121,38 +134,42 @@
                 </ul>
             </div>
         </li>
-
+        @endif
 
 
         <!-- Tesorería Section -->
-        <li class="nav-item">
-            <a class="nav-link" href="#tesoreriaMenu" data-toggle="collapse" aria-expanded="false">Tesorería</a>
-            <div class="collapse" id="tesoreriaMenu">
-                <ul class="nav flex-column ml-3">
-                    <li class="nav-item">
-                        <a class="nav-link tab-link" href="#" data-title="Conceptos" data-url="{{ route('conceptos') }}">Conceptos</a>
-                        <a class="nav-link tab-link" href="#" data-title="Gtos Proyecto" data-url="{{ route('gastos_proyecto.index') }}">Gtos Proyecto</a>
-                        <a class="nav-link tab-link" href="#" data-title="Gtos Generales" data-url="{{ route('gastos_generales.index') }}">Gtos Generales</a>   
-                        <a class="nav-link tab-link" href="#" data-title="Recibos" data-url="{{ route('recibos') }}">Recibos</a>     
-                    </li>
-                </ul>
-            </div>
-        </li>
+       @if(auth()->user()->role === 'administrador' || auth()->user()->role === 'gerencia')
+         <li class="nav-item">
+                <a class="nav-link" href="#tesoreriaMenu" data-toggle="collapse" aria-expanded="false">Tesorería</a>
+                <div class="collapse" id="tesoreriaMenu">
+                    <ul class="nav flex-column ml-3">
+                        <li class="nav-item">
+                            <a class="nav-link tab-link" href="#" data-title="Conceptos" data-url="{{ route('conceptos') }}">Conceptos</a>
+                            <a class="nav-link tab-link" href="#" data-title="Gtos Proyecto" data-url="{{ route('gastos_proyecto.index') }}">Gtos Proyecto</a>
+                            <a class="nav-link tab-link" href="#" data-title="Gtos Generales" data-url="{{ route('gastos_generales.index') }}">Gtos Generales</a>   
+                            <a class="nav-link tab-link" href="#" data-title="Recibos" data-url="{{ route('recibos') }}">Recibos</a>     
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        @endif
         
         <!-- Reportes Section -->
-        <li class="nav-item">
-            <a class="nav-link" href="#Reportes" data-toggle="collapse" aria-expanded="false">Reportes</a>
-            <div class="collapse" id="Reportes">
-                <ul class="nav flex-column ml-3">
-                    <li class="nav-item">
-                        <a class="nav-link tab-link" href="#" data-title="Reportes Ventas" data-url="{{ route('r.ventas') }}">Reportes Ventas</a>
-                        <a class="nav-link tab-link" href="#" data-title="Reportes Financieros" data-url="{{ route('r.financieros') }}">Reportes Financieros</a>
-                        <a class="nav-link tab-link" href="#" data-title="Reportes Lotes" data-url="{{ route('r.lotes') }}">Reportes Lotes</a>
-                        <a class="nav-link tab-link" href="#" data-title="Reportes Clientes" data-url="{{ route('r.clientes') }}">Reportes Clientes</a>  
-                    </li>
-                </ul>
-            </div>
-        </li>
+        @if(auth()->user()->role === 'administrador' || auth()->user()->role === 'gerencia')
+            <li class="nav-item">
+                <a class="nav-link" href="#Reportes" data-toggle="collapse" aria-expanded="false">Reportes</a>
+                <div class="collapse" id="Reportes">
+                    <ul class="nav flex-column ml-3">
+                        <li class="nav-item">
+                            <a class="nav-link tab-link" href="#" data-title="Reportes Ventas" data-url="{{ route('r.ventas') }}">Reportes Ventas</a>
+                            <a class="nav-link tab-link" href="#" data-title="Reportes Financieros" data-url="{{ route('r.financieros') }}">Reportes Financieros</a>
+                            <a class="nav-link tab-link" href="#" data-title="Reportes Lotes" data-url="{{ route('r.lotes') }}">Reportes Lotes</a>
+                            <a class="nav-link tab-link" href="#" data-title="Reportes Clientes" data-url="{{ route('r.clientes') }}">Reportes Clientes</a>  
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        @endif
 
 
 
@@ -163,6 +180,8 @@
                 <div class="collapse" id="proyectosMenu">
                     <ul class="nav flex-column ml-3">
                         <a class="nav-link tab-link" href="#" data-title="Proyectos" data-url="{{ route('proyecto-ajustes.index') }}">Proyectos</a>     
+                        <a class="nav-link tab-link" href="#" data-title="Bancos" data-url="{{ route('bancos.index') }}">Bancos</a>     
+                        <a class="nav-link tab-link" href="#" data-title="Sedes" data-url="{{ route('sedes.index') }}">Sedes</a>     
                     </ul>
                 </div>
             </li>
@@ -228,15 +247,14 @@
     </div>
 </div>
 
+
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-        // Usar noConflict para evitar conflictos con otras bibliotecas
-        var $jq = jQuery.noConflict(true);
-    </script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
 <script>
     var $j = jQuery.noConflict(); // Activar noConflict para evitar problemas con otras librerías
 
@@ -250,78 +268,104 @@
             const title = $j(this).data('title');
             const url = $j(this).data('url');
 
-            // Verificar si la pestaña ya existe
             let existingTab = $j(`#tabs-container .tab[data-url="${url}"]`);
             if (existingTab.length > 0) {
-                // Activar la pestaña existente
                 activateTab(url);
                 return;
             }
 
-            // Crear y agregar nueva pestaña
             const newTab = $j(`
                 <div class="tab active" data-url="${url}">
                     ${title} <span class="close" title="Cerrar">&times;</span>
                 </div>
             `);
-            $j('#tabs-container .tab').removeClass('active'); // Desactivar otras pestañas
+            $j('#tabs-container .tab').removeClass('active');
             $j('#tabs-container').append(newTab);
 
-            // Activar la nueva pestaña y cargar su contenido
             activateTab(url);
         });
 
         // Manejo de cierre de pestañas
         $j(document).on('click', '.close', function () {
             const tab = $j(this).parent('.tab');
-            const url = tab.data('url');
-
-            // Eliminar la pestaña
+            const isActive = tab.hasClass('active');
             tab.remove();
 
-            // Si no hay más pestañas, mostrar el mensaje predeterminado
             if ($j('#tabs-container').children().length === 0) {
                 $j('#tab-content').html('<p>Selecciona una pestaña para ver su contenido aquí.</p>');
-            } else {
-                // Activar la última pestaña abierta
+            } else if (isActive) {
                 const lastTabUrl = $j('#tabs-container .tab').last().data('url');
                 activateTab(lastTabUrl);
             }
         });
 
-        // Función para activar una pestaña y cargar su contenido usando Fetch
+        // Función para activar una pestaña
         function activateTab(url) {
-            // Quitar la clase activa de todas las pestañas
             $j('#tabs-container .tab').removeClass('active');
 
-            // Marcar la pestaña actual como activa
             const currentTab = $j(`#tabs-container .tab[data-url="${url}"]`);
             if (currentTab.length > 0) {
                 currentTab.addClass('active');
             }
 
-            // Limpiar el contenido anterior
             const tabContent = $j('#tab-content');
             tabContent.empty();
 
-            // Cargar nuevo contenido usando Fetch
+            // Cargar contenido dinámico y inicializar campos y plugins
             fetch(url)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Error al cargar el contenido');
+                        throw new Error(`Error al cargar contenido: ${response.statusText}`);
                     }
                     return response.text();
                 })
                 .then(data => {
                     tabContent.html(data);
+
+                    // Inicializar valores en los campos dinámicos
+                    initDynamicFields();
+
+                    // Enlazar eventos dinámicos
+                    bindDynamicEvents();
                 })
                 .catch(error => {
-                    tabContent.html(`<p>${error.message}</p>`);
+                    tabContent.html(`<p>Error: ${error.message}</p>`);
+                    console.error("Error:", error);
                 });
         }
+
+        // Inicializar valores dinámicos en los campos del formulario
+        function initDynamicFields() {
+            console.log("Inicializando valores dinámicos en los campos.");
+            const contractNumber = 'CONTRATO-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+            const operationCode = Math.floor(10000000 + Math.random() * 90000000); // 8 dígitos
+            const comprobanteNumber = Math.floor(1000000000 + Math.random() * 9000000000); // 10 dígitos
+            const n_ctsValue = Math.floor(1000000000 + Math.random() * 9000000000); // 10 dígitos
+
+            const numeroContrato = document.getElementById('numero_contrato');
+            const codigoOperacion = document.getElementById('codigo_operacion');
+            const numeroComprobante = document.getElementById('numero_comprobante');
+            const n_cts = document.getElementById('n_cts'); 
+
+            if (numeroContrato) numeroContrato.value = contractNumber;
+            if (codigoOperacion) codigoOperacion.value = operationCode;
+            if (numeroComprobante) numeroComprobante.value = comprobanteNumber;
+            if (n_cts) n_cts.value = n_ctsValue; 
+        }
+
+        // Enlazar eventos dinámicos
+        function bindDynamicEvents() {
+            console.log("Enlazando eventos dinámicos.");
+            $j('#tab-content').on('change', '.auto-fill-input', function () {
+                const value = $j(this).val();
+                $j('#related-field').val(`Procesado: ${value}`);
+            });
+        }
+        
     });
     
 </script>
+
 
 </body>
 </html>

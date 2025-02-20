@@ -6,11 +6,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            padding: 20px;
+            margin: 0; /* Eliminar márgenes globales */
+            padding: 0; /* Eliminar rellenos globales */
         }
         table {
             width: 100%;
@@ -27,16 +24,8 @@
         .pagaré {
             margin-bottom: 40px;
         }
-        .pagaré td {
-            text-align: left;
-            vertical-align: top;
-        }
         .footer {
             margin-top: 30px;
-            text-align: center;
-        }
-        .firma {
-            margin-top: 50px;
             text-align: center;
         }
         .logo {
@@ -44,62 +33,81 @@
             display: block;
             margin: 0 auto;
         }
+        @page {
+            size: A4;
+            margin: 0; /* Sin márgenes adicionales */
+        }
+        .new-page {
+            page-break-before: always;
+        }
     </style>
 </head>
 <body>
+    <!-- Generar Pagarés Basados en los Meses Seleccionados -->
+    @php
+        $mesesSeleccionados = $venta->meses ?? 1; // Asegúrate de que meses contenga el número de meses seleccionados.
+    @endphp
 
-        <!-- Generar 24 Pagarés -->
-        @for ($i = 1; $i <= 24; $i++)
-            @php
-                $fechaVencimiento = \Carbon\Carbon::parse($venta->fecha_venta)->addMonths($i);
-            @endphp
+    <!-- Pagaré con salto de página después de cada uno -->
+    @for ($i = 1; $i <= $mesesSeleccionados; $i++)
+        @php
+            $fechaVencimiento = \Carbon\Carbon::parse($venta->fecha_hora_pago)->addMonths($i);
+        @endphp
 
-            <!-- Pagaré 1 de 24, Pagaré 2 de 24, etc. -->
-            <div class="pagaré">
+        <!-- Salto de página solo después del primer pagaré -->
+        @if ($i > 1)
+            <div class="new-page">
+        @endif
+
+        <div class="pagaré">
             <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/logo.png'))) }}" alt="Logo" class="logo">
             <table>
-                    <thead>
-                        <tr>
-                            <th colspan="2" style="text-align: center;">Pagaré {{ $i }} de 24</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Cliente:</strong></td>
-                            <td>{{ $contacto->nombre }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Fecha de Venta:</strong></td>
-                            <td>{{ $venta->fecha_venta }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Fecha de Vencimiento:</strong></td>
-                            <td>{{ $fechaVencimiento->format('d/m/Y') }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Monto:</strong></td>
-                            <td>${{ number_format($venta->enganche, 2) }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Contrato N°:</strong></td>
-                            <td>{{ $venta->numero_contrato }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Asesor:</strong></td>
-                            <td>{{ $venta->asesor }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="height: 50px;">Firma del Cliente: _________________________________</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        @endfor
-
-        <!-- Footer -->
-        <div class="footer">
-            <p>Fecha de Emisión: {{ \Carbon\Carbon::now()->format('d/m/Y') }}</p>
+                <thead>
+                    <tr>
+                        <th colspan="2" style="text-align: center;">Pagaré {{ $i }} de {{ $mesesSeleccionados }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Cliente:</strong></td>
+                        <td>{{ $contacto->nombre }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fecha de Venta:</strong></td>
+                        <td>{{ $venta->fecha_hora_pago }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fecha de Vencimiento:</strong></td>
+                        <td>{{ $fechaVencimiento->format('d/m/Y') }}</td>
+                    </tr>
+                                        <tr>
+                        <td><strong>Monto:</strong></td>
+                        <td>${{ number_format(($venta->precio_venta_final - $venta->enganche) / ($venta->meses ?? 1), 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contrato N°:</strong></td>
+                        <td>{{ $venta->numero_contrato }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Asesor:</strong></td>
+                        <td>{{ $venta->asesor }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="height: 50px;">Firma del Cliente: _________________________________</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+
+        @if ($i > 1)
+            </div> <!-- Cerrar div de new-page -->
+        @endif
+
+    @endfor
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Fecha de Emisión: {{ \Carbon\Carbon::now()->format('d/m/Y') }}</p>
     </div>
 </body>
 </html>

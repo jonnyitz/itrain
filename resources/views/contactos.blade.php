@@ -13,10 +13,9 @@
     <h1 class="text-center mb-4">Contactos</h1>
 
     <!-- Barra de búsqueda -->
-    <div class="mb-3">
-        <input type="text" id="buscarContacto" class="form-control" placeholder="Buscar contacto por nombre, CURP/RFC o teléfono">
-    </div>
-
+<form action="{{ url('contactos') }}" method="GET" class="mb-3">
+    <input type="text" name="search" id="buscarContacto" class="form-control" placeholder="Buscar contacto por nombre, CURP/RFC o teléfono" value="{{ request()->input('search') }}">
+</form>
     <!-- Botón para agregar nuevo cliente -->
     <div class="mb-3">
         <button class="btn btn-success" data-toggle="modal" data-target="#nuevoClienteModal">Nuevo Cliente</button>
@@ -107,6 +106,10 @@
             @endforeach
         </tbody>
     </table>
+</div>
+<!-- Paginación -->
+<div class="d-flex justify-content-center" id="pagination-container">
+    {{ $contactos->links('pagination::bootstrap-5') }}
 </div>
 
 <!-- Modal para agregar nuevo cliente -->

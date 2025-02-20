@@ -53,6 +53,16 @@ class ProyectoController extends Controller
 
         return view('proyectos', compact('proyectos'));
     }
+     // Método para seleccionar un proyecto
+     public function seleccionarProyecto($id)
+     {
+         $proyecto = Proyecto::findOrFail($id); // Buscar el proyecto por su id
+         session(['proyecto_id' => $proyecto->id]); // Almacenar el proyecto en la sesión
+ 
+         // Redirigir a la página principal o a donde desees
+         return redirect()->route('inicio')->with('success', 'Proyecto seleccionado exitosamente');
+     }
+ 
 
     
 }

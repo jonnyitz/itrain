@@ -6,7 +6,7 @@
     <title>Gestión de Lotes</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
 </head>
 <body>
@@ -32,6 +32,7 @@
 
     <!-- Tabla de lotes -->
     <table class="table table-bordered table-striped">
+        <thead>
             <tr>
                 <th>#</th> 
                 <th>Descripción</th>
@@ -46,18 +47,20 @@
         <tbody>
             @foreach($lotes as  $index => $lote)
                 <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>Manzana {{ str_pad($lote->manzana->id, 2, '0', STR_PAD_LEFT) }} - Lote {{ str_pad($lote->id, 2, '0', STR_PAD_LEFT) }}
+                    <td>{{ ($lotes->currentPage() - 1) * $lotes->perPage() + $index + 1 }}</td>
+                    <td>{{ str_pad($lote->manzana->nombre, 2, '0', STR_PAD_LEFT) }} -  {{ str_pad($lote->lote, 2, '0', STR_PAD_LEFT) }}
                     </td>
-                    <td>${{ number_format($lote->precio_venta_contado, 2) }}</td>
+                    <td>${{ number_format($lote->costo_aproximado, 2) }}</td>
                     <td>{{ $lote->medida_costado_derecho }}</td>
                     <td>{{ $lote->medida_frontal }}</td>
                     <td>{{ $lote->area }}m2</td>
                     <td>{{$lote ->estado}}
                     </td>
                     <td>
-                        <button class="btn btn-warning btn-sm">Editar</button>
-                        <form action="{{ route('lotes.destroy', $lote->id) }}" method="POST" class="d-inline">
+                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editLoteModal-{{ $lote->id }}">
+                        Editar
+                    </button>
+                    <form action="{{ route('lotes.destroy', $lote->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm">Eliminar</button>
@@ -67,6 +70,11 @@
             @endforeach
         </tbody>
 </table>
+<!-- Paginación -->
+<div class="d-flex justify-content-center" id="pagination-container">
+    {{ $lotes->links('pagination::bootstrap-5') }}
+</div>
+
 </div>
 
 <!-- Modal para agregar un nuevo lote -->
@@ -116,6 +124,8 @@
                             <option value="inactivo">Inactivo</option>
                             <option value="cancelado">Cancelado</option>
                             <option value="reservado">Reservado</option>
+                            <option value="disponible">Disponible</option>
+                            <option value="vendido">Vendido</option>
                         </select>
                     </div>
 
@@ -197,10 +207,70 @@
         </div>
     </div>
 </div>
+            <!-- Modal de edición -->
+            <div class="modal fade" id="editLoteModal-{{ $lote->id }}" tabindex="-1" aria-labelledby="editLoteModalLabel-{{ $lote->id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editLoteModalLabel-{{ $lote->id }}">Editar Lote</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('lotes.update', $lote->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="lote-{{ $lote->id }}" class="form-label">Lote</label>
+                                    <input type="text" class="form-control" id="lote-{{ $lote->id }}" name="lote" value="{{ $lote->lote }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="manzana_id-{{ $lote->id }}" class="form-label">Manzana</label>
+                                    <select class="form-select" id="manzana_id-{{ $lote->id }}" name="manzana_id" required>
+                                        @foreach($manzanas as $manzana)
+                                            <option value="{{ $manzana->id }}" {{ $lote->manzana_id == $manzana->id ? 'selected' : '' }}>
+                                                {{ $manzana->nombre }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="denominacion-{{ $lote->id }}" class="form-label">Denominación</label>
+                                    <input type="text" class="form-control" id="denominacion-{{ $lote->id }}" name="denominacion" value="{{ $lote->denominacion }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="costo_aproximado-{{ $lote->id }}" class="form-label">Costo Aproximado</label>
+                                    <input type="number" class="form-control" id="costo_aproximado-{{ $lote->id }}" name="costo_aproximado" value="{{ $lote->costo_aproximado }}" step="0.01" required>
+                                </div>
+                                
+                               <!-- Estado -->
+                            <div class="mb-3">
+                                <label for="estado" class="form-label">Estado</label>
+                                <select class="form-select" id="estado" name="estado" required>
+                                    <option value="activo">Activo</option>
+                                    <option value="inactivo">Inactivo</option>
+                                    <option value="cancelado">Cancelado</option>
+                                    <option value="reservado">Reservado</option>
+                                    <option value="disponible">Disponible</option>
+                                    <option value="vendido">Vendido</option>
+                                </select>
+                            </div>
+
+
+                                <!-- Agrega más campos necesarios -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
 <!-- Bootstrap JS -->
 <!-- Bootstrap JS Bundle (incluye Popper.js) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 <script>
     document.getElementById('searchInput').addEventListener('input', function () {
