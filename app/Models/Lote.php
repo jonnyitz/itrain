@@ -32,6 +32,7 @@ class Lote extends Model
         'precio_m2',
         'observacion',
         'area',
+        'estado',
     ];
 
     // Relación con la tabla ventas (un lote pertenece a una venta)
@@ -46,5 +47,9 @@ class Lote extends Model
     public function manzana()
     {
         return $this->belongsTo(Manzana::class);
+    }
+    public function marcarComoVendido()
+    {
+        $this->update(['estado' => 'vendido']);
     }
 }

@@ -29,6 +29,7 @@
                     <th>Email</th>
                     <th>Grupo</th>
                     <th>Empresa</th>
+                    <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>

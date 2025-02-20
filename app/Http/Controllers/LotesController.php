@@ -13,7 +13,10 @@ class LotesController extends Controller
      */
     public function index()
     {
-        $lotes = Lote::with('manzana')->get(); // Obtener todos los lotes con su manzana asociada
+        $proyecto_id = session('proyecto_id');
+
+    
+        $lotes = Lote::with('manzana')->paginate(10);
         $manzanas = Manzana::all(); // Obtener todas las manzanas para el formulario
         return view('lotes', compact('lotes', 'manzanas'));
     }
@@ -28,7 +31,7 @@ class LotesController extends Controller
         'denominacion' => 'required|string|max:255',
         'costo_aproximado' => 'required|numeric|min:0',
         'precio_venta_contado' => 'required|numeric|min:0',
-        'estado' => 'required|in:disponible,vendido',
+       'estado' => 'required|in:activo,inactivo,cancelado,reservado,disponible,vendido',
         'descripcion' => 'required|string',
         'medida_frontal' => 'required|numeric|min:0',
         'medida_costado_derecho' => 'required|numeric|min:0',
@@ -46,21 +49,62 @@ class LotesController extends Controller
 
         
     ]);
-                         $validated['venta_id'] = $validated['venta_id'] ?? 1; // Cambia 1 por el ID predeterminado que consideres adecuado
+    $validated['venta_id'] = $validated['venta_id'] ?? 1; // Cambia 1 por el ID predeterminado que consideres adecuado
 
 
                          
 
     Lote::create($validated);
 
-    return redirect()->route('lotes')->with('success', 'Lote creado correctamente.');
+    return redirect()->route('inicio')->with('success', 'Lote creado correctamente.');
 }
+public function edit($id)
+{
+    $lote = Lote::findOrFail($id);
+    $manzanas = Manzana::all(); // Obtener todas las manzanas para el formulario
+    return view('edit_lote', compact('lote', 'manzanas'));
+}
+
+/**
+ * Actualiza un lote en la base de datos.
+ */
+public function update(Request $request, $id)
+{
+    $validated = $request->validate([
+        'manzana_id' => 'required|exists:manzanas,id',
+        'denominacion' => 'required|string|max:255',
+        'costo_aproximado' => 'required|numeric|min:0',
+        'precio_venta_contado' => 'required|numeric|min:0',
+       'estado' => 'required|in:activo,inactivo,cancelado,reservado,disponible,vendido',
+        'descripcion' => 'required|string',
+        'medida_frontal' => 'required|numeric|min:0',
+        'medida_costado_derecho' => 'required|numeric|min:0',
+        'medida_costado_izquierdo' => 'required|numeric|min:0',
+        'medida_posterior' => 'required|numeric|min:0',
+        'colindancia_frontal' => 'required|string',
+        'colindancia_derecho' => 'required|string',
+        'colindancia_izquierdo' => 'required|string',
+        'colindancia_posterior' => 'required|string',
+        'observacion' => 'nullable|string',
+        'precio_m2' => 'required|numeric|min:0',
+        'lote' => 'required|string|max:255',
+        'precio_venta_final' => 'required|numeric|min:0',
+        'area' => 'nullable|numeric',
+    ]);
+
+    $lote = Lote::findOrFail($id);
+    $lote->update($validated);
+
+    return redirect()->route('inicio')->with('success', 'Lote actualizado correctamente.');
+}
+
 
     public function destroy($id)
     {
         $lotes= Lote::findOrFail($id);
         $lotes->delete();
 
-        return redirect()->route('lotes')->with('success', 'Lote eliminado exitosamente.');
+        return redirect()->route('inicio')->with('success', 'Lote eliminado exitosamente.');
     }
+    
 }

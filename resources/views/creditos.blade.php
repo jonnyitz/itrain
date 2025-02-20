@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créditos - Reporte</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -37,7 +39,14 @@
                 <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $venta->contacto->nombre ?? 'Sin contacto' }}</td>
-                <td>{{ $venta->lote->lote}}</td>
+                <td>                
+                    @if($venta->lote)
+                    <div>Lote: {{ $venta->lote->lote }}</div>
+                    <div>Manzana: {{ $venta->lote->manzana ? $venta->lote->manzana->nombre : 'No disponible' }}</div>
+                    @else
+                    <div>No asignado</div>
+                    @endif
+                </td>
                 <td>
                     {{ \Carbon\Carbon::parse($venta->fecha_venta)->addMonth()->format('d/m/Y') }} <!-- Agrega un mes -->
                 </td>
@@ -54,30 +63,29 @@
                     ${{ number_format($venta->precio_venta_final, 2) }}
                 </td>
                     <td>
-                        <!-- Botón Editar (solo visual) -->
-                        <button 
-                            class="btn btn-primary btn-sm" 
-                            disabled
-                        >
-                            Editar
-                        </button>
-
-                        <!-- Botón Eliminar (solo visual) -->
-                        <button 
-                            class="btn btn-danger btn-sm" 
-                            disabled
-                        >
-                            Eliminar
-                        </button>
-
                         <!-- Botón Descargar PDF (solo visual) -->
                         <a href="{{ route('ventas.pagare', $venta->id) }}" class="btn btn-success btn-sm">
                                 <i class="fas fa-file-invoice"></i> 
                         </a>
                       <!-- Botón para Ver Cronograma en PDF -->
-                  <a href="{{ route('ventas.cronograma', $venta->id) }}" class="btn btn-info btn-sm">
+                        <a href="{{ route('ventas.cronograma', $venta->id) }}" class="btn btn-info btn-sm">
                             <i class="fas fa-calendar-alt"></i> Ver Cronograma
                         </a>
+                        <a href="{{ route('ventas.descargarPDF', ['id' => $venta->id]) }}" 
+                        class="btn btn-primary" 
+                        style="padding: 8px; text-decoration: none; color: white; background-color: #007bff; border-radius: 4px;">
+                            <i class="fas fa-dollar-sign"></i>
+                        </a>
+                        @if($venta->modalidad_enganche == 2 || $venta->credito) 
+                        <a href="{{ route('creditos.enganche', $venta->id) }}" 
+                        style="display: inline-block; width: 20px; height: 10px; background-color: rgb(128, 0, 128); color: black; border-radius: 3px; text-decoration: none;"
+                        target="_blank">
+                        </a>
+                        @endif
+                        <a href="{{ route('estado_de_cuenta', $venta->id) }}" class="btn btn-danger">
+                            <i class="fas fa-file-pdf"></i> E.C
+                        </a>
+
                     </td>
                 </tr>
             @endforeach

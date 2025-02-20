@@ -10,5 +10,8 @@ class Concepto extends Model
     use HasFactory;
 
     protected $fillable = ['concepto', 'tipo_concepto'];
+    // Modelo Concepto
+
+
 }
 
