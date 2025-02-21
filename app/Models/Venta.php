@@ -14,16 +14,15 @@ class Venta extends Model
         'contacto_id',
         'lote_id',
         'manzana_id',
-        'mes_id',
+        'meses',
         'fecha_venta',
-        'tipo_venta',
         'asesor',
         'numero_contrato',
         'aval',
         'precio_venta_final',
         'descripcion',
         'observacion',
-        'banco_caja_interna', // Este campo no tiene relación con otra tabla
+        'banco_id', // Este campo no tiene relación con otra tabla
         'comprobante',
         'numero_comprobante',
         'forma_pago',
@@ -34,6 +33,7 @@ class Venta extends Model
         'enganche',
         'cantidad_pagos',
         'fecha_inicio',
+        'proyecto_id',
     ];
 
     // Relación con la tabla `contactos`
@@ -58,11 +58,32 @@ class Venta extends Model
         return $this->belongsTo(Manzana::class);
     }
 
-    public function mes()
+    public function getModalidadEngancheNombreAttribute()
     {
-        return $this->belongsTo(Mes::class);
+        $modalidades = [
+            1 => 'Contado',
+            2 => 'Crédito',
+            // Agrega otras modalidades si es necesario
+        ];
+    
+        return $modalidades[$this->modalidad_enganche] ?? 'Desconocido';
+    }
+    public static function generarNumeroContrato()
+    {
+        $ultimaVenta = self::latest('id')->first(); // Obtener la última venta por ID
+        return $ultimaVenta 
+            ? 'VEN-' . str_pad($ultimaVenta->id + 1, 6, '0', STR_PAD_LEFT) 
+            : 'VEN-000001';  // Si no hay ninguna venta, comenzamos con VEN-000001
     }
 
-
+     // Relación con Banco
+     public function banco()
+     {
+         return $this->belongsTo(Banco::class);
+     }
+     public function proyecto()
+     {
+         return $this->belongsTo(Proyecto::class);
+     }
     
 }

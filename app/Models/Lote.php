@@ -33,6 +33,8 @@ class Lote extends Model
         'observacion',
         'area',
         'estado',
+        'proyecto_id',
+
     ];
 
     // Relación con la tabla ventas (un lote pertenece a una venta)
@@ -48,4 +50,13 @@ class Lote extends Model
     {
         return $this->belongsTo(Manzana::class);
     }
+    public function marcarComoVendido()
+    {
+        $this->update(['estado' => 'vendido']);
+    }
+    public function proyecto()
+    {
+        return $this->belongsTo(Proyecto::class);
+    }
+    
 }

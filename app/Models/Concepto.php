@@ -9,6 +9,14 @@ class Concepto extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['concepto', 'tipo_concepto'];
+    protected $fillable = [
+        'concepto', 'tipo_concepto', 'proyecto_id'
+    ];
+    // Modelo Concepto
+
+    public function proyecto()
+    {
+        return $this->belongsTo(Proyecto::class);
+    }
 }
 

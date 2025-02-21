@@ -22,6 +22,13 @@ class Cuota extends Model
         'fecha',
         'rd',
         'voucher',
+        'banco_id', // Nuevo campo
+        'concep',
+        'cuotas',
+        'forma_de_pago',
+        'monto',
+        'proyecto_id',
+
     ];
 
     // Relaciones con otros modelos
@@ -33,5 +40,13 @@ class Cuota extends Model
     public function lote()
     {
         return $this->belongsTo(Lote::class);
+    }
+        public function banco()
+    {
+        return $this->belongsTo(Banco::class);
+    }
+    public function proyecto()
+    {
+        return $this->belongsTo(Proyecto::class);
     }
 }

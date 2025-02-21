@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Proyecto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProyectoAjustesController extends Controller
 {
@@ -33,6 +34,38 @@ class ProyectoAjustesController extends Controller
 
         return redirect()->route('proyecto-ajustes.index')->with('success', 'Proyecto agregado exitosamente.');
     }
+    public function update(Request $request, $id)
+    {
+        $proyecto = Proyecto::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'ubicacion' => 'required|string|max:255',
+            'moneda' => 'required|string|max:10',
+            'total_lotes' => 'required|integer',
+            'lotes_disponibles' => 'required|integer',
+            'estado' => 'required|string|in:activo,inactivo',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $proyecto->fill($validatedData);
+
+        // Manejo de la imagen
+        if ($request->hasFile('imagen')) {
+            // Eliminar imagen anterior si existe
+            if ($proyecto->imagen && Storage::exists('public/' . $proyecto->imagen)) {
+                Storage::delete('public/' . $proyecto->imagen);
+            }
+
+            // Guardar nueva imagen
+            $imagePath = $request->file('imagen')->storeAs('proyectos', uniqid() . '.' . $request->file('imagen')->extension(), 'public');
+            $proyecto->imagen = $imagePath;
+        }
+
+        $proyecto->save();
+
+        return redirect()->route('proyecto-ajustes')->with('success', 'Proyecto actualizado correctamente.');
+    }
 
     public function destroy($id)
     {
@@ -42,7 +75,7 @@ class ProyectoAjustesController extends Controller
         }
         $proyecto->delete();
 
-        return redirect()->route('proyecto-ajustes.index')->with('success', 'Proyecto eliminado correctamente.');
+        return redirect()->route('inicio')->with('success', 'Proyecto eliminado correctamente.');
     }
 }
 

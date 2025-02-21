@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 
 class ConceptoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $conceptos = Concepto::all();
+        // Obtén el ID del proyecto de la sesión
+        $proyectoId = session('proyecto_id'); // O también lo puedes obtener de la solicitud con $request->input('proyecto_id')
+
+        // Realiza la consulta para filtrar los conceptos por proyecto
+        $conceptos = Concepto::where('proyecto_id', $proyectoId)->get();
+
         return view('conceptos', compact('conceptos'));
     }
 
@@ -20,14 +25,18 @@ class ConceptoController extends Controller
             'tipo_concepto' => 'required|string|max:255',
         ]);
 
-        Concepto::create($request->only(['concepto', 'tipo_concepto']));
+        // Agregar el proyecto_id a la creación del concepto
+        $proyectoId = session('proyecto_id');
+        Concepto::create(array_merge($request->only(['concepto', 'tipo_concepto']), ['proyecto_id' => $proyectoId]));
 
-        return redirect()->back()->with('inicio', 'Concepto creado exitosamente');
+        return redirect()->back()->with('success', 'Concepto creado exitosamente');
     }
 
     public function destroy($id)
     {
-        Concepto::findOrFail($id)->delete();
+        $concepto = Concepto::findOrFail($id);
+        $concepto->delete();
+
         return redirect()->back()->with('success', 'Concepto eliminado exitosamente');
     }
 }

@@ -10,7 +10,12 @@ class ManzanaController extends Controller
 {
     public function index()
     {
-        $manzanas = Manzana::with('proyecto')->get();
+        $proyectoId = session('proyecto_id');  // Asegúrate de que esta variable esté definida
+
+        $manzanas = Manzana::with('proyecto')
+        ->where('proyecto_id', $proyectoId) // Filtrar por proyecto_id
+        ->paginate(10);
+
         $proyectos = Proyecto::all(); // Para mostrar en el formulario
 
         return view('manzanas', compact('manzanas', 'proyectos'));
@@ -23,6 +28,9 @@ class ManzanaController extends Controller
             'proyecto_id' => 'required|exists:proyectos,id',
             'vendedor' => 'required|string|max:255',
         ]);
+        $manzanas = $request->all();
+        $manzanas['proyecto_id'] = session('proyecto_id');  // Añadir el proyecto_id
+        Manzana::create($manzanas);
 
         Manzana::create($request->all());
 

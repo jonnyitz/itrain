@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Manzanas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
     <div class="container mt-5">
@@ -59,49 +61,56 @@
             </div>
         </div>
 
-        <!-- Tabla para mostrar manzanas -->
-        <h2 class="mb-3">Lista de Manzanas</h2>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>#</th> 
-                    <th>Nombre</th>
-                    <th>Proyecto</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($manzanas as  $index => $manzana)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $manzana->nombre }}</td>
-                        <td>{{ $manzana->proyecto->nombre }}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm">Editar</button>
-                            <form action="{{ route('manzanas.destroy', $manzana->id) }}" method="POST" style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta manzana?')">Eliminar</button>
-                            </form>
-                            <button 
-                                class="btn btn-warning btn-sm" 
-                                title="Descargar PDF"
-                                disabled
-                            >
-                                <i class="fas fa-file-pdf"></i>
-                            </button>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="4" class="text-center">No hay manzanas registradas.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </>
-    </div>
+      <!-- Tabla para mostrar manzanas -->
+<h2 class="mb-3">Lista de Manzanas</h2>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>#</th> 
+            <th>Nombre</th>
+            <th>Proyecto</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse ($manzanas as  $index => $manzana)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $manzana->nombre }}</td>
+                <td>{{ $manzana->proyecto->nombre }}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm">Editar</button>
+                    <form action="{{ route('manzanas.destroy', $manzana->id) }}" method="POST" style="display:inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta manzana?')">Eliminar</button>
+                    </form>
+                    <button 
+                        class="btn btn-warning btn-sm" 
+                        title="Descargar PDF"
+                        disabled
+                    >
+                        <i class="fas fa-file-pdf"></i>
+                    </button>
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="4" class="text-center">No hay manzanas registradas.</td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
+<!-- Paginación -->
+<div class="d-flex justify-content-center" id="pagination-container">
+    {{ $manzanas->links('pagination::bootstrap-5') }}
+</div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         // Función de búsqueda
         document.getElementById('searchBar').addEventListener('keyup', function() {

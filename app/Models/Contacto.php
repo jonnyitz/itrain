@@ -16,6 +16,7 @@ class Contacto extends Model
         'telefono',
         'direccion',
         'observacion',
+        'proyecto_id'
     ];
 
     
@@ -23,6 +24,10 @@ class Contacto extends Model
     public function ventas()
     {
         return $this->hasMany(Venta::class, 'contacto_id');
+    }
+    public function proyecto()
+    {
+        return $this->belongsTo(Proyecto::class);
     }
 }
 

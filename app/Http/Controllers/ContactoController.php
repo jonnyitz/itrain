@@ -10,11 +10,23 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class ContactoController extends Controller
 {
     // Mostrar lista de contactos
-    public function index()
-    {
-        $contactos = Contacto::all();
-        return view('contactos', compact('contactos'));
-    }
+    public function index(Request $request)
+{
+    // Obtén el término de búsqueda y el ID del proyecto de la solicitud
+    $searchTerm = $request->input('search');
+    $proyectoId = session('proyecto_id'); // O también puedes obtenerlo de la solicitud si lo prefieres: $request->input('proyecto_id')
+
+    // Realiza la consulta para filtrar los contactos
+    $contactos = Contacto::when($searchTerm, function ($query, $searchTerm) {
+        return $query->where('nombre', 'like', "%{$searchTerm}%")
+                     ->orWhere('curp_rfc', 'like', "%{$searchTerm}%")
+                     ->orWhere('telefono', 'like', "%{$searchTerm}%");
+    })
+    ->where('proyecto_id', $proyectoId) // Filtrar por proyecto
+    ->paginate(10);
+
+    return view('contactos', compact('contactos'));
+}
 
     // Guardar nuevo contacto
     public function store(Request $request)
@@ -28,10 +40,14 @@ class ContactoController extends Controller
             'observacion' => 'nullable|string',
         ]);
 
-        Contacto::create($request->all());
+        // Asume que el contacto también debe tener un proyecto_id asociado
+        $contacto = $request->all();
+        $contacto['proyecto_id'] = session('proyecto_id');  // Añadir el proyecto_id
+        Contacto::create($contacto);
 
         return redirect()->route('inicio')->with('success', 'Contacto creado exitosamente.');
     }
+
     // Cargar los datos de contacto para edición (AJAX)
     public function edit($id)
     {
@@ -41,25 +57,22 @@ class ContactoController extends Controller
 
     // Actualizar contacto existente
     public function update(Request $request, $id)
-{
-    $validated = $request->validate([
-        'nombre' => 'required|string|max:255',
-        'apellidos' => 'required|string|max:255',
-        'curp_rfc' => 'required|string|max:255',
-        'telefono' => 'nullable|string|max:255',
-        'direccion' => 'nullable|string|max:255',
-        'observacion' => 'nullable|string',
-    ]);
+    {
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'curp_rfc' => 'required|string|max:255',
+            'telefono' => 'nullable|string|max:255',
+            'direccion' => 'nullable|string|max:255',
+            'observacion' => 'nullable|string',
+        ]);
 
-    // Luego, realizas la actualización del contacto
-    $contacto = Contacto::find($id);
-    $contacto->update($validated);
+        // Luego, realizas la actualización del contacto
+        $contacto = Contacto::find($id);
+        $contacto->update($validated);
 
-    return response()->json(['message' => 'Contacto actualizado con éxito']);
-}
-
-
-
+        return response()->json(['message' => 'Contacto actualizado con éxito']);
+    }
     
     // Eliminar contacto
     public function destroy($id)
@@ -73,8 +86,11 @@ class ContactoController extends Controller
     // Método para exportar a Excel
     public function exportToExcel()
     {
-        // Obtener los datos de contacto (puedes usar cualquier consulta que necesites)
-        $contactos = Contacto::all();
+        // Obtener el proyecto_id de la sesión
+        $proyecto_id = session('proyecto_id');
+
+        // Obtener los contactos del proyecto
+        $contactos = Contacto::where('proyecto_id', $proyecto_id)->get();
 
         // Crear una nueva hoja de cálculo
         $spreadsheet = new Spreadsheet();
