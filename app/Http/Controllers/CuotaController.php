@@ -69,10 +69,10 @@ class CuotaController extends Controller
             $voucherPath = 'images/' . $fileName;
         }
 
+
         $cuotas = $request->all();
         $cuotas['proyecto_id'] = session('proyecto_id');  // Añadir el proyecto_id
         Cuota::create($cuotas);
-
 
         // Crear la nueva cuota con los datos recibidos
         Cuota::create([

@@ -9,6 +9,7 @@ class Concepto extends Model
 {
     use HasFactory;
 
+
     protected $fillable = [
         'concepto', 'tipo_concepto', 'proyecto_id'
     ];
@@ -18,5 +19,6 @@ class Concepto extends Model
     {
         return $this->belongsTo(Proyecto::class);
     }
+
 }
 

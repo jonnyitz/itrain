@@ -27,6 +27,7 @@ class LotesController extends Controller
         // Pasar los lotes y las manzanas a la vista
         return view('lotes', compact('lotes', 'manzanas'));
     }
+    
 
     /**
      * Guarda un nuevo lote en la base de datos.
@@ -121,4 +122,5 @@ class LotesController extends Controller
 
         return redirect()->route('inicio')->with('success', 'Lote eliminado exitosamente.');
     }
+    
 }

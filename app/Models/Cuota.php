@@ -28,7 +28,6 @@ class Cuota extends Model
         'forma_de_pago',
         'monto',
         'proyecto_id',
-
     ];
 
     // Relaciones con otros modelos
@@ -49,4 +48,5 @@ class Cuota extends Model
     {
         return $this->belongsTo(Proyecto::class);
     }
+    
 }

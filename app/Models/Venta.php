@@ -85,5 +85,6 @@ class Venta extends Model
      {
          return $this->belongsTo(Proyecto::class);
      }
+
     
 }

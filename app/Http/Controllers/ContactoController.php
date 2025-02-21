@@ -27,7 +27,7 @@ class ContactoController extends Controller
 
     return view('contactos', compact('contactos'));
 }
-
+    
     // Guardar nuevo contacto
     public function store(Request $request)
     {

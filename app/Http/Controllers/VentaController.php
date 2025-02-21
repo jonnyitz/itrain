@@ -67,6 +67,7 @@ class VentaController extends Controller
 
             ]);
         }
+
         // Asume que el contacto también debe tener un proyecto_id asociado
         $venta = $request->all();
         $venta['proyecto_id'] = session('proyecto_id');  // Añadir el proyecto_id
@@ -112,6 +113,7 @@ class VentaController extends Controller
     public function index(Request $request)
 {
     $searchTerm = $request->input('search'); // Obtén el término de búsqueda
+
     $proyectoId = session('proyecto_id'); // O también puedes obtenerlo de la solicitud si lo prefieres: $request->input('proyecto_id')
 
     // Realiza la consulta para las ventas y sus relaciones
@@ -127,6 +129,8 @@ class VentaController extends Controller
     })
     ->where('proyecto_id', $proyectoId) // Filtrar por proyecto
     ->paginate(10); // Paginación de 10 registros
+   
+
 
     // Obtener datos adicionales
     $contactos = Contacto::all(); // Obtener todos los contactos

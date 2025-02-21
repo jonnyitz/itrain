@@ -54,6 +54,7 @@ class Lote extends Model
     {
         $this->update(['estado' => 'vendido']);
     }
+
     public function proyecto()
     {
         return $this->belongsTo(Proyecto::class);
