@@ -15,6 +15,7 @@ class Reserva extends Model
         'fecha_firma',
         'fecha_pago',
         'monto',
+        'proyecto_id',
     ];
 
     // Relación con Contacto
@@ -27,5 +28,9 @@ class Reserva extends Model
     public function venta()
     {
         return $this->belongsTo(Venta::class);
+    }
+    public function proyecto()
+    {
+        return $this->belongsTo(Proyecto::class);
     }
 }

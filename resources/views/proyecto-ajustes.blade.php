@@ -29,6 +29,8 @@
                     <th>Lotes Disponibles</th>
                     <th>Estado</th>
                     <th>Imagen</th>
+                    <th>Propietario</th> <!-- Campo propietario agregado -->
+                    <th>Parcela</th> <!-- Campo parcela agregado -->
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -47,24 +49,17 @@
                             </span>
                         </td>
                         <td>
-                            @if($proyecto->imagen)
-                                <img src="{{ asset('storage/' . $proyecto->imagen) }}" alt="Imagen del proyecto" width="80">
-                            @else
-                                Sin imagen
-                            @endif
+                        @if($proyecto->imagen)
+                            <img src="{{ asset($proyecto->imagen) }}" alt="Imagen del proyecto" width="80">
+                        @else
+                            Sin imagen
+                        @endif
+
                         </td>
+                        <td>{{ $proyecto->propietario }}</td> <!-- Mostrar propietario -->
+                        <td>{{ $proyecto->parcela }}</td> <!-- Mostrar parcela -->
                         <td>
-                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editProjectModal" 
-                            data-id="{{ $proyecto->id }}"
-                            data-nombre="{{ $proyecto->nombre }}"
-                            data-ubicacion="{{ $proyecto->ubicacion }}"
-                            data-moneda="{{ $proyecto->moneda }}"
-                            data-total_lotes="{{ $proyecto->total_lotes }}"
-                            data-lotes_disponibles="{{ $proyecto->lotes_disponibles }}"
-                            data-estado="{{ $proyecto->estado }}"
-                            data-imagen="{{ $proyecto->imagen }}">
-                            Editar
-                        </button>
+                        <a href="{{ route('proyectos.edit', $proyecto->id) }}" class="btn btn-warning">Editar Proyecto</a>
                         <form action="{{ route('proyecto-ajustes.destroy', $proyecto->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
@@ -122,6 +117,15 @@
                                 <label for="imagen">Imagen del Proyecto</label>
                                 <input type="file" class="form-control-file" id="imagen" name="imagen" accept="image/*">
                             </div>
+                            <div class="form-group">
+                                <label for="propietario">Propietario</label>
+                                <input type="text" class="form-control" id="propietario" name="propietario" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="parcela">Parcela</label>
+                                <input type="text" class="form-control" id="parcela" name="parcela" required>
+                            </div>
                             <button type="submit" class="btn btn-primary">Agregar Proyecto</button>
                         </form>
                     </div>
@@ -129,56 +133,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog" aria-labelledby="editProjectModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editProjectModalLabel">Editar Proyecto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form id="editProjectForm" action="{{ route('proyecto-ajustes.update', $proyecto->id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <label for="edit_nombre">Nombre del Proyecto</label>
-                        <input type="text" class="form-control" id="edit_nombre" name="nombre" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_ubicacion">Ubicación</label>
-                        <input type="text" class="form-control" id="edit_ubicacion" name="ubicacion" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_moneda">Moneda</label>
-                        <input type="text" class="form-control" id="edit_moneda" name="moneda" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_total_lotes">Total de Lotes</label>
-                        <input type="number" class="form-control" id="edit_total_lotes" name="total_lotes" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_lotes_disponibles">Lotes Disponibles</label>
-                        <input type="number" class="form-control" id="edit_lotes_disponibles" name="lotes_disponibles" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_estado">Estado</label>
-                        <select class="form-control" id="edit_estado" name="estado" required>
-                            <option value="activo">EN VENTA</option>
-                            <option value="inactivo">VENDIDO</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                    <label for="edit_imagen">Imagen del Proyecto</label>
-                    <input type="file" class="form-control-file" id="edit_imagen" name="imagen" accept="image/*">
-                    <img id="current_image" src="" alt="Imagen Actual" width="100" style="margin-top: 10px;">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
+    
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>

@@ -122,13 +122,30 @@
             </form>
         </div>
     </div>
+    
 
     <div class="project-container">
         @foreach($proyectos as $proyecto)
+        @php
+    // Verificar si hay un cambio en los datos
+    $total_lotes_previos = session('total_lotes_previos', $proyecto->total_lotes);
+    $lotes_disponibles_previos = session('lotes_disponibles_previos', $proyecto->lotes_disponibles);
+
+    // Actualizar los valores solo si hay un cambio
+    if ($proyecto->total_lotes != $total_lotes_previos) {
+        session(['total_lotes_previos' => $proyecto->total_lotes]);
+    }
+
+    if ($proyecto->lotes_disponibles != $lotes_disponibles_previos) {
+        session(['lotes_disponibles_previos' => $proyecto->lotes_disponibles]);
+    }
+@endphp
             <div class="project-card">
-                @if($proyecto->imagen)
-                    <p><img src="{{ asset('storage/' . $proyecto->imagen) }}" alt="Imagen del proyecto" style="width: 200px;"></p>
-                @endif
+            @if($proyecto->imagen)
+                            <img src="{{ asset($proyecto->imagen) }}" alt="Imagen del proyecto" width="150">
+                        @else
+                            Sin imagen
+                        @endif
                 <h3>{{ $proyecto->nombre }}</h3>
                 <p>{{ $proyecto->ubicacion }}</p>
                  <!-- Modificar la URL para que redirija al controlador que maneja la selección del proyecto -->
@@ -144,14 +161,23 @@
                     // Calcular el total de lotes vendidos
                     $lotes_vendidos = $proyecto->total_lotes - $proyecto->lotes_disponibles;
 
-                    // Verificar que total_lotes no sea cero para evitar división por cero
-                    if ($proyecto->total_lotes > 0) {
-                        // Calcular el porcentaje de progreso
-                        $progreso = ($lotes_vendidos / $proyecto->total_lotes) * 100; 
+                    // Verificar si hay más lotes vendidos
+                    if ($lotes_vendidos > $proyecto->lotes_vendidos_previos) {
+                        // Actualizar el progreso solo si los lotes vendidos han aumentado
+                        if ($proyecto->total_lotes > 0) {
+                            // Calcular el porcentaje de progreso
+                            $progreso = ($lotes_vendidos / $proyecto->total_lotes) * 100;
+                        } else {
+                            $progreso = 0; // Si no hay lotes, el progreso es 0
+                        }
+
+                        // Actualizar la variable de lotes vendidos previos para la próxima comparación
+                        $proyecto->lotes_vendidos_previos = $lotes_vendidos;
                     } else {
-                        $progreso = 0; // Si no hay lotes, el progreso es 0
+                        $progreso = $proyecto->progreso_anterior; // Mantener el progreso previo si no hay cambios
                     }
                 @endphp
+
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: {{ $progreso }}%;" aria-valuenow="{{ $progreso }}" aria-valuemin="0" aria-valuemax="100">{{ round($progreso) }}%</div>
                 </div>

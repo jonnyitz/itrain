@@ -114,7 +114,35 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <!-- Modalidad -->
+                            <div class="form-group">
+                                <label for="modalidad">Modalidad</label>
+                                <select class="form-control" id="modalidad" name="modalidad" required>
+                                    <option value="quincenal">Quincenal</option>
+                                    <option value="mensual">Mensual</option>
+                                    <option value="bimestral">Bimestral</option>
+                                    <option value="trimestral">Trimestral</option>
+                                    <option value="cuatrimestral">Cuatrimestral</option>
+                                    <option value="anual">Anual</option>
+                                </select>
+                            </div>
+                            <!-- Fecha de Primer Pago -->
+                            <div class="form-group">
+                                <label for="fecha_primer_pago">Fecha de Primer Pago</label>
+                                <input type="date" class="form-control" id="fecha_primer_pago" name="fecha_primer_pago" required>
+                            </div>
 
+                            <!-- Primer Pago del Enganche -->
+                            <div class="form-group">
+                                <label for="primer_pago_enganche">Primer Pago del Enganche</label>
+                                <input type="number" step="0.01" class="form-control" id="primer_pago_enganche" name="primer_pago_enganche" required>
+                            </div>
+
+                            <!-- Precio de Venta Final -->
+                            <div class="form-group">
+                                <label for="precio_venta_final">Precio de Venta Final</label>
+                                <input type="number" step="0.01" class="form-control" id="precio_venta_final" name="precio_venta_final" required>
+                            </div>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </form>
                     </div>

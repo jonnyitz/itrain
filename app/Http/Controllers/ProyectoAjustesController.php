@@ -27,44 +27,67 @@ class ProyectoAjustesController extends Controller
         ]);
 
         $proyecto = new Proyecto($request->all());
+
         if ($request->hasFile('imagen')) {
-            $proyecto->imagen = $request->file('imagen')->store('imagenes', 'public');
+            $imagen = $request->file('imagen');
+            $nombreImagen = time() . '_' . $imagen->getClientOriginalName(); // Nombre único
+            $rutaImagen = 'imagenes/' . $nombreImagen;
+            
+            $imagen->move(public_path('imagenes'), $nombreImagen); // Guarda en public/imagenes
+            
+            $proyecto->imagen = $rutaImagen; // Guarda la ruta en la BD
         }
+        
         $proyecto->save();
+    
 
         return redirect()->route('proyecto-ajustes.index')->with('success', 'Proyecto agregado exitosamente.');
     }
+    public function edit($id)
+    {
+        $proyecto = Proyecto::findOrFail($id); // Encuentra el proyecto por su ID
+        return view('proyectos_edit', compact('proyecto'));
+    }
+
     public function update(Request $request, $id)
     {
-        $proyecto = Proyecto::findOrFail($id);
-
-        $validatedData = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'ubicacion' => 'required|string|max:255',
-            'moneda' => 'required|string|max:10',
-            'total_lotes' => 'required|integer',
-            'lotes_disponibles' => 'required|integer',
-            'estado' => 'required|string|in:activo,inactivo',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        // Validación de los datos
+        $request->validate([
+            'nombre' => 'required',
+            'ubicacion' => 'required',
+            'moneda' => 'required',
+            'total_lotes' => 'required|numeric',
+            'lotes_disponibles' => 'required|numeric',
+            'estado' => 'required',
+            'imagen' => 'nullable|image',
         ]);
 
-        $proyecto->fill($validatedData);
+        $proyecto = Proyecto::findOrFail($id); // Encuentra el proyecto que se desea editar
 
-        // Manejo de la imagen
+        // Actualiza los datos del proyecto
+        $proyecto->nombre = $request->nombre;
+        $proyecto->ubicacion = $request->ubicacion;
+        $proyecto->moneda = $request->moneda;
+        $proyecto->total_lotes = $request->total_lotes;
+        $proyecto->lotes_disponibles = $request->lotes_disponibles;
+        $proyecto->estado = $request->estado;
+
+        $proyecto = Proyecto::findOrFail($id); // Encuentra el proyecto que se desea editar
+
         if ($request->hasFile('imagen')) {
-            // Eliminar imagen anterior si existe
-            if ($proyecto->imagen && Storage::exists('public/' . $proyecto->imagen)) {
-                Storage::delete('public/' . $proyecto->imagen);
-            }
-
-            // Guardar nueva imagen
-            $imagePath = $request->file('imagen')->storeAs('proyectos', uniqid() . '.' . $request->file('imagen')->extension(), 'public');
-            $proyecto->imagen = $imagePath;
+            $imagen = $request->file('imagen');
+            $nombreImagen = time() . '_' . $imagen->getClientOriginalName(); // Nombre único
+            $rutaImagen = 'imagenes/' . $nombreImagen;
+            
+            $imagen->move(public_path('imagenes'), $nombreImagen); // Guarda en public/imagenes
+            
+            $proyecto->imagen = $rutaImagen; // Guarda la ruta en la BD
         }
-
+        
         $proyecto->save();
+    
 
-        return redirect()->route('proyecto-ajustes')->with('success', 'Proyecto actualizado correctamente.');
+        return redirect()->route('inicio')->with('success', 'Proyecto actualizado exitosamente.');
     }
 
     public function destroy($id)

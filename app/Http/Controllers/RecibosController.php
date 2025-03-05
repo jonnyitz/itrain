@@ -17,6 +17,12 @@ class RecibosController extends Controller
 
         return view('recibos', compact('recibos', 'contactos', 'gastos'));
     }
+    public function edit($id)
+    {
+        $recibo = Recibo::findOrFail($id);
+        return view('editar_recibo', compact('recibo'));
+    }
+
 
     public function store(Request $request)
     {
@@ -33,6 +39,31 @@ class RecibosController extends Controller
 
         Recibo::create($data);
 
-        return redirect()->route('recibos')->with('success', 'Recibo agregado correctamente.');
+        return redirect()->route('inicio')->with('success', 'Recibo agregado correctamente.');
     }
+    public function update(Request $request, $id)
+    {
+        $data = $request->validate([
+            'contacto_id' => 'required|exists:contactos,id',
+            'monto' => 'required|numeric',
+            'tipo_recibo' => 'required|string',
+            'fecha' => 'required|date',
+            'correlativo' => 'required|string',
+            'concepto' => 'required|string',
+            'metodo_pago' => 'required|string',
+        ]);
+
+        $recibo = Recibo::findOrFail($id);
+        $recibo->update($data);
+
+        return redirect()->route('inicio')->with('success', 'Recibo actualizado correctamente.');
+    }
+    public function destroy($id)
+    {
+        $recibo = Recibo::findOrFail($id);
+        $recibo->delete();
+    
+        return redirect()->route('inicio')->with('success', 'Recibo eliminado correctamente.');
+    }
+    
 }

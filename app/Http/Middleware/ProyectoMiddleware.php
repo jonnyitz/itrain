@@ -12,11 +12,11 @@ class ProyectoMiddleware
         // Verificar si el proyecto está en la sesión
         if (!session()->has('proyecto_id')) {
             // Si no hay un proyecto en la sesión, establecer uno por defecto
-            // Por ejemplo, obtener el primer proyecto o un proyecto específico
             $proyecto = \App\Models\Proyecto::first(); // O tu lógica de selección
             session(['proyecto_id' => $proyecto->id]);
         }
-
+    
         return $next($request);
     }
+    
 }

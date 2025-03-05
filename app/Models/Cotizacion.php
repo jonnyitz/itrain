@@ -16,6 +16,10 @@ class Cotizacion extends Model
         'lote_id',
         'cotizador_id',
         'tipo_id',
+        'modalidad',
+        'fecha_primer_pago',
+        'primer_pago_enganche',
+        'precio_venta_final',
         // agrega los demás campos necesarios
     ];
 

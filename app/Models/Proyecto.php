@@ -17,6 +17,8 @@ class Proyecto extends Model
         'lotes_disponibles',
         'estado',
         'imagen', // Añadir 'imagen' a la lista de fillable
+        'propietario',
+        'parcela',
     ];
 
     // Puedes agregar relaciones si es necesario

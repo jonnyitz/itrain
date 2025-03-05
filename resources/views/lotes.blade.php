@@ -92,15 +92,28 @@
                         <label for="lote" class="form-label">Lote</label>
                         <input type="text" class="form-control" id="lote" name="lote" required>
                     </div>
-                    <!-- Manzana -->
+                   <!-- Manzana -->
                     <div class="mb-3">
                         <label for="manzana_id" class="form-label">Manzana</label>
                         <select class="form-select" id="manzana_id" name="manzana_id" required>
-                            @foreach($manzanas as $manzana)
-                                <option value="{{ $manzana->id }}">{{ $manzana->nombre }}</option>
-                            @endforeach
+                            @php
+                                // Obtener el proyecto_id de la sesión
+                                $proyectoId = session('proyecto_id');
+                                
+                                // Filtrar las manzanas que pertenecen al proyecto actual
+                                $manzanasFiltradas = $manzanas->where('proyecto_id', $proyectoId);
+                            @endphp
+
+                            @if($manzanasFiltradas->isNotEmpty())
+                                @foreach($manzanasFiltradas as $manzana)
+                                    <option value="{{ $manzana->id }}">{{ $manzana->nombre }}</option>
+                                @endforeach
+                            @else
+                                <option value="" disabled>No hay manzanas disponibles para este proyecto.</option>
+                            @endif
                         </select>
                     </div>
+
 
                     <!-- Denominación y costo -->
                     <div class="mb-3">

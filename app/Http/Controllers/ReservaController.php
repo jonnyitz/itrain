@@ -11,7 +11,11 @@ class ReservaController extends Controller
 {
     public function index()
     {
-        $reservas = Reserva::with('contacto', 'venta')->get();
+        $proyectoId = session('proyecto_id');  // Asegúrate de que esta variable esté definida
+
+        $reservas = Reserva::with('contacto', 'venta')
+        ->where('proyecto_id', $proyectoId) // Filtrar por proyecto_id
+        ->get();
         $contactos = Contacto::all();
         $ventas = Venta::all();
 
@@ -28,6 +32,11 @@ class ReservaController extends Controller
             'monto' => 'required|numeric',
         ]);
 
+        // Asume que el contacto también debe tener un proyecto_id asociado
+        $reservas = $request->all();
+        $reservas['proyecto_id'] = session('proyecto_id');  // Añadir el proyecto_id
+        Reserva::create($reservas);
+        
         Reserva::create([
             'contacto_id' => $request->contacto_id,
             'venta_id' => $request->venta_id,
@@ -79,6 +88,6 @@ class ReservaController extends Controller
         $reserva = Reserva::findOrFail($id);
         $reserva->delete();
 
-        return redirect()->route('reservas')->with('success', 'Reserva eliminada exitosamente.');
+        return redirect()->route('inicio')->with('success', 'Reserva eliminada exitosamente.');
     }
 }

@@ -87,7 +87,7 @@
 
         <h1>CONTRATO PRIVADO DE COMPRA-VENTA</h1>
         <p>
-        QUE CELEBRAN POR UNA PARTE EL  <strong>ING. HANSELL OMAR LÓPEZ CÁZARES</strong> , A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <strong>“EL VENDEDOR”</strong> Y, POR OTRA PARTE, <strong>EL C. {{ strtoupper($contacto->nombre) }} {{ strtoupper($contacto->apellidos) }}</strong>, QUE EN ADELANTE SE LE DENOMINARÁ <strong>“EL COMPRADOR”</strong>, AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLÁUSULAS:
+        QUE CELEBRAN POR UNA PARTE EL  <strong>ING. {{ $proyecto->propietario }}</strong> , A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <strong>“EL VENDEDOR”</strong> Y, POR OTRA PARTE, <strong>EL C. {{ strtoupper($contacto->nombre) }} {{ strtoupper($contacto->apellidos) }}</strong>, QUE EN ADELANTE SE LE DENOMINARÁ <strong>“EL COMPRADOR”</strong>, AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLÁUSULAS:
     </p>
 
     <h2>D E C L A R A C I O N E S</h2>
@@ -96,7 +96,7 @@
     <strong> PRIMERA.- </strong>Ser de nacionalidad mexicana, mayor de edad, originario de Zacatecas, Zac.
     </p>
     <p>
-    <strong> SEGUNDA.- </strong> Que tiene la capacidad para la venta del siguiente bien inmueble: <strong>{{ $venta->lote->lote }}</strong> de la <strong>{{ $venta->manzana->nombre }}</strong>, con una superficie de <strong>105</strong> metros cuadrados, del fraccionamiento <strong>“LOS {{ $proyecto->nombre }}”</strong>, rústico y sin servicios ubicado en Ejido de la Escondida, Zacatecas, Zac., dentro de un polígono ubicado en la <strong>PARCELA 72 Z1 P1/1.</strong>
+    <strong> SEGUNDA.- </strong> Que tiene la capacidad para la venta del siguiente bien inmueble: <strong>{{ $venta->lote->lote }}</strong> de la <strong>{{ $venta->manzana->nombre }}</strong>, con una superficie de <strong>105</strong> metros cuadrados, del fraccionamiento <strong>“LOS {{ $proyecto->nombre }}”</strong>, rústico y sin servicios ubicado en Ejido de la Escondida, Zacatecas, Zac., dentro de un polígono ubicado en la <strong>PARCELA {{ $proyecto->parcela }}.</strong>
     </p>
     <p>
     <strong> TERCERA.- </strong>Que el inmueble descrito en la declaración anterior no lo tiene enajenado ni en promesa de compra-venta y se le adjudicará al comprador.
@@ -162,7 +162,7 @@
     <h4><strong>“EL VENDEDOR”</strong></h4>
         <br><br> 
         <span class="line"></span>
-        <a><strong>ING. HANSELL OMAR LÓPEZ CÁZARES</strong></a>
+        <a><strong>ING. {{ $proyecto->propietario }}</strong></a>
     </div>
 
     <div class="signature-comprador">

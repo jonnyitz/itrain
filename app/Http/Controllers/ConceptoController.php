@@ -17,7 +17,12 @@ class ConceptoController extends Controller
 
         return view('conceptos', compact('conceptos'));
     }
-
+    public function edit($id)
+    {
+        $concepto = Concepto::findOrFail($id);
+        return view('editar_concepto', compact('concepto'));
+    }
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -31,6 +36,24 @@ class ConceptoController extends Controller
 
         return redirect()->back()->with('success', 'Concepto creado exitosamente');
     }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'concepto' => 'required|string|max:255',
+            'tipo_concepto' => 'required|string|max:255',
+        ]);
+
+        // Obtener el concepto y actualizarlo
+        $concepto = Concepto::findOrFail($id);
+        $concepto->update([
+            'concepto' => $request->input('concepto'),
+            'tipo_concepto' => $request->input('tipo_concepto'),
+            'proyecto_id' => session('proyecto_id'), // Si deseas mantener el mismo proyecto_id
+        ]);
+
+        return redirect()->route('inicio')->with('success', 'Concepto actualizado exitosamente');
+    }
+
 
     public function destroy($id)
     {

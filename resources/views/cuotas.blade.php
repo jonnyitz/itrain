@@ -85,7 +85,7 @@
                         <td>
                             <!-- Aquí puedes agregar botones para editar o eliminar -->
                             <!-- Botón Editar -->
-                            <button class="btn-editar" data-id="{{ $cuota->contacto->id }}">Editar</button>
+                            <a href="{{ route('cuotas.edit', $cuota->id) }}" class="btn btn-warning">Editar</a>
 
 
                             <!-- Formulario Eliminar -->

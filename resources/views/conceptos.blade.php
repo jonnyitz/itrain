@@ -44,10 +44,7 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este concepto?')">Eliminar</button>
                         </form>
-                        <button class="btn btn-warning btn-sm">Editar</button>
-                        <button class="btn btn-warning btn-sm" title="Descargar PDF">
-                            <i class="fas fa-file-pdf"></i>
-                        </button>
+                        <a href="{{ route('conceptos.edit', $concepto->id) }}" class="btn btn-warning btn-lg">Editar</a>
                     </td>
                 </tr>
             @endforeach

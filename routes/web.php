@@ -51,6 +51,11 @@ Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos
 Route::get('/proyectos/filtrar', [ProyectoController::class, 'filtrar'])->name('proyectos.filtrar');
 Route::middleware('auth')->get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos');
 Route::get('proyectos/seleccionar/{id}', [ProyectoController::class, 'seleccionarProyecto'])->name('seleccionarProyecto');
+// Mostrar formulario de edición
+Route::get('proyectos/{id}/edit', [ProyectoController::class, 'edit'])->name('proyectos.edit');
+
+// Actualizar proyecto
+Route::put('proyectos/{id}', [ProyectoController::class, 'update'])->name('proyectos.update');
 
 //contactos 
 Route::get('/contactos', [ContactoController::class, 'index'])->name('contactos');
@@ -90,6 +95,9 @@ Route::resource('cuotas', CuotaController::class);
 // Ruta para almacenar una nueva cuota
 Route::post('/cuotas', [CuotaController::class, 'store'])->name('cuotas.store');
 Route::get('/estado-de-cuenta/{venta_id}', [CuotaController::class, 'generarEstadoDeCuenta'])->name('estado_de_cuenta');
+// Rutas para editar y actualizar cuotas
+Route::get('cuotas/{id}/edit', [CuotaController::class, 'edit'])->name('cuotas.edit');
+Route::put('cuotas/{id}', [CuotaController::class, 'update'])->name('cuotas.update');
 
 // web.php
 Route::get('/buscar-contacto', [CuotaController::class, 'buscarContacto'])->name('cuotas.buscarContacto');
@@ -118,20 +126,35 @@ Route::delete('/reservas/{id}', [ReservaController::class, 'destroy'])->name('re
 Route::get('/conceptos', [ConceptoController::class, 'index'])->name('conceptos');
 Route::post('/conceptos', [ConceptoController::class, 'store'])->name('conceptos.store');
 Route::delete('/conceptos/{id}', [ConceptoController::class, 'destroy'])->name('conceptos.destroy');
+Route::get('conceptos/{id}/edit', [ConceptoController::class, 'edit'])->name('conceptos.edit');
+Route::put('conceptos/{id}', [ConceptoController::class, 'update'])->name('conceptos.update');
 
 
 
 Route::get('/gastos-proyecto', [GastoProyectoController::class, 'index'])->name('gastos_proyecto.index');
 Route::post('/gastos-proyecto', [GastoProyectoController::class, 'store'])->name('gastos_proyecto.store');
+Route::get('gastos/{id}/edit', [GastoProyectoController::class, 'edit'])->name('gastos.edit');
+Route::put('gastos/{id}', [GastoProyectoController::class, 'update'])->name('gastos.update');
+Route::delete('gasto_proyecto/{id}', [GastoProyectoController::class, 'destroy'])->name('gastos_proyecto.destroy');
+
 
 Route::get('/gastos-generales', [GastosGeneralesController::class, 'index'])->name('gastos_generales.index');
 Route::post('/gastos-generales', [GastosGeneralesController::class, 'store'])->name('gastos_generales.store');
+Route::get('/gastos-generales/{id}/edit', [GastosGeneralesController::class, 'edit'])->name('gastosgenerales.edit');
+Route::put('gastos-generales/{id}', [GastosGeneralesController::class, 'update'])->name('gastosgenerales.update');
+Route::delete('gasto-generales/{id}', [GastosGeneralesController::class, 'destroy'])->name('gastosgenerales.destroy');
 
 
 
 Route::get('/recibos', [RecibosController::class, 'index'])->name('recibos');
 Route::post('/recibos', [RecibosController::class, 'store'])->name('recibos.store');
+Route::get('recibos/{id}/edit', [RecibosController::class, 'edit'])->name('recibos.edit');
 
+// Para actualizar el recibo
+Route::put('recibos/{id}', [RecibosController::class, 'update'])->name('recibos.update');
+
+// Para eliminar un recibo
+Route::delete('recibos/{id}', [RecibosController::class, 'destroy'])->name('recibos.destroy');
 // VENTAS
 //Reportes Ventas
 Route::get('/r-ventas', [ReporteVentasController::class, 'index'])->name('r.ventas');
@@ -166,6 +189,8 @@ Route::resource('proyecto-ajustes', ProyectoAjustesController::class);
 Route::get('/manzanas', [ManzanaController::class, 'index'])->name('manzanas');
 Route::post('/manzanas', [ManzanaController::class, 'store'])->name('manzanas.store');
 Route::delete('/manzanas/{id}', [ManzanaController::class, 'destroy'])->name('manzanas.destroy');
+Route::put('/manzanas/{id}', [ManzanaController::class, 'update'])->name('manzanas.update');
+Route::get('/manzanas/{id}/editar', [ManzanaController::class, 'edit'])->name('manzanas.edit');
 
 
 Route::get('/lotes', [LotesController::class, 'index'])->name('lotes');

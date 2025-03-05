@@ -14,7 +14,8 @@ return new class extends Migration
     Schema::create('ventas', function (Blueprint $table) {
         $table->id();
         $table->foreignId('contacto_id')->constrained('contactos')->onDelete('cascade'); // Relación con la tabla contactos
-        $table->foreignId('lote_id')->constrained('lotes')->onDelete('cascade'); // Relación con la tabla lotes
+        $table->unsignedBigInteger('lote_id');  // Definir la columna lote_id
+        $table->foreign('lote_id')->references('id')->on('lotes')->onDelete('cascade');
         $table->date('fecha_venta');
         $table->string('tipo_venta');
         $table->string('asesor');

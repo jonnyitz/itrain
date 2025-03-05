@@ -142,7 +142,7 @@
                         <input type="text" name="telefono" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label>Dirección</label>
+                        <label>Dirección (Escribir completa sin abreviaciones y con C.P).</label>
                         <input type="text" name="direccion" class="form-control" required>
                     </div>
                     <div class="form-group">

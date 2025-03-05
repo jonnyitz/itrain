@@ -35,6 +35,11 @@ class CotizacionController extends Controller
             'lote_id' => 'required|exists:lotes,id',
             'cotizador_id' => 'required|exists:cotizadores,id',
             'tipo_id' => 'required|exists:tipos,id',
+            'fecha_primer_pago' => 'required|date',
+            'primer_pago_enganche' => 'required|numeric|min:0',
+            'precio_venta_final' => 'required|numeric|min:0',
+            'modalidad' => 'required|string', // Validación para modalidad
+
         ]);
 
         // Crear una nueva cotización
@@ -43,6 +48,11 @@ class CotizacionController extends Controller
             'lote_id' => $request->lote_id,
             'cotizador_id' => $request->cotizador_id,
             'tipo_id' => $request->tipo_id,
+            'fecha_primer_pago' => $request->fecha_primer_pago,
+            'primer_pago_enganche' => $request->primer_pago_enganche,
+            'precio_venta_final' => $request->precio_venta_final,
+            'modalidad' => $request->modalidad, // Almacenamiento de modalidad
+
         ]);
 
         // Redirigir de vuelta a la página de cotizaciones con un mensaje de éxito

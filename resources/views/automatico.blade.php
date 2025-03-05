@@ -188,7 +188,7 @@
         <h4><strong>“RECIBE”</strong></h4> 
             <br><br> 
             <span class="line"></span>
-            <a><strong>ING. HANSELL OMAR LÓPEZ CÁZARES</strong></a>
+            <a><strong>ING. {{ $proyecto->propietario }}</strong></a>
         </div>
 
         <div class="signature-comprador">

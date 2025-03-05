@@ -133,7 +133,7 @@
         <p>A quien corresponda:</p>
         <p>Se hace constar que a la fecha {{ now()->locale('es')->isoFormat('D [de] MMMM [de] YYYY') }}
         el <strong>C. {{ strtoupper($contacto->nombre) }} {{ strtoupper($contacto->apellidos) }}</strong>:</p>
-        <p>Finiquita el <strong>{{ $venta->lote->lote }}</strong> de la <strong>{{ $venta->manzana->nombre }}</strong>, rústico y sin servicios que adquirió, por la cantidad total de <strong> ${{ number_format($venta->precio_venta_final, 2) }} ({{ strtoupper($numeroALetras) }} 00/100 M.N.)</strong>, el cual se encuentra ubicado en la parcela con número <strong>PARCELA 72 Z1 P1/1</strong> del <strong>"FRACCIONAMIENTO LOS {{ $proyecto->nombre }}"</strong> en Ejido de la Escondida, Municipio y Estado de Zacatecas, quedando pendiente la aportación a los servicios de urbanización tal como lo marca la cláusula séptima del contrato celebrado.</p>
+        <p>Finiquita el <strong>{{ $venta->lote->lote }}</strong> de la <strong>{{ $venta->manzana->nombre }}</strong>, rústico y sin servicios que adquirió, por la cantidad total de <strong> ${{ number_format($venta->precio_venta_final, 2) }} ({{ strtoupper($numeroALetras) }} 00/100 M.N.)</strong>, el cual se encuentra ubicado en la parcela con número <strong>PARCELA {{ $proyecto->parcela }}</strong> del <strong>"FRACCIONAMIENTO LOS {{ $proyecto->nombre }}"</strong> en Ejido de la Escondida, Municipio y Estado de Zacatecas, quedando pendiente la aportación a los servicios de urbanización tal como lo marca la cláusula séptima del contrato celebrado.</p>
         @php
             $cantidadLotes = $venta->contacto->ventas->count();
             $textoLotes = $cantidadLotes > 1 ? 'Los lotes mencionados' : 'El lote mencionado';
@@ -185,7 +185,7 @@
         <div class="signature-page-break">
             <div class="signature-vendedor">
                 <span class="line"></span>
-                <a><strong>ING. HANSELL OMAR LÓPEZ CÁZARES</strong></a>
+                <a><strong>ING.{{ $proyecto->propietario }}</strong></a>
             </div>
 
             

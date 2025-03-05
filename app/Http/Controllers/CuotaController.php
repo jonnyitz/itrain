@@ -31,8 +31,19 @@ class CuotaController extends Controller
     
         return view('cuotas', compact('cuotas', 'contactos', 'lotes', 'bancos', 'venta'));
     }
+    public function edit($id)
+    {
+        // Obtener la cuota con el ID especificado
+        $cuota = Cuota::findOrFail($id);
+        
+        // Obtener datos relacionados, como contactos y bancos
+        $contactos = Contacto::all();
+        $bancos = Banco::all();
     
-    public function store(Request $request)
+        // Pasar los datos a la vista
+        return view('cuotas_edit', compact('cuota', 'contactos', 'bancos'));
+    }
+        public function store(Request $request)
     {
         $request->validate([
             'contacto_id' => 'required',
@@ -92,6 +103,58 @@ class CuotaController extends Controller
         ]);
         return redirect()->route('inicio')->with('success', 'Cuota creada exitosamente.');
         }
+        public function update(Request $request, $id)
+        {
+            // Validación de los campos
+            $request->validate([
+                'contacto_id' => 'required',
+                'comprobante' => 'required',
+                'n_cts' => 'required',
+                'tipo' => 'required',
+                'fecha' => 'required|date',
+                'voucher' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'banco_id' => 'nullable|exists:bancos,id',
+                'forma_de_pago' => 'required|string|max:255',
+                'concep' => 'nullable|string|max:255',
+                'cuotas' => 'nullable|numeric',
+                'monto' => 'required|numeric',
+            ]);
+
+            // Obtener la cuota que se va a actualizar
+            $cuota = Cuota::findOrFail($id);
+
+            // Manejo del archivo voucher (si existe uno nuevo)
+            $voucherPath = $cuota->voucher; // Mantener la ruta del archivo existente
+            if ($request->hasFile('voucher')) {
+                // Eliminar el archivo viejo si existe
+                if (file_exists(public_path($cuota->voucher))) {
+                    unlink(public_path($cuota->voucher));
+                }
+
+                // Subir la nueva imagen
+                $fileName = uniqid() . '.' . $request->file('voucher')->extension();
+                $request->file('voucher')->move(public_path('images'), $fileName);
+                $voucherPath = 'images/' . $fileName;
+            }
+
+            // Actualizar la cuota
+            $cuota->update([
+                'contacto_id' => $request->contacto_id,
+                'comprobante' => $request->comprobante,
+                'n_cts' => $request->n_cts,
+                'tipo' => $request->tipo,
+                'fecha' => $request->fecha,
+                'voucher' => $voucherPath,
+                'banco_id' => $request->banco_id,
+                'forma_de_pago' => $request->forma_de_pago,
+                'concep' => $request->concep,
+                'cuotas' => $request->cuotas,
+                'monto' => $request->monto,
+            ]);
+
+            return redirect()->route('inicio')->with('success', 'Cuota actualizada exitosamente.');
+        }
+
         public function buscarContacto(Request $request)
         {
             $query = $request->input('q');

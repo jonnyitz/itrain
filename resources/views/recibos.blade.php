@@ -45,16 +45,12 @@
                         <td>{{ $recibo->fecha }}</td>
                         <td>{{ $recibo->correlativo }}</td>
                         <td>
-                            <a href="#" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="#" method="POST" class="d-inline">
+                        <a href="{{ route('recibos.edit', $recibo->id) }}" class="btn btn-warning">Editar</a>
+                        <form action="{{ route('recibos.destroy', $recibo->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este recibo?');">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                             </form>
-                              <!-- Botón para PDF -->
-                        <button class="btn btn-warning btn-sm" title="Descargar PDF">
-                            <i class="fas fa-file-pdf"></i>
-                        </button>
                         </td>
                     </tr>
                 @endforeach

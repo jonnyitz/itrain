@@ -18,5 +18,10 @@ class GastoProyecto extends Model
         'observacion',
         'constancia',
         'metodo_pago',
+        'proyecto_id',
     ];
+    public function proyecto()
+    {
+        return $this->belongsTo(Proyecto::class);
+    }
 }

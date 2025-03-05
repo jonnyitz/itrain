@@ -70,6 +70,7 @@
             <th>Nombre</th>
             <th>Proyecto</th>
             <th>Acciones</th>
+            <th>Fecha</th>
         </tr>
     </thead>
     <tbody>
@@ -78,20 +79,14 @@
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $manzana->nombre }}</td>
                 <td>{{ $manzana->proyecto->nombre }}</td>
+                <td>{{ $manzana->created_at->format('d/m/Y') }}</td> <!-- Aquí se muestra la fecha de creación -->
                 <td>
-                    <button class="btn btn-warning btn-sm">Editar</button>
-                    <form action="{{ route('manzanas.destroy', $manzana->id) }}" method="POST" style="display:inline-block;">
+                <a href="{{ route('manzanas.edit', $manzana->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                <form action="{{ route('manzanas.destroy', $manzana->id) }}" method="POST" style="display:inline-block;">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta manzana?')">Eliminar</button>
                     </form>
-                    <button 
-                        class="btn btn-warning btn-sm" 
-                        title="Descargar PDF"
-                        disabled
-                    >
-                        <i class="fas fa-file-pdf"></i>
-                    </button>
                 </td>
             </tr>
         @empty

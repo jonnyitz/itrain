@@ -23,6 +23,8 @@ class ProyectoController extends Controller
             'estado' => 'required|string',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validación de la imagen
             'moneda' => 'required|string|max:255',
+            'propietario' => 'required|string|max:255', // Nueva validación para propietario
+            'parcela' => 'required|string|max:255', // Nueva validación para parcela    
         ]);
     
         $proyecto = new Proyecto();
@@ -32,17 +34,74 @@ class ProyectoController extends Controller
         $proyecto->lotes_disponibles = $request->lotes_disponibles;
         $proyecto->estado = $request->estado;
         $proyecto->moneda = $request->moneda;
+        $proyecto->propietario = $request->propietario; // Guardar propietario
+        $proyecto->parcela = $request->parcela; // Guardar parcela
     
-        // Si se carga una imagen, guárdala en el almacenamiento y guarda la ruta
+        $proyecto = new Proyecto($request->all());
+
         if ($request->hasFile('imagen')) {
-            $imagenPath = $request->file('imagen')->store('proyectos', 'public');
-            $proyecto->imagen = $imagenPath;
+            $imagen = $request->file('imagen');
+            $nombreImagen = time() . '_' . $imagen->getClientOriginalName(); // Nombre único
+            $rutaImagen = 'imagenes/' . $nombreImagen;
+            
+            $imagen->move(public_path('imagenes'), $nombreImagen); // Guarda en public/imagenes
+            
+            $proyecto->imagen = $rutaImagen; // Guarda la ruta en la BD
         }
-    
+        
         $proyecto->save();
     
         return redirect()->back()->with('success', 'Proyecto creado exitosamente.');
     }
+    public function edit($id)
+    {
+        $proyecto = Proyecto::findOrFail($id); // Encuentra el proyecto por su ID
+        return view('proyectos_edit', compact('proyecto'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Validación de los datos
+        $request->validate([
+            'nombre' => 'required',
+            'ubicacion' => 'required',
+            'moneda' => 'required',
+            'total_lotes' => 'required|numeric',
+            'lotes_disponibles' => 'required|numeric',
+            'estado' => 'required',
+            'imagen' => 'nullable|image',
+            'propietario' => 'required|string|max:255', // Nueva validación para propietario
+            'parcela' => 'required|string|max:255', // Nueva validación para parcela    
+        ]);
+
+        $proyecto = Proyecto::findOrFail($id); // Encuentra el proyecto que se desea editar
+
+        // Actualiza los datos del proyecto
+        $proyecto->nombre = $request->nombre;
+        $proyecto->ubicacion = $request->ubicacion;
+        $proyecto->moneda = $request->moneda;
+        $proyecto->total_lotes = $request->total_lotes;
+        $proyecto->lotes_disponibles = $request->lotes_disponibles;
+        $proyecto->estado = $request->estado;
+        $proyecto->propietario = $request->propietario; // Guardar propietario
+        $proyecto->parcela = $request->parcela; // Guardar parcela
+
+        $proyecto = new Proyecto($request->all());
+
+        if ($request->hasFile('imagen')) {
+            $imagen = $request->file('imagen');
+            $nombreImagen = time() . '_' . $imagen->getClientOriginalName(); // Nombre único
+            $rutaImagen = 'imagenes/' . $nombreImagen;
+            
+            $imagen->move(public_path('imagenes'), $nombreImagen); // Guarda en public/imagenes
+            
+            $proyecto->imagen = $rutaImagen; // Guarda la ruta en la BD
+        }
+        
+        $proyecto->save();
+        return redirect()->route('inicio')->with('success', 'Proyecto actualizado exitosamente.');
+    }
+
         public function filtrar(Request $request)
     {
         $filtro = $request->input('filtro');
@@ -56,12 +115,16 @@ class ProyectoController extends Controller
      // Método para seleccionar un proyecto
      public function seleccionarProyecto($id)
      {
-         $proyecto = Proyecto::findOrFail($id); // Buscar el proyecto por su id
-         session(['proyecto_id' => $proyecto->id]); // Almacenar el proyecto en la sesión
- 
-         // Redirigir a la página principal o a donde desees
-         return redirect()->route('inicio')->with('success', 'Proyecto seleccionado exitosamente');
+         // Verifica si ya se ha seleccionado un proyecto
+         if (!session()->has('proyecto_id') || session('proyecto_id') != $id) {
+             session(['proyecto_id' => $id]); // Establecer el proyecto seleccionado
+         }
+     
+         // Redirige a la página de proyectos si el proyecto ya está en la sesión
+         return redirect()->route('inicio');
      }
+     
+
  
 
     

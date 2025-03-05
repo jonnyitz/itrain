@@ -20,7 +20,15 @@ class ManzanaController extends Controller
 
         return view('manzanas', compact('manzanas', 'proyectos'));
     }
+    public function edit($id)
+    {
+        $manzana = Manzana::findOrFail($id);
+        $proyectos = Proyecto::all(); // Obtén todos los proyectos disponibles
+        return view('editar', compact('manzana', 'proyectos')); // Asegúrate de pasar 'proyectos' a la vista
+    }
+    
 
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -36,6 +44,23 @@ class ManzanaController extends Controller
 
         return redirect()->route('inicio')->with('success', 'Manzana registrada exitosamente.');
     }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'proyecto_id' => 'required|exists:proyectos,id',
+            'vendedor' => 'required|string|max:255',
+        ]);
+    
+        $manzana = Manzana::findOrFail($id);
+        $manzana->nombre = $request->nombre;
+        $manzana->proyecto_id = $request->proyecto_id;
+        $manzana->vendedor = $request->vendedor;
+        $manzana->save();
+    
+        return redirect()->route('inicio')->with('success', 'Manzana actualizada correctamente.');
+    }
+
     public function destroy($id)
     {
         // Buscar el usuario por su ID

@@ -9,7 +9,7 @@ class GastosGenerales extends Model
 {
     use HasFactory;
 
-    protected $table = 'gastos_proyecto';
+    protected $table = 'gastos_generales';
 
     protected $fillable = [
         'concepto',
@@ -18,5 +18,10 @@ class GastosGenerales extends Model
         'observacion',
         'constancia',
         'metodo_pago',
+        'proyecto_id',
     ];
+    public function proyecto()
+    {
+        return $this->belongsTo(Proyecto::class);
+    }
 }

@@ -48,15 +48,6 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar esta reserva?')">Eliminar</button>
-                             <!-- Botón Descargar PDF (solo visual) -->
-                            <button 
-                                class="btn btn-warning btn-sm" 
-                                title="Descargar PDF"
-                                disabled
-                            >
-                                <i class="fas fa-file-pdf"></i>
-                            </button>
-                        </form>
                     </td>
                 </tr>
             @endforeach

@@ -104,26 +104,40 @@
                                 </div>
                                 
 
-                                <!-- Formulario Lotes -->
-                                <div class="tab-pane fade" id="lotes" role="tabpanel" aria-labelledby="lotes-tab">
-                                <div class="form-group">
-                                    <label for="manzana_id">Seleccione la Manzana:</label>
-                                    <select name="manzana_id" id="manzana_id" class="form-control" required>
-                                    <option value="" selected disabled>Seleccione una manzana</option>
-                                        @foreach ($manzanas as $manzana)
-                                            <option value="{{ $manzana->id }}">{{ $manzana->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>  
-                                    <div class="form-group">
-                                        <label for="lote_id">Seleccione el Lote:</label>
-                                        <select name="lote_id" id="lote_id" class="form-control" required>
-                                            <option value="" selected disabled>Seleccione un lote</option>
-                                            @foreach ($lotes as $lote)
-                                                <option value="{{ $lote->id }}">{{ $lote->lote }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>                                
+                               <!-- Formulario Lotes -->
+<div class="tab-pane fade" id="lotes" role="tabpanel" aria-labelledby="lotes-tab">
+    @php
+        // Obtener el proyecto_id de la sesión
+        $proyectoId = session('proyecto_id');
+        
+        // Filtrar las manzanas y lotes que pertenecen al proyecto actual
+        $manzanasFiltradas = $manzanas->where('proyecto_id', $proyectoId);
+        $lotesFiltrados = $lotes->where('proyecto_id', $proyectoId);
+    @endphp
+
+    @if($manzanasFiltradas->isNotEmpty() && $lotesFiltrados->isNotEmpty())
+        <div class="form-group">
+            <label for="manzana_id">Seleccione la Manzana:</label>
+            <select name="manzana_id" id="manzana_id" class="form-control" required>
+                <option value="" selected disabled>Seleccione una manzana</option>
+                @foreach ($manzanasFiltradas as $manzana)
+                    <option value="{{ $manzana->id }}">{{ $manzana->nombre }}</option>
+                @endforeach
+            </select>
+            <div class="form-group">
+            <label for="lote_id">Seleccione el Lote:</label>
+            <select name="lote_id" id="lote_id" class="form-control" required>
+                <option value="" selected disabled>Seleccione un lote</option>
+                @foreach ($lotesFiltrados as $lote)
+                    <option value="{{ $lote->id }}">{{ $lote->lote }}</option>
+                @endforeach
+            </select>
+        </div> 
+        @else
+        <p>No hay manzanas o lotes disponibles para este proyecto.</p>
+    @endif
+        </div>  
+
                                     
                                     <!-- Contenedor de enganche -->
                                    <!-- Contenedor de Enganche -->

@@ -49,12 +49,15 @@
                     </td>
                     <td>
                         <!-- Aquí podrías agregar botones de editar/eliminar -->
-                        <button class="btn btn-secondary btn-sm">Editar</button>
-                        <button class="btn btn-danger btn-sm">Eliminar</button>
-                         <!-- Botón para PDF -->
-                         <button class="btn btn-warning btn-sm" title="Descargar PDF">
-                            <i class="fas fa-file-pdf"></i>
-                        </button>
+                        <a href="{{ route('gastosgenerales.edit', $gasto->id) }}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+
+                        <form action="{{ route('gastosgenerales.destroy', $gasto->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este gasto?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>                         
                     </td>
                 </tr>
             @endforeach
